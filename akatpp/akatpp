@@ -305,6 +305,9 @@ def prepare_directory(d):
     for f in os.listdir(d):
         if f.startswith("akat_") and f.endswith(".py"):
             m = importlib.import_module(f[:-3]).Macro
+            m.name = f[5:-3].upper()
+            m.template_file = d + "/" + f[:-3] + ".c"
+
             akat.add_macro(m.name, m)
 
 def doit(cmd_args):

@@ -60,4 +60,4 @@ class Macro:
             "cs02": cs02
         }
 
-        return akat.transform(akat.render("akat_x_main.c", **render_context))
+        return akat.transform(akat.render(self, **render_context))

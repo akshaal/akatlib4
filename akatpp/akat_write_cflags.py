@@ -6,8 +6,6 @@ def add(val):
     values.append(val)
 
 class Macro:
-    name = "WRITE_CFLAGS"
-
     def __init__(self):
         self.__ofile = None
 
