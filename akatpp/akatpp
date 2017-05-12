@@ -1,0 +1,317 @@
+#!/usr/bin/env python3
+# -*- mode: python; -*-
+# Akshaal 2017, whatever Apache license
+# Args: files to transform
+# Output is written to stdout
+
+# This file should be as general and small as possible. All C-code-related functionality should go into macro implementation.
+
+import sys
+import pyparsing as pp
+import codecs
+import os.path
+import os
+import importlib
+import subprocess
+import traceback
+
+from mako.lookup import TemplateLookup
+
+# ####################################################################################
+# That's how we colour a unicorn
+
+try:
+    TERM_COLUMNS = int (os.popen ('stty size 2>/dev/null', 'r').read ().split () [1])
+    __builtins__.RESET_COLOR = '\033[0m'
+    __builtins__.ERROR_COLOR = '\033[91m'
+    __builtins__.INFO_COLOR = '\033[92m'
+    __builtins__.DEBUG_COLOR = '\033[93m'
+    __builtins__.GRAPH_COLOR = '\033[94m'
+    __builtins__.STRESS_COLOR = '\033[95m'
+except:
+    TERM_COLUMNS = 80
+    __builtins__.RESET_COLOR = ''
+    __builtins__.ERROR_COLOR = ''
+    __builtins__.INFO_COLOR = ''
+    __builtins__.DEBUG_COLOR = ''
+    __builtins__.GRAPH_COLOR = ''
+    __builtins__.STRESS_COLOR = ''
+
+TERM_SEPLINE = "=" * TERM_COLUMNS
+
+# ####################################################################################
+# Define some grammar
+
+# Creates a new instance of grammar. We must do it each time we want to parse a text...
+# We need to create a new instance because otherwise pyparsing doesn't work properly (locations are not there)
+def new_expr():
+    # Grammar definition
+    ident = pp.Word(pp.alphanums + "_")
+
+    args = pp.Forward()
+    arg_expr_any = pp.CharsNotIn(")(}{\"/,")
+    arg_expr = pp.ZeroOrMore(pp.quotedString | (pp.Optional(arg_expr_any) + "(" + args + ")" + pp.Optional(arg_expr_any)) | "/" | (pp.Optional(arg_expr_any) + "{" + args + "}" + pp.Optional(arg_expr_any)) | arg_expr_any)
+    arg = pp.Combine(pp.Optional(pp.Suppress(pp.cStyleComment)) + arg_expr + pp.Optional(pp.Suppress(pp.cStyleComment)))
+    arg_with_comma = arg + ","
+    args << pp.ZeroOrMore(arg_with_comma) + pp.Optional(arg)
+
+    macro_body_expr_any = pp.CharsNotIn("}{\"/")
+    macro_body = pp.Forward()
+    macro_body_expr_or = macro_body_expr_any.leaveWhitespace() | pp.cStyleComment.leaveWhitespace() | "/" | ("{" + macro_body + "}")
+    macro_body << pp.ZeroOrMore(pp.Optional(pp.cStyleComment) + macro_body_expr_or + pp.Optional(pp.cStyleComment))
+    macro_body_stmt = pp.Suppress("{") + pp.Combine(macro_body) + pp.Suppress("}")
+
+    macro_def = (ident.setResultsName("name") + pp.Suppress("$")).leaveWhitespace() + \
+                 pp.Suppress("(") + pp.Group(args).setResultsName("args").leaveWhitespace() + pp.Suppress(")") + \
+                 pp.Optional(macro_body_stmt).setResultsName("body")
+
+    macro = macro_def
+    expr = macro | pp.cppStyleComment | pp.quotedString
+
+    # This function is called for each we mention macro in sources (blah$)
+    # Sigunature of the function is strange, but that's what pyparsing wants...
+    # ... it seems like pyparsing calls this method several times with all crap possible
+    # ... most of the times 't' is text, 'l' is location and 'expr' is found expression (macro)
+    def my_macro_action(t = None, l = None, expr = None):
+        name = expr["name"]
+        body = expr.get("body", None)
+
+        if body != None: body = body[0]
+
+        args = [arg.strip() for arg in expr["args"] if arg != ","]
+
+        if args == [""]:
+            args = []
+
+        inv = Struct(name = name, body = body, args = args)
+
+        def code():
+            return akat.handle(inv)
+
+        # This function is called if there is an error occurred somewhere in 'code'
+        def context_describer():
+            extra = ""
+            if t != None:
+                akat.print_sep()
+                extra = " at " + STRESS_COLOR + str(pp.lineno(l, t)) + RESET_COLOR + ":" + STRESS_COLOR + str(pp.col(l, t))
+
+            akat.print_info("Expanding macro ", STRESS_COLOR, inv.name, RESET_COLOR, extra)
+
+            if t != None:
+                akat.print_source_code(l, t)
+
+        # Run our useful code in with the context describer attached
+        return akat.run_with_context_describer(code, context_describer)
+
+    macro.setParseAction(my_macro_action)
+    return expr
+
+# ####################################################################################
+# Define some structs ...
+
+class Struct:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+    def __repr__(self):
+        return "Struct" + repr(self.__dict__)
+
+__builtins__.Struct = Struct
+
+# ####################################################################################
+# That's what we do when we find a macro invocation
+
+# ####################################################################################
+# Templates
+
+tlookup = TemplateLookup(directories = [os.path.dirname(__file__)])
+
+# ####################################################################################
+# Akat
+
+class Akat:
+    def __init__(self):
+        self.__macros = {}
+        self.__macro_instance_stack = []
+        self.__context_describer_stack = []
+        self.__namespaces = []
+        self.__current_directory = "/tmp"
+
+    def set_current_directory(self, d):
+        if d == "": d = "."
+        self.__current_directory = d
+
+    def get_current_directory(self):
+        return self.__current_directory
+
+    def add_macro(self, name, klass):
+        self.__macros[name] = klass
+
+    def transform(self, s):
+        return new_expr().transformString(s)
+
+    def run_with_namespace(self, code, namespace, comment):
+        def context_describer():
+            akat.print_info("In namespace ", STRESS_COLOR, namespace, RESET_COLOR, " (", comment, ")")
+
+        self.__namespaces.append(namespace)
+        try:
+            return self.run_with_context_describer(code, context_describer)
+        finally:
+            del self.__namespaces[-1]
+
+    def run_with_context_describer(self, code, context_describer):
+        self.__context_describer_stack.append(context_describer)
+        try:
+            return code()
+        except Exception as e:
+            self.fatal_error("Error: ", traceback.format_exc())
+        finally:
+            del self.__context_describer_stack[-1]
+
+    def get_current_namespace(self, delim):
+        return delim.join(self.__namespaces)
+
+    def postvalidate(self):
+        for name in self.__macros:
+            m = self.__macros[name]
+            if "postvalidate" in dir(m):
+                m.postvalidate()
+
+    def handle(self, inv):
+        impl = self.__macros.get(inv.name, None)
+        if impl == None:
+            self.fatal_error("No implementation for macro: ", STRESS_COLOR, inv.name)
+
+        # Add current instance into the macro instance stack and run render method of the macro instance
+        macro_instance = impl()
+        self.__macro_instance_stack.insert(0, macro_instance)
+        try:
+            return macro_instance.render(inv)
+        finally:
+            del self.__macro_instance_stack[0]
+
+    def require_arg(self, inv, idx, *args):
+        if idx < len(inv.args):
+            s = inv.args[idx].strip()
+            if s == "":
+                self.fatal_error(*args)
+            return s
+        else:
+            self.fatal_error(*args)
+
+    def require_args(self, inv, c):
+        if len(inv.args) != c:
+            self.fatal_error("Macro requires exactly ", STRESS_COLOR, c, RESET_COLOR, " arguments but has ", STRESS_COLOR, len(inv.args), RESET_COLOR, "!")
+
+    def require_no_body(self, inv):
+        if inv.body != None and inv.body.strip() != "":
+            self.fatal_error("No body is expected for this macro.")
+
+    def require_no_enclosing_macro(self, name, *args):
+        for m in self.__macro_instance_stack[1:]:
+            if m.name == name:
+                self.fatal_error(*args)
+
+    def get_top_macro_or_none(self, *names):
+        for name in names:
+            for m in self.__macro_instance_stack:
+                if m.name == name:
+                    return m
+
+        return None
+
+    def get_enclosing_macro_or_none(self, *names):
+        for name in names:
+            for m in self.__macro_instance_stack[1:]:
+                if m.name == name:
+                    return m
+
+        return None
+
+    def get_enclosing_macro(self, *names):
+        rc = self.get_enclosing_macro_or_none(*names)
+        if rc != None:
+            return rc
+
+        self.fatal_error("No enclosing macro with name(s): ", STRESS_COLOR, ", ".join(names))
+
+    def render(self, name, **kwargs):
+        t = tlookup.get_template(name)
+        return t.render(**kwargs)
+
+    def print_sep(self):
+        print (GRAPH_COLOR + TERM_SEPLINE + RESET_COLOR, file = sys.stderr)
+
+    def print_info(self, *parts):
+        parts = map(str, parts)
+        print(GRAPH_COLOR + "::::" + INFO_COLOR, "".join(parts).replace(RESET_COLOR, INFO_COLOR) + RESET_COLOR, file = sys.stderr)
+
+    def print_error(self, *parts):
+        parts = map(str, parts)
+        print(GRAPH_COLOR + "!!!!" + ERROR_COLOR, "".join(parts).replace(RESET_COLOR, ERROR_COLOR) + RESET_COLOR, file = sys.stderr)
+
+    def print_debug(self, *parts):
+        parts = map(str, parts)
+        print(GRAPH_COLOR + ":::: ... " + DEBUG_COLOR, "".join(parts).replace(RESET_COLOR, DEBUG_COLOR) + DEBUG_COLOR, file = sys.stderr)
+
+    def fatal_error(self, *parts):
+        for ctx_descr in self.__context_describer_stack:
+            ctx_descr()
+
+        pref = ""
+        if len(self.__macro_instance_stack):
+            pref = GRAPH_COLOR + self.__macro_instance_stack[0].name + RESET_COLOR + ": "
+
+        self.print_error(pref, *parts)
+        sys.exit(-1)
+
+    def print_source_code(self, loc, text):
+        line = pp.lineno(loc, text)
+        col = pp.col(loc, text)
+        lines = text.split("\n")
+        print("\n".join(lines[0:line]), file = sys.stderr)
+        print(DEBUG_COLOR + " " * (col-1) + "^" + RESET_COLOR, file = sys.stderr)
+        print("\n".join(lines[line:]), file = sys.stderr)
+
+__builtins__.akat = Akat()
+
+# ####################################################################################
+# Read files and transform them
+
+def read_file(filename, encoding = "utf8"):
+    return codecs.open(filename, "r", encoding).read()
+
+def transform(s):
+    try:
+        return akat.transform(s)
+    except pp.ParseException as x:
+        akat.fatal_error("Unable to parse: ", x)
+
+def init():
+    d = os.path.dirname(__file__)
+    for f in os.listdir(d):
+        if f.startswith("akat_") and f.endswith(".py"):
+            m = importlib.import_module(f[:-3]).Macro
+            akat.add_macro(m.name, m)
+
+def doit():
+    init()
+
+    for arg in sys.argv[1:]:
+        akat.set_current_directory(os.path.dirname(arg))
+
+        akat.print_info(">>>> Processing: ", STRESS_COLOR, arg)
+        orig_src = read_file(arg)
+        new_src = str(transform(orig_src))
+        astyle_opts = ["--style=java", "--mode=c", "-f", "-p", "-H", "-xe", "-j"]
+        new_src = subprocess.check_output (["astyle"] + astyle_opts, input = new_src.encode('utf-8')).decode("utf-8")
+        print(new_src)
+
+    akat.postvalidate()
+
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        akat.print_error("Usage: ", sys.argv[0], " <", STRESS_COLOR, "source file to preprocess", RESET_COLOR, "> [", STRESS_COLOR, "more source files", RESET_COLOR, "]")
+    else:
+        doit()
