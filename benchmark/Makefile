@@ -18,7 +18,7 @@ OsO3: ${patsubst %, build/%-O3.avr, ${PARTS}} ${patsubst %, build/%-Os.avr, ${PA
 
 build/%.cflags build/%.c.tmp.c: %.c ${AKAT_SRCS}
 	mkdir -p build
-	${AKATPP} ${AKAT_SRCS} "$<" > build/"$<.tmp.c"
+	${AKATPP} ${AKATPP_OPTS} ${AKAT_SRCS} "$<" > build/"$<.tmp.c"
 
 build/%-Os.avr: build/%.c.tmp.c build/%.cflags
 	XX=`cat build/"$*.cflags"` && ${CC} -Os ${CFLAGS} ${CFLAGS_$*} -I. $$XX "$<" -DAKAT_DEBUG_OFF -save-temps=obj -o $@

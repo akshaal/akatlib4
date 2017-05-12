@@ -6,6 +6,7 @@
 
 # This file should be as general and small as possible. All C-code-related functionality should go into macro implementation.
 
+import argparse
 import sys
 import pyparsing as pp
 import codecs
@@ -300,17 +301,23 @@ def transform(s):
     except pp.ParseException as x:
         akat.fatal_error("Unable to parse: ", x)
 
-def init():
-    d = os.path.dirname(__file__)
+def prepare_directory(d):
     for f in os.listdir(d):
         if f.startswith("akat_") and f.endswith(".py"):
             m = importlib.import_module(f[:-3]).Macro
             akat.add_macro(m.name, m)
 
-def doit():
-    init()
+def doit(cmd_args):
+    # Setup directories
+    sys.path.append(os.path.dirname(__file__))
+    for d in cmd_args.dirs: sys.path.append(d)
 
-    for arg in sys.argv[1:]:
+    # Find macros
+    prepare_directory(os.path.dirname(__file__))
+    for d in cmd_args.dirs: prepare_directory(d)
+
+    # Process files
+    for arg in cmd_args.files:
         akat.set_current_directory(os.path.dirname(arg))
 
         akat.print_info(">>>> Processing: ", STRESS_COLOR, arg)
@@ -323,7 +330,11 @@ def doit():
     akat.postvalidate()
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        akat.print_error("Usage: ", sys.argv[0], " <", STRESS("source file to preprocess"), "> [", STRESS("more source files"), "]")
-    else:
-        doit()
+    parser = argparse.ArgumentParser(description = 'Macro preprocessor by Akshaal')
+
+    parser.add_argument('files', metavar = 'FILES', type = str, nargs = '+', help = 'files to preprocess')
+    parser.add_argument('-dir', dest = 'dirs', action = 'append', type = str, default = [], help = 'extra directory')
+
+    cmd_args = parser.parse_args()
+
+    doit(cmd_args)
