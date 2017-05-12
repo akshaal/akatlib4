@@ -1,0 +1,17 @@
+.classpath
+.project
+.cproject
+*.cflags
+*.tmp.c
+*.s
+*.o
+*.i
+*.ii
+*.avr
+benchmark/*.out
+benchmark/*.res
+benchmark/*.info
+__pycache__
+*.pyo
+*.pyc
+build

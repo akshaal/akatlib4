@@ -1,0 +1,20 @@
+* A lot of code can be simplified actually in the akatpp directory... but?... who cares
+
+>>> [(prescaler, frefreq = 20000000
+>>> [(prescaler, freq/prescaler/10) for prescaler in [1., 8., 64., 256., 1024.] if freq/prescaler/10 < 65537 and (freq/prescaler) % 10 == 0]
+[(64.0, 31250.0)]
+
+>>> [(prescaler, frefreq = 16000000
+>>> [(prescaler, freq/prescaler/10) for prescaler in [1., 8., 64., 256., 1024.] if freq/prescaler/10 < 65537 and (freq/prescaler) % 10 == 0]
+[(64.0, 25000.0), (256.0, 6250.0)]
+
+>>> [(prescaler, frefreq = 8000000
+>>> [(prescaler, freq/prescaler/10) for prescaler in [1., 8., 64., 256., 1024.] if freq/prescaler/10 < 65537 and (freq/prescaler) % 10 == 0]
+[(64.0, 12500.0), (256.0, 3125.0)]
+
+>>> [(prescaler, frefreq = 1000000
+>>> [(prescaler, freq/prescaler/10) for prescaler in [1., 8., 64., 256., 1024.] if freq/prescaler/10 < 65537 and (freq/prescaler) % 10 == 0]
+[(8.0, 12500.0)]
+
+
+TAKE FIRST
