@@ -37,6 +37,12 @@ except:
     __builtins__.GRAPH_COLOR = ''
     __builtins__.STRESS_COLOR = ''
 
+__builtins__.STRESS = lambda s: STRESS_COLOR + str(s) + RESET_COLOR
+__builtins__.ERROR = lambda s: ERROR_COLOR + str(s) + RESET_COLOR
+__builtins__.INFO = lambda s: INFO_COLOR + str(s) + RESET_COLOR
+__builtins__.DEBUG = lambda s: DEBUG_COLOR + str(s) + RESET_COLOR
+__builtins__.GRAPH = lambda s: GRAPH_COLOR + str(s) + RESET_COLOR
+
 TERM_SEPLINE = "=" * TERM_COLUMNS
 
 # ####################################################################################
@@ -45,9 +51,12 @@ TERM_SEPLINE = "=" * TERM_COLUMNS
 # Creates a new instance of grammar. We must do it each time we want to parse a text...
 # We need to create a new instance because otherwise pyparsing doesn't work properly (locations are not there)
 def new_expr():
+    #  - - - - - - - - -  --  - - - - - - - - - - - - - - -
     # Grammar definition
+
     ident = pp.Word(pp.alphanums + "_")
 
+    # Definition of arguments to a macro
     args = pp.Forward()
     arg_expr_any = pp.CharsNotIn(")(}{\"/,")
     arg_expr = pp.ZeroOrMore(pp.quotedString | (pp.Optional(arg_expr_any) + "(" + args + ")" + pp.Optional(arg_expr_any)) | "/" | (pp.Optional(arg_expr_any) + "{" + args + "}" + pp.Optional(arg_expr_any)) | arg_expr_any)
@@ -55,6 +64,7 @@ def new_expr():
     arg_with_comma = arg + ","
     args << pp.ZeroOrMore(arg_with_comma) + pp.Optional(arg)
 
+    # Definition of a macro syntax
     macro_body_expr_any = pp.CharsNotIn("}{\"/")
     macro_body = pp.Forward()
     macro_body_expr_or = macro_body_expr_any.leaveWhitespace() | pp.cStyleComment.leaveWhitespace() | "/" | ("{" + macro_body + "}")
@@ -66,6 +76,7 @@ def new_expr():
                  pp.Optional(macro_body_stmt).setResultsName("body")
 
     macro = macro_def
+
     expr = macro | pp.cppStyleComment | pp.quotedString
 
     # This function is called for each we mention macro in sources (blah$)
@@ -93,9 +104,9 @@ def new_expr():
             extra = ""
             if t != None:
                 akat.print_sep()
-                extra = " at " + STRESS_COLOR + str(pp.lineno(l, t)) + RESET_COLOR + ":" + STRESS_COLOR + str(pp.col(l, t))
+                extra = " at " + STRESS(pp.lineno(l, t)) + ":" + STRESS(pp.col(l, t))
 
-            akat.print_info("Expanding macro ", STRESS_COLOR, inv.name, RESET_COLOR, extra)
+            akat.print_info("Expanding macro ", STRESS(inv.name), extra)
 
             if t != None:
                 akat.print_source_code(l, t)
@@ -104,6 +115,7 @@ def new_expr():
         return akat.run_with_context_describer(code, context_describer)
 
     macro.setParseAction(my_macro_action)
+
     return expr
 
 # ####################################################################################
@@ -152,7 +164,7 @@ class Akat:
 
     def run_with_namespace(self, code, namespace, comment):
         def context_describer():
-            akat.print_info("In namespace ", STRESS_COLOR, namespace, RESET_COLOR, " (", comment, ")")
+            akat.print_info("In namespace ", STRESS(namespace), " (", comment, ")")
 
         self.__namespaces.append(namespace)
         try:
@@ -169,8 +181,8 @@ class Akat:
         finally:
             del self.__context_describer_stack[-1]
 
-    def get_current_namespace(self, delim):
-        return delim.join(self.__namespaces)
+    def get_current_namespace(self):
+        return "__".join(self.__namespaces)
 
     def postvalidate(self):
         for name in self.__macros:
@@ -181,7 +193,7 @@ class Akat:
     def handle(self, inv):
         impl = self.__macros.get(inv.name, None)
         if impl == None:
-            self.fatal_error("No implementation for macro: ", STRESS_COLOR, inv.name)
+            self.fatal_error("No implementation for macro: ", STRESS(inv.name))
 
         # Add current instance into the macro instance stack and run render method of the macro instance
         macro_instance = impl()
@@ -202,7 +214,7 @@ class Akat:
 
     def require_args(self, inv, c):
         if len(inv.args) != c:
-            self.fatal_error("Macro requires exactly ", STRESS_COLOR, c, RESET_COLOR, " arguments but has ", STRESS_COLOR, len(inv.args), RESET_COLOR, "!")
+            self.fatal_error("Macro requires exactly ", STRESS(c), " arguments but has ", STRESS(len(inv.args)), "!")
 
     def require_no_body(self, inv):
         if inv.body != None and inv.body.strip() != "":
@@ -234,7 +246,7 @@ class Akat:
         if rc != None:
             return rc
 
-        self.fatal_error("No enclosing macro with name(s): ", STRESS_COLOR, ", ".join(names))
+        self.fatal_error("No enclosing macro with name(s): ", ", ".join([STRESS(name) for name in names]))
 
     def render(self, name, **kwargs):
         t = tlookup.get_template(name)
@@ -261,7 +273,7 @@ class Akat:
 
         pref = ""
         if len(self.__macro_instance_stack):
-            pref = GRAPH_COLOR + self.__macro_instance_stack[0].name + RESET_COLOR + ": "
+            pref = GRAPH(self.__macro_instance_stack[0].name) + ": "
 
         self.print_error(pref, *parts)
         sys.exit(-1)
@@ -312,6 +324,6 @@ def doit():
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        akat.print_error("Usage: ", sys.argv[0], " <", STRESS_COLOR, "source file to preprocess", RESET_COLOR, "> [", STRESS_COLOR, "more source files", RESET_COLOR, "]")
+        akat.print_error("Usage: ", sys.argv[0], " <", STRESS("source file to preprocess"), "> [", STRESS("more source files"), "]")
     else:
         doit()
