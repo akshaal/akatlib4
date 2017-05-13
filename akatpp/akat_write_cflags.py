@@ -10,11 +10,10 @@ class Macro:
         self.__ofile = None
 
     def render(self, inv):
-        akat.require_no_body(inv)
-        global ofile
+        args = akat.prepare(inv, required_args = ["ofile"])
 
-        ofile = akat.require_arg(inv, 0, "First argument of the macro is the output file name relative to the current file.");
-        akat.require_args(inv, 1)
+        global ofile
+        ofile = args.ofile
 
         return ""
 

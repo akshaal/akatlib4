@@ -41,10 +41,6 @@
 
 static AKAT_FORCE_INLINE AKAT_CONST AKAT_PURE uint32_t akat_cpu_freq_hz();
 
-static AKAT_FORCE_INLINE AKAT_UNUSED uint8_t akat_tick_period_us();
-
-static AKAT_FORCE_INLINE AKAT_UNUSED uint8_t akat_get_tick();
-
 AKAT_ERROR("Given delay is too long!") akat_sleep_too_long();
 AKAT_ERROR("Given delay is not a constant value!") akat_sleep_not_constant();
 
