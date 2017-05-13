@@ -158,7 +158,15 @@ class Akat:
     def add_macro(self, name, klass):
         self.__macros[name] = klass
 
-    def prepare(self, inv, required_args = [], optional_kvs = {}, keywords = [], required_kvs = [], body = False, required_outer_macro = None):
+    def prepare(self,
+                inv,
+                required_args = [],
+                optional_kvs = {},
+                keywords = [],
+                required_kvs = [],
+                body = False,
+                required_enclosing_macros = [],
+                allow_nesting = False):
         if body:
             self.require_body(inv)
         else:
@@ -209,16 +217,26 @@ class Akat:
             akat.fatal_error("Not specified key-value arguments: ", ", ".join([STRESS(k) for k in required_kvs]))
 
         # Check enclosing macro
-        if required_outer_macro != None:
-            for m in self.__macro_instance_stack[1:]:
-                if m.name == required_outer_macro:
-                    result[required_outer_macro] = m
-                    break
+        for name in required_enclosing_macros:
+            m = self.get_enclosing_macro_or_none(name)
+            if m == None:
+                self.fatal_error("No enclosing macro with name: ", STRESS(name))
 
-            if required_outer_macro not in result:
-                self.fatal_error("No enclosing macro with name: ", STRESS(required_outer_macro))
+            result[name] = m
+
+        if not allow_nesting:
+            m = self.get_enclosing_macro_or_none(self.__macro_instance_stack[0].name)
+            if m != None:
+                self.fatal_error("This macro can't be nested into itself!")
 
         return Struct(**result)
+
+    def get_enclosing_macro_or_none(self, name):
+        for m in self.__macro_instance_stack[1:]:
+            if m.name == name:
+                return m
+
+        return None
 
     def transform(self, s):
         return new_expr().transformString(s)
@@ -265,15 +283,15 @@ class Akat:
             del self.__macro_instance_stack[0]
 
     def require_no_body(self, inv):
-        if inv.body != None and inv.body.strip() != "":
+        if inv.body != None:
             self.fatal_error("No body is expected for this macro.")
 
     def require_body(self, inv):
-        if inv.body == None or inv.body.strip() == "":
+        if inv.body == None:
             self.fatal_error("Body is expected for this macro.")
 
     def render(self, obj, **kwargs):
-        if obj is not str:
+        if type(obj) != str:
             obj = obj.template_file
 
         t = tlookup.get_template(obj)
