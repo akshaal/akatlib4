@@ -135,11 +135,6 @@ __builtins__.Struct = Struct
 # That's what we do when we find a macro invocation
 
 # ####################################################################################
-# Templates
-
-tlookup = TemplateLookup(directories = [os.path.dirname(__file__)])
-
-# ####################################################################################
 # Akat
 
 class Akat:
@@ -253,12 +248,8 @@ class Akat:
         if obj is not str:
             obj = obj.template_file
 
-        obj = os.path.relpath(obj, os.path.dirname(__file__))
-
-        # TODO: F.,...... mako doesn't allow you to load a template from an absolute file or a relative.. or whatever
-        # TODO: it means we have to load it OURSELVES!!!!!!!!
-
         t = tlookup.get_template(obj)
+
         return t.render(**kwargs)
 
     def print_sep(self):
@@ -314,18 +305,19 @@ def prepare_directory(d):
         if f.startswith("akat_") and f.endswith(".py"):
             m = importlib.import_module(f[:-3]).Macro
             m.name = f[5:-3].upper()
-            m.template_file = d + "/" + f[:-3] + ".c"
+            m.template_file = f[:-3] + ".c"
 
             akat.add_macro(m.name, m)
 
 def doit(cmd_args):
-    # Setup directories
-    sys.path.append(os.path.dirname(__file__))
-    for d in cmd_args.dirs: sys.path.append(d)
+    all_dirs = [os.path.dirname(__file__)] + cmd_args.dirs
 
-    # Find macros
-    prepare_directory(os.path.dirname(__file__))
-    for d in cmd_args.dirs: prepare_directory(d)
+    global tlookup
+    tlookup = TemplateLookup(directories = all_dirs)
+
+    # Setup directories
+    for d in all_dirs: sys.path.append(d)
+    for d in all_dirs: prepare_directory(d)
 
     # Process files
     for arg in cmd_args.files:
