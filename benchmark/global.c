@@ -6,7 +6,7 @@
 
 WRITE_CFLAGS$(build/global);
 
-GLOBAL$() {
+GLOBAL$(g1) {
     static void hello() {
         BENCH;
 

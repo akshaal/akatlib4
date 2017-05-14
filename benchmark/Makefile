@@ -6,8 +6,8 @@ all: clean OsO3
 
 distclean: clean
 
-PARTS=main global scope static_var # threads ticks sleep sleep_loop sleep_loop_w_kbd sleep1 sleep1500 sub subsub subp object gpio_output gpio_input button button4 button4passiv thread_object tm1637
-PARTS=static_var
+PARTS=main scope global autoglobal static_var # function # threads ticks sleep sleep_loop sleep_loop_w_kbd sleep1 sleep1500 sub subsub subp object gpio_output gpio_input button button4 button4passiv thread_object tm1637
+PARTS=autoglobal
 
 OsO3: ${patsubst %, build/%-O3.avr, ${PARTS}} ${patsubst %, build/%-Os.avr, ${PARTS}}
 	mkdir -p results/${MCU}

@@ -6,7 +6,7 @@
 
 WRITE_CFLAGS$(build/static_var);
 
-GLOBAL$() {
+GLOBAL$(g) {
     static void hello() {
         SCOPE$(s1) {
             STATIC_VAR$(u8 x);

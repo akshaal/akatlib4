@@ -6,5 +6,8 @@ class Macro:
         self.__global_codes.append(code)
 
     def render(self, inv):
-        akat.prepare(inv, body = True)
-        return akat.render(self, body = akat.transform(inv.body), global_codes = self.__global_codes)
+        ctx = akat.prepare(inv, required_args = ["name"], body = True)
+
+        body = akat.transform("SCOPE$(" + ctx.name + ") {\n" + inv.body + "\n}\n")
+
+        return akat.render(self, global_codes = self.__global_codes, body = body)

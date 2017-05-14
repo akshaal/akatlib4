@@ -2,4 +2,4 @@
 ${global_code}
 % endfor
 
-${body};
+${body}
