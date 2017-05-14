@@ -7,7 +7,8 @@ class Macro:
         if not ignore_dups and self.__is_already_mapped(local_name):
             akat.fatal_error("Variable with name ", STRESS(local_name), " is already defined as ", STRESS(self.__mappings[local_name]))
 
-        self.__mappings[local_name] = global_name
+        if global_name != local_name:
+            self.__mappings[local_name] = global_name
 
     def __is_already_mapped(self, local_name):
         return local_name in self.__mappings
