@@ -231,8 +231,8 @@ class Akat:
 
         return Struct(**result)
 
-    def get_enclosing_macro_or_none(self, name):
-        for m in self.__macro_instance_stack[1:]:
+    def get_enclosing_macro_or_none(self, name, skip_top = 1):
+        for m in self.__macro_instance_stack[skip_top:]:
             if m.name == name:
                 return m
 
