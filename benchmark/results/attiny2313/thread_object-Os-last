@@ -1,0 +1,6 @@
+offset cycles = [7, 17]
+offset usecs  = [0, 2]
+    at cycles = [38, 57]
+    at usecs  = [4, 7]
+   text	   data	    bss	    dec	    hex	filename
+    192	      0	      2	    194	     c2	build/thread_object-Os.avr
