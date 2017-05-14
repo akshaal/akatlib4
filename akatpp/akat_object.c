@@ -1,7 +1,7 @@
 AUTOGLOBAL$() {
-    SCOPE$(${object_name}) {
-        MAP_IN_SCOPE$(${ns_object_name}, ${object_name});
+    MAP_IN_SCOPE$(${ns_object_name}, ${object_name}, allow_no_scope);
 
+    SCOPE$(${object_name}, restore) {
         IN_GLOBAL$() {
             typedef struct {
                 % for m in methods:
@@ -17,7 +17,7 @@ AUTOGLOBAL$() {
         % endfor
 
         IN_GLOBAL$() {
-            SCOPE$(post) {
+            SCOPE$(post, restore) {
                 ${ns_object_name}_t const ${ns_object_name} = {
                     % for m in methods:
                         .${m.name} = &${m.impl_name}
