@@ -1,0 +1,6 @@
+offset cycles = [1, 12]
+offset usecs  = [0, 1]
+    at cycles = [14, 28]
+    at usecs  = [1, 3]
+   text	   data	    bss	    dec	    hex	filename
+    182	      0	      0	    182	     b6	build/object-Os.avr

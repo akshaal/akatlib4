@@ -1,0 +1,6 @@
+offset cycles = [4]
+offset usecs  = [0]
+    at cycles = [31]
+    at usecs  = [3]
+   text	   data	    bss	    dec	    hex	filename
+    142	      0	      1	    143	     8f	build/function-Os.avr
