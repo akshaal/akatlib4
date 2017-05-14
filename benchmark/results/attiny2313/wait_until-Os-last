@@ -1,0 +1,6 @@
+offset cycles = [20, 25, 25, 25, 25, 25, 25, 25, 25, 25, 20]
+offset usecs  = [2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2]
+    at cycles = [57, 84, 111, 138, 165, 192, 219, 246, 273, 300, 322]
+    at usecs  = [7, 10, 13, 17, 20, 24, 27, 30, 34, 37, 40]
+   text	   data	    bss	    dec	    hex	filename
+    144	      0	      3	    147	     93	build/wait_until-Os.avr
