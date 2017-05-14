@@ -1,5 +1,9 @@
-% for global_code in global_codes:
-${global_code}
-% endfor
-
-${body}
+AUTOGLOBAL$(${function_name}) {
+    IN_GLOBAL$() {
+        ${extra_attrs} static ${decl} {
+            SCOPE$(${function_name}__f) {
+                ${body}
+            }
+        }
+    }
+}
