@@ -10,9 +10,9 @@ X_EVERY_DECISECOND$(counter) {
     STATIC_VAR$(u8 i);
 
     i++;
-    //if (i == 2) {
+    if (i == 4) {
         BENCH_EXIT;
-    //}
+    }
 }
 
 X_EVERY_DECISECOND$(bench) {
