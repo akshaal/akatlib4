@@ -18,14 +18,11 @@ class Macro:
 
         # --------------------------- RENDER
 
-        def code_in_namespace():
-            ctx = {
-                "object_name": object_name,
-                "clk_pin": clk_pin,
-                "dio_pin": dio_pin,
-                "delay_us": delay_us
-            }
+        ctx = {
+            "object_name": object_name,
+            "clk_pin": clk_pin,
+            "dio_pin": dio_pin,
+            "delay_us": delay_us
+        }
 
-            return akat.transform(akat.render("akat_x_tm1637.c", **ctx))
-
-        return akat.run_with_namespace(code_in_namespace, object_name, "tm1637")
+        return akat.transform(akat.render("akat_x_tm1637.c", **ctx))
