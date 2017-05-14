@@ -263,6 +263,12 @@ class Akat:
     def get_current_namespace(self):
         return "__".join(self.__namespaces)
 
+    def add_namespace(self, name):
+        if len(self.__namespaces) == 0:
+            return name
+        else:
+            return self.get_current_namespace() + "__" + name
+
     def postvalidate(self):
         for name in self.__macros:
             m = self.__macros[name]

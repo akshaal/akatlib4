@@ -6,8 +6,8 @@
 
 WRITE_CFLAGS$(build/autoglobal);
 
-AUTOGLOBAL$(g1) {
-    AUTOGLOBAL$(g2) {
+AUTOGLOBAL$() {
+    AUTOGLOBAL$() {
         static void hello() {
             BENCH;
 

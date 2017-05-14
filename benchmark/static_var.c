@@ -6,7 +6,9 @@
 
 WRITE_CFLAGS$(build/static_var);
 
-GLOBAL$(g) {
+GLOBAL$() {
+    STATIC_VAR$(u8 zzzzz);
+
     static void hello() {
         SCOPE$(s1) {
             STATIC_VAR$(u8 x);
@@ -18,7 +20,7 @@ GLOBAL$(g) {
 
                 y = 4;
 
-                if (x == 3 && y == 4) {
+                if (x == 3 && y == 4 && zzzzz == 100) {
                     BENCH;
                     BENCH_EXIT;
                 }
@@ -30,5 +32,8 @@ GLOBAL$(g) {
 // Main
 X_MAIN$(cpu_freq = 8000000) {
     BENCH_INIT;
+
+    zzzzz = 100;
+
     hello();
 }

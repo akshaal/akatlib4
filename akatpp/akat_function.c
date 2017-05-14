@@ -1,7 +1,7 @@
-AUTOGLOBAL$(${function_name}) {
+AUTOGLOBAL$() {
     IN_GLOBAL$() {
         ${extra_attrs} static ${decl} {
-            SCOPE$(${function_name}__f) {
+            SCOPE$(${function_name}) {
                 ${body}
             }
         }

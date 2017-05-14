@@ -12,7 +12,6 @@ FUNCTION$(void hello(u8 x)) {
     FUNCTION$(void hello2(u8 x)) {
         if ((x + y) == 13) {
             BENCH;
-            BENCH_EXIT;
         }
     }
 
@@ -21,8 +20,13 @@ FUNCTION$(void hello(u8 x)) {
     hello2(x);
 }
 
+FUNCTION$(void hello2()) {
+    BENCH_EXIT;
+}
+
 // Main
 X_MAIN$(cpu_freq = 8000000) {
     BENCH_INIT;
     hello(3);
+    hello2();
 }

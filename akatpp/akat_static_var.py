@@ -23,12 +23,14 @@ def configure_as_reg(v):
 
 class Macro:
     def render(self, inv):
-        ctx = akat.prepare(inv, required_args = ["decl"], required_enclosing_macros = ["GLOBAL", "SCOPE"], keywords = ["ignore_dups"])
+        ctx = akat.prepare(inv, required_args = ["decl"], required_enclosing_macros = ["GLOBAL"], keywords = ["ignore_dups"])
 
         t, name = ctx.decl.rsplit(" ", 1)
 
+        scope_m = akat.get_enclosing_macro_or_none("SCOPE")
+
         ns = akat.get_current_namespace()
-        full_name = ns + "__" + name
+        full_name = akat.add_namespace(name)
 
         # Avoid duplicated definitions + we do some summary at the end
         already_defined = full_name in defined_static_vars
@@ -50,7 +52,8 @@ class Macro:
 
             ctx.GLOBAL.add_global_code(mod +" " + t + " "  + full_name + attr + ";")
 
-        ctx.SCOPE.map_as(full_name, name, ignore_dups = ctx.ignore_dups)
+        if scope_m != None:
+            scope_m.map_as(full_name, name, ignore_dups = ctx.ignore_dups)
 
         return "";
 
