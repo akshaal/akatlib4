@@ -1,0 +1,6 @@
+offset cycles = [1, 590174]
+offset usecs  = [0, 73771]
+    at cycles = [128, 590304]
+    at usecs  = [16, 73788]
+   text	   data	    bss	    dec	    hex	filename
+    664	      0	     12	    676	    2a4	build/button4passiv-O3.avr

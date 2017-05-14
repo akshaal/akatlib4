@@ -1,0 +1,6 @@
+offset cycles = [1, 27299, 28, 30, 30]
+offset usecs  = [0, 3412, 3, 3, 3]
+    at cycles = [104, 27405, 27435, 27467, 27499]
+    at usecs  = [13, 3425, 3429, 3433, 3437]
+   text	   data	    bss	    dec	    hex	filename
+    468	      0	      8	    476	    1dc	build/button4-O3.avr
