@@ -1,0 +1,6 @@
+offset cycles = [45, 19, 21, 15, 22, 22]
+offset usecs  = [5, 2, 2, 1, 2, 2]
+    at cycles = [78, 99, 122, 139, 163, 187]
+    at usecs  = [9, 12, 15, 17, 20, 23]
+   text	   data	    bss	    dec	    hex	filename
+    262	      0	      2	    264	    108	build/sub-O3.avr

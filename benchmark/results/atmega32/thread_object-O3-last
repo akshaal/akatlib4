@@ -1,0 +1,6 @@
+offset cycles = [6, 13]
+offset usecs  = [0, 1]
+    at cycles = [39, 54]
+    at usecs  = [4, 6]
+   text	   data	    bss	    dec	    hex	filename
+    272	      0	      2	    274	    112	build/thread_object-O3.avr
