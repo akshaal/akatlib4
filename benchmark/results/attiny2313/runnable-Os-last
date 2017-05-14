@@ -1,0 +1,6 @@
+offset cycles = [1, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
+offset usecs  = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    at cycles = [12, 23, 34, 45, 56, 67, 78, 89, 100, 111, 122]
+    at usecs  = [1, 2, 4, 5, 7, 8, 9, 11, 12, 13, 15]
+   text	   data	    bss	    dec	    hex	filename
+     82	      0	      0	     82	     52	build/runnable-Os.avr
