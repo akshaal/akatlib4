@@ -5,6 +5,9 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/wait_until);
+USE_REG$(i);
+USE_REG$(thread1__akat_coroutine_state);
+USE_REG$(thread2__akat_coroutine_state);
 
 GLOBAL$() {
     STATIC_VAR$(u8 i);
