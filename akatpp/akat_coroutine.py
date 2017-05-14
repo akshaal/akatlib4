@@ -1,6 +1,6 @@
 class Macro:
     def render(self, inv):
-        ctx = akat.prepare(inv, body = True, keywords = ["need_return"])
+        ctx = akat.prepare(inv, body = True, keywords = ["need_return"], allow_nesting = True)
         self.__goto_cases = []
         self.__next_state = 2
         self.__need_return = ctx.need_return
