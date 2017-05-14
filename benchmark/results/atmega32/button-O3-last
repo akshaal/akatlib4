@@ -1,0 +1,6 @@
+offset cycles = [1, 11289]
+offset usecs  = [0, 1411]
+    at cycles = [42, 11333]
+    at usecs  = [5, 1416]
+   text	   data	    bss	    dec	    hex	filename
+    214	      0	      2	    216	     d8	build/button-O3.avr

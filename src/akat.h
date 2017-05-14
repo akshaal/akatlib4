@@ -41,11 +41,6 @@
 
 static AKAT_FORCE_INLINE AKAT_CONST AKAT_PURE uint32_t akat_cpu_freq_hz();
 
-AKAT_ERROR("Given delay is too long!") akat_sleep_too_long();
-AKAT_ERROR("Given delay is not a constant value!") akat_sleep_not_constant();
-
-AKAT_ERROR("tick_period_us is not set in MAIN macro!") akat_sleep_no_tick_us();
-
 // ============================================================================================================================
 // DELAY
 
