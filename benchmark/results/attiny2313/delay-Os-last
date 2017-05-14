@@ -1,0 +1,6 @@
+offset cycles = [1, 8, 80, 162, 161, 160]
+offset usecs  = [0, 1, 10, 20, 20, 20]
+    at cycles = [12, 22, 104, 268, 431, 593]
+    at usecs  = [1, 2, 13, 33, 53, 74]
+   text	   data	    bss	    dec	    hex	filename
+    120	      0	      0	    120	     78	build/delay-Os.avr
