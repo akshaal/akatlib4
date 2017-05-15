@@ -6,9 +6,9 @@
 
 WRITE_CFLAGS$(build/clock_w_kbd_tm1637_f1);
 
-//USE_REG$(tm1637__dirty, low);
-//USE_REG$(akat_clock_current_decisecond);
-//USE_REG$(akat_clock_current_second_l);
+USE_REG$(tm1637__dirty);
+USE_REG$(akat_clock_current_decisecond);
+USE_REG$(akat_clock_current_second_l);
 //USE_REG$(akat_clock_current_second_h);
 //USE_REG$(akat_clock_current_minute_l);
 //USE_REG$(akat_clock_current_minute_h);
@@ -17,13 +17,22 @@ WRITE_CFLAGS$(build/clock_w_kbd_tm1637_f1);
 
 X_TM1637$(tm1637, clk = B3, dio = B4);
 
+GLOBAL$() {
+    STATIC_VAR$(u32 sum);
+}
+
+X_BUTTON$(button1, D0) { sum += 100000L; }
+X_BUTTON$(button2, D1) { sum += 200000L; }
+X_BUTTON$(button3, D2) { sum += 400000L; }
+X_BUTTON$(button4, D3) { sum += 800000L; }
+
 X_CLOCK$(tm1637_clock) {
     METHOD$(void on_new_minute_h(), inline) {
         tm1637.set_digit_pos_1(tm1637_clock.get_current_minute_h(), 0);
     }
 
     METHOD$(void on_new_minute_l(), inline) {
-        tm1637.set_digit_pos_2(tm1637_clock.get_current_minute_l(), 1);
+        tm1637.set_digit_pos_2(tm1637_clock.get_current_minute_l(), sum == 150000);
     }
 
     METHOD$(void on_new_second_h(), inline) {
