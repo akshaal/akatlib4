@@ -7,27 +7,30 @@
 WRITE_CFLAGS$(build/clock_f1);
 
 USE_REG$(akat_clock_current_decisecond);
-USE_REG$(akat_clock_current_second);
-USE_REG$(akat_clock_current_minute);
-USE_REG$(akat_clock_current_hour);
+USE_REG$(akat_clock_current_second_h);
+USE_REG$(akat_clock_current_minute_h);
+USE_REG$(akat_clock_current_hour_h);
+USE_REG$(akat_clock_current_second_l);
+USE_REG$(akat_clock_current_minute_l);
+USE_REG$(akat_clock_current_hour_l);
 
 X_CLOCK$(c1) {
     METHOD$(void on_new_decisecond(), inline) {
         BENCH;
-        if (c1.get_current_second() == 3 && c1.get_current_decisecond() == 5) {
+        if (c1.get_current_second_l() == 3 && c1.get_current_decisecond() == 5) {
             BENCH_EXIT;
         }
     }
 
-    METHOD$(void on_new_second(), inline) {
+    METHOD$(void on_new_second_l(), inline) {
         BENCH;
     }
 
-    METHOD$(void on_new_minute(), inline) {
+    METHOD$(void on_new_minute_l(), inline) {
         BENCH;
     }
 
-    METHOD$(void on_new_hour(), inline) {
+    METHOD$(void on_new_hour_l(), inline) {
         BENCH;
     }
 }

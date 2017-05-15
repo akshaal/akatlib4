@@ -18,6 +18,9 @@ class Macro:
             print("}")
 
         dump_def("decisecond")
-        dump_def("second")
-        dump_def("minute")
-        dump_def("hour")
+        dump_def("second_l")
+        dump_def("second_h")
+        dump_def("minute_l")
+        dump_def("minute_h")
+        dump_def("hour_l")
+        dump_def("hour_h")

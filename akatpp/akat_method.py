@@ -4,7 +4,7 @@ class Macro:
                            required_args = ["decl"],
                            body = True,
                            allow_nesting = True,
-                           keywords = ["inline"],
+                           keywords = ["inline", "ignore_dup"],
                            required_enclosing_macros = ["OBJECT"])
 
         decl = ctx.decl
@@ -12,6 +12,12 @@ class Macro:
         method_type, method_name = decl.split("(", 1)[0].strip().rsplit(" ")
         ret_type = method_type.strip()
         method_args = decl.split("(", 1)[1].rsplit(")", 1)[0].strip()
+
+        if ctx.OBJECT.has_method(method_name):
+            if ctx.ignore_dup:
+                return ""
+            else:
+                akat.fatal_error("Method with name ", STRESS(method_name), " is already defined!")
 
         render_context = {
             "extra_f_attrs": (ctx.inline and ", inline" or ""),

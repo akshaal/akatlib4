@@ -1,9 +1,14 @@
 class Macro:
     def __init__(self):
         self.__methods = []
+        self.__method_names = []
 
     def add_method(self, m):
         self.__methods.append(m)
+        self.__method_names.append(m.name)
+
+    def has_method(self, name):
+        return name in self.__method_names
 
     def render(self, inv):
         ctx = akat.prepare(inv, required_args = ["name"], body = True, allow_nesting = True)
