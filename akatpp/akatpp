@@ -69,7 +69,7 @@ def new_expr():
     macro_body_expr_any = pp.CharsNotIn("}{\"/")
     macro_body = pp.Forward()
     macro_body_expr_or = macro_body_expr_any.leaveWhitespace() | pp.cStyleComment.leaveWhitespace() | "/" | ("{" + macro_body + "}")
-    macro_body << pp.ZeroOrMore(pp.Optional(pp.cStyleComment) + macro_body_expr_or + pp.Optional(pp.cStyleComment))
+    macro_body << pp.ZeroOrMore(pp.Optional(pp.quotedString | pp.cStyleComment) + macro_body_expr_or + pp.Optional(pp.quotedString | pp.cStyleComment))
     macro_body_stmt = pp.Suppress("{") + pp.Combine(macro_body) + pp.Suppress("}")
 
     macro_def = (ident.setResultsName("name") + pp.Suppress("$")).leaveWhitespace() + \

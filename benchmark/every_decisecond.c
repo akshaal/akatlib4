@@ -6,11 +6,13 @@
 
 WRITE_CFLAGS$(build/every_decisecond);
 
+USE_REG$(counter__i);
+
 X_EVERY_DECISECOND$(counter) {
     STATIC_VAR$(u8 i);
 
     i++;
-    if (i == 4) {
+    if (i == 6) {
         BENCH_EXIT;
     }
 }

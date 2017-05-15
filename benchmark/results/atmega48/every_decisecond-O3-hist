@@ -6,3 +6,11 @@ offset usecs  = [100004, 100000, 99999, 99999]
     at usecs  = [100011, 200011, 300011, 400011]
    text	   data	    bss	    dec	    hex	filename
     194	      0	      2	    196	     c4	build/every_decisecond-O3.avr
+
+ma. 15. mai 20:09:45 +0200 2017
+offset cycles = [800013, 799997, 800000, 799997, 799997]
+offset usecs  = [100001, 99999, 100000, 99999, 99999]
+    at cycles = [800042, 1600041, 2400043, 3200042, 4000041]
+    at usecs  = [100005, 200005, 300005, 400005, 500005]
+   text	   data	    bss	    dec	    hex	filename
+    142	      0	      0	    142	     8e	build/every_decisecond-O3.avr

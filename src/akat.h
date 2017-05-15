@@ -36,6 +36,8 @@
 #define AKAT_HOT_CODE        AKAT_FORCE_CONCAT(akat_hot_code__, __COUNTER__): __attribute__((hot, unused));
 #define AKAT_COLD_CODE       AKAT_FORCE_CONCAT(akat_cold_code__, __COUNTER__): __attribute__((cold, unused));
 
+#define AKAT_FLUSH_REG_VAR(vvv)     asm volatile ("" : "=r" (vvv));
+
 #define AKAT_COROUTINE_S_START   0
 #define AKAT_COROUTINE_S_END     255
 
