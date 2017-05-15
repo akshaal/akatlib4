@@ -42,6 +42,13 @@
 static AKAT_FORCE_INLINE AKAT_CONST AKAT_PURE uint32_t akat_cpu_freq_hz();
 
 // ============================================================================================================================
+// Compatibility
+
+#ifndef TIMSK1
+#define TIMSK1 TIMSK
+#endif
+
+// ============================================================================================================================
 // DELAY
 
 // Delay. Delay function is non atomic!

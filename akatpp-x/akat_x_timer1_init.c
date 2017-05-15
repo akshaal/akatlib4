@@ -27,7 +27,7 @@ X_INIT$(timer1) {
     % endif
 
     % if ocie1a == 1 or ocie1b == 1:
-    TIMSK |= (${ocie1a} << OCIE1A) | (${ocie1b} << OCIE1B);
+    TIMSK1 |= (${ocie1a} << OCIE1A) | (${ocie1b} << OCIE1B);
     % endif
 
     // Configuring Timer1 for prescaler ${prescaler}
