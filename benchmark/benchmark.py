@@ -21,7 +21,6 @@ f = open(last_result_file, 'w')
 # Run
 avr = AVR (filename = avr_file, mcu = mcu, freq = freq, quiet = True)
 
-stop = False
 timings = list ()
 timings_us = list ()
 log = list()
@@ -42,10 +41,30 @@ def on_signal (value, arg):
         ats.append(avr.cycle)
         ats_us.append(avr.cycles_to_usec(avr.cycle))
 
+def do_finish():
+    print >> f, "offset cycles = " + str(timings).replace("L", "")
+    print >> f, "offset usecs  = " + str(timings_us).replace("L", "")
+    print >> f, "    at cycles = " + str(ats).replace("L", "")
+    print >> f, "    at usecs  = " + str(ats_us).replace("L", "")
+
+    if len(log) > 0:
+        print >> f, "\nLOG: " + " ".join(log) + "\n"
+
+    f.close()
+
+    os.system("avr-size " + avr_file  + " >> " + last_result_file)
+
+    if subprocess.call(["git", "--no-pager", "diff", "--exit-code", last_result_file]):
+        os.system("git checkout " + hist_result_file)
+        os.system("echo >> " + hist_result_file)
+        os.system("date >> " + hist_result_file)
+        os.system("cat " + last_result_file + " >> " + hist_result_file)
+
+    sys.exit(0)
+
 def on_exit (value, arg):
-    global stop
     if value != 0:
-        stop = True
+        do_finish()
 
 class TM1637:
     def __init__(self):
@@ -83,8 +102,7 @@ class TM1637:
 
             if self.__bytes == stop_at_tm1637_byte:
                 on_signal(1, None); on_signal(0, None)
-                global stop
-                stop = True
+                do_finish()
 
         self.__dio = value
 
@@ -111,7 +129,7 @@ pb4.connect_ioport("D", 3)
 pbs_pressed = False
 pbs_press_at_cycle = avr.usec_to_cycles(1000)
 
-while not stop:
+while True:
     if not pbs_pressed and avr.cycle > pbs_press_at_cycle:
         pbs_pressed = True
         pb1.set_on(timeout_us = 20000)
@@ -119,22 +137,4 @@ while not stop:
         pb3.set_on(timeout_us = 20000)
         pb4.set_on(timeout_us = 20000)
 
-    avr.run_cycles()
-
-print >> f, "offset cycles = " + str(timings).replace("L", "")
-print >> f, "offset usecs  = " + str(timings_us).replace("L", "")
-print >> f, "    at cycles = " + str(ats).replace("L", "")
-print >> f, "    at usecs  = " + str(ats_us).replace("L", "")
-
-if len(log) > 0:
-    print >> f, "\nLOG: " + " ".join(log) + "\n"
-
-f.close()
-
-os.system("avr-size " + avr_file  + " >> " + last_result_file)
-
-if subprocess.call(["git", "--no-pager", "diff", "--exit-code", last_result_file]):
-    os.system("git checkout " + hist_result_file)
-    os.system("echo >> " + hist_result_file)
-    os.system("date >> " + hist_result_file)
-    os.system("cat " + last_result_file + " >> " + hist_result_file)
+    avr.run_cycles(32)
