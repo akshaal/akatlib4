@@ -1,0 +1,6 @@
+offset cycles = [800039, 800001, 799996]
+offset usecs  = [100004, 100000, 99999]
+    at cycles = [800082, 1600085, 2400083]
+    at usecs  = [100010, 200010, 300010]
+   text	   data	    bss	    dec	    hex	filename
+    214	      0	      2	    216	     d8	build/every_decisecond-Os.avr
