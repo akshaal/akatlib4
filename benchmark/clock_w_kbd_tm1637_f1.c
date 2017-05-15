@@ -6,13 +6,14 @@
 
 WRITE_CFLAGS$(build/clock_w_kbd_tm1637_f1);
 
-USE_REG$(akat_clock_current_decisecond);
-USE_REG$(akat_clock_current_second_l);
-USE_REG$(akat_clock_current_second_h);
-USE_REG$(akat_clock_current_minute_l);
-USE_REG$(akat_clock_current_minute_h);
-USE_REG$(akat_clock_current_hour_h, low);
-USE_REG$(akat_clock_current_hour_l, low);
+//USE_REG$(tm1637__dirty, low);
+//USE_REG$(akat_clock_current_decisecond);
+//USE_REG$(akat_clock_current_second_l);
+//USE_REG$(akat_clock_current_second_h);
+//USE_REG$(akat_clock_current_minute_l);
+//USE_REG$(akat_clock_current_minute_h);
+//USE_REG$(akat_clock_current_hour_h, low);
+//USE_REG$(akat_clock_current_hour_l, low);
 
 X_TM1637$(tm1637, clk = B3, dio = B4);
 
