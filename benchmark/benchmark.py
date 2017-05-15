@@ -9,7 +9,11 @@ import os
 name = sys.argv [3]
 mode = sys.argv [2]
 mcu = sys.argv [1]
-freq = 8000000
+
+if name.endswith("_f1"):
+    freq = 1000000
+else:
+    freq = 8000000
 
 avr_file = "build/" + name + "-" + mode + ".avr"
 result_base = 'results/' + mcu + "/" + name + "-" + mode
@@ -100,7 +104,7 @@ class TM1637:
             log.append(str("E "))
             self.__started = False
 
-            if self.__bytes == stop_at_tm1637_byte:
+            if self.__bytes == stop_at_tm1637_byte and name == "tm1637":
                 on_signal(1, None); on_signal(0, None)
                 do_finish()
 
