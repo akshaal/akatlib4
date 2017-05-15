@@ -8,7 +8,7 @@ distclean: clean
 
 PARTS  = main scope global autoglobal static_var function object object2 runnable thread thread_object sub subsub subp wait_until
 PARTS += gpio_output gpio_input button button4 button4passiv tm1637 delay every_decisecond clock_f1 clock_w_kbd_tm1637_f1
-#PARTS  = clock_w_kbd_tm1637_f1
+PARTS  = countdown_f1
 
 OsO3: ${patsubst %, build/%-O3.avr, ${PARTS}} ${patsubst %, build/%-Os.avr, ${PARTS}}
 	mkdir -p results/${MCU}
