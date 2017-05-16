@@ -1,4 +1,6 @@
 OBJECT$(${oname}__${idx}) {
+    ${body}
+
     METHOD$(void on_new_decisecond(), inline, ignore_dup) {}
 
     METHOD$(void on_new_second_l(), inline, ignore_dup) {}

@@ -17,13 +17,13 @@ static AKAT_FORCE_INLINE void akat_timestamp_on_new_minute_h__${oname}();
 static AKAT_FORCE_INLINE void akat_timestamp_on_new_hour_h__${oname}();
 
 OBJECT$(${oname}) {
-    METHOD$(u8 get_decisecond(), inline) { return akat_timestamp_decisecond__${oname}; }
-    METHOD$(u8 get_second_h(), inline) { return akat_timestamp_second_h__${oname}; }
-    METHOD$(u8 get_second_l(), inline) { return akat_timestamp_second_l__${oname}; }
-    METHOD$(u8 get_minute_l(), inline) { return akat_timestamp_minute_l__${oname}; }
-    METHOD$(u8 get_minute_h(), inline) { return akat_timestamp_minute_h__${oname}; }
-    METHOD$(u8 get_hour_h(), inline) { return akat_timestamp_hour_h__${oname}; }
-    METHOD$(u8 get_hour_l(), inline) { return akat_timestamp_hour_l__${oname}; }
+    METHOD$(u8 get_deciseconds(), inline) { return akat_timestamp_decisecond__${oname}; }
+    METHOD$(u8 get_seconds_h(), inline) { return akat_timestamp_second_h__${oname}; }
+    METHOD$(u8 get_seconds_l(), inline) { return akat_timestamp_second_l__${oname}; }
+    METHOD$(u8 get_minutes_l(), inline) { return akat_timestamp_minute_l__${oname}; }
+    METHOD$(u8 get_minutes_h(), inline) { return akat_timestamp_minute_h__${oname}; }
+    METHOD$(u8 get_hours_h(), inline) { return akat_timestamp_hour_h__${oname}; }
+    METHOD$(u8 get_hours_l(), inline) { return akat_timestamp_hour_l__${oname}; }
 
     METHOD$(void set_deciseconds(u8 v)) {
         akat_timestamp_decisecond__${oname} = v;
