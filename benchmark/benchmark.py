@@ -138,12 +138,16 @@ pb4.connect_ioport("D", 3)
 pbs_pressed = False
 pbs_press_at_cycle = avr.usec_to_cycles(1000)
 
+button_release_us = 20000
+if name.startswith("repeat_button"):
+    button_release_us = 2000000
+
 while True:
     if not pbs_pressed and avr.cycle > pbs_press_at_cycle:
         pbs_pressed = True
-        pb1.set_on(timeout_us = 20000)
-        pb2.set_on(timeout_us = 20000)
-        pb3.set_on(timeout_us = 20000)
-        pb4.set_on(timeout_us = 20000)
+        pb1.set_on(timeout_us = button_release_us)
+        pb2.set_on(timeout_us = button_release_us)
+        pb3.set_on(timeout_us = button_release_us)
+        pb4.set_on(timeout_us = button_release_us)
 
     avr.run_cycles(32)

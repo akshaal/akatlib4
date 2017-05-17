@@ -8,6 +8,10 @@ X_INIT$(${object_name}__init) {
 }
 
 OBJECT$(${object_name}) {
+    METHOD$(u8 is_awaiting_key_press(), inline) {
+        return ${object_name}__state.awaiting_key_press;
+    }
+
     ${body}
 }
 
