@@ -16,6 +16,8 @@ import importlib
 import subprocess
 import traceback
 
+pp.ParserElement.enablePackrat()
+
 from mako.lookup import TemplateLookup
 
 # ####################################################################################
