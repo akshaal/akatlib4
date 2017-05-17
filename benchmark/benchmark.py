@@ -10,6 +10,9 @@ name = sys.argv [3]
 mode = sys.argv [2]
 mcu = sys.argv [1]
 
+print()
+print("About to run ", name)
+
 if name.endswith("_f1"):
     freq = 1000000
 else:

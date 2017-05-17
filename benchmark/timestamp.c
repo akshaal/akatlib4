@@ -35,6 +35,8 @@ X_TIMESTAMP_CALLBACKS$(t) {
 X_MAIN$(cpu_freq = 8000000) {
     BENCH_INIT;
 
+    t.reset();
+
     t.set_hours(1, 8);
 
     // Current time is 18:0:0.0, if we do 216000 then we will go back to this time with the overflow flag
