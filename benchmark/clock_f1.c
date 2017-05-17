@@ -6,11 +6,11 @@
 
 WRITE_CFLAGS$(build/clock_f1);
 
+USE_REG$(akat_clock_started__c1);
 USE_REG$(akat_timestamp_decisecond__t);
 USE_REG$(akat_timestamp_second_h__t);
 USE_REG$(akat_timestamp_second_l__t);
 USE_REG$(akat_timestamp_minute_h__t);
-USE_REG$(akat_timestamp_minute_l__t);
 
 X_TIMESTAMP$(t);
 
@@ -40,5 +40,6 @@ X_TIMESTAMP_CALLBACKS$(t) {
 // Main
 X_MAIN$(cpu_freq = 1000000) {
     BENCH_INIT;
+    c1.start();
     sei();
 }
