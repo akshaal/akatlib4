@@ -16,8 +16,6 @@ import importlib
 import subprocess
 import traceback
 
-pp.ParserElement.enablePackrat()
-
 from mako.lookup import TemplateLookup
 
 # ####################################################################################
@@ -120,6 +118,19 @@ def new_expr():
     macro.setParseAction(my_macro_action)
 
     return expr
+
+expr_cache = []
+
+def with_cached_expr(f):
+    if len(expr_cache) == 0:
+        expr = new_expr()
+    else:
+        expr = expr_cache.pop()
+
+    try:
+        return f(expr)
+    finally:
+        expr_cache.append(expr)
 
 # ####################################################################################
 # Define some structs ...
@@ -247,7 +258,7 @@ class Akat:
 
     def transform(self, s):
         if "$(" in s:
-            return new_expr().transformString(s)
+            return with_cached_expr(lambda expr: expr.transformString(s))
         else:
             return s
 
@@ -403,3 +414,5 @@ if __name__ == '__main__':
     cmd_args = parser.parse_args()
 
     doit(cmd_args)
+    #import cProfile
+    #cProfile.run("doit(cmd_args)", sort = 'time')
