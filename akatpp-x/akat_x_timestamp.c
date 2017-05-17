@@ -51,6 +51,24 @@ OBJECT$(${oname}) {
         akat_timestamp_on_new_hour_h__${oname}();
     }
 
+    METHOD$(void reset()) {
+        akat_timestamp_decisecond__${oname} = 0;
+        akat_timestamp_second_h__${oname} = 0;
+        akat_timestamp_second_l__${oname} = 0;
+        akat_timestamp_minute_h__${oname} = 0;
+        akat_timestamp_minute_l__${oname} = 0;
+        akat_timestamp_hour_h__${oname} = 0;
+        akat_timestamp_hour_l__${oname} = 0;
+
+        akat_timestamp_on_new_decisecond__${oname}();
+        akat_timestamp_on_new_second_l__${oname}();
+        akat_timestamp_on_new_second_h__${oname}();
+        akat_timestamp_on_new_minute_l__${oname}();
+        akat_timestamp_on_new_minute_h__${oname}();
+        akat_timestamp_on_new_hour_l__${oname}();
+        akat_timestamp_on_new_hour_h__${oname}();
+    }
+
     METHOD$(u8 inc_hours()) {
         u8 rc = 0; // Return true if there is an overflow
 
