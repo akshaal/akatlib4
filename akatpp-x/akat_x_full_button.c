@@ -7,15 +7,14 @@ X_INIT$(${object_name}__init) {
     ${object_name}__state.checks_left = AKAT_X_BUTTON_CHECKS;
 }
 
-FUNCTION$(void ${object_name}__cbk()) {
-    ${body}
+OBJECT$(${object_name}) {
 }
 
 RUNNABLE$(${object_name}__runnable) {
     akat_x_button_handle_pin_state(
         &${object_name}__state,
         ${object_name}__input.is_set(),
-        &${object_name}__cbk,
-        NULL
+        &(${object_name}.on_press),
+        &(${object_name}.on_release)
     );
 }

@@ -7,8 +7,6 @@
 WRITE_CFLAGS$(build/clock_w_kbd_tm1637_f1);
 
 USE_REG$(tm1637__dirty);
-USE_REG$(akat_clock_started__c1);
-USE_REG$(akat_timestamp_decisecond__t);
 
 X_TM1637$(tm1637, clk = B3, dio = B4);
 

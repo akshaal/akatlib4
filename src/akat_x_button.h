@@ -5,7 +5,7 @@
 
 #define AKAT_X_BUTTON_CHECKS 255
 
-typedef void (*akat_x_button_keypress_cbk_t)();
+typedef void (*akat_x_button_cbk_t)();
 
 typedef struct {
     uint8_t awaiting_key_press;
