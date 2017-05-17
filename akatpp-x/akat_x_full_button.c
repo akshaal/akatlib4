@@ -8,13 +8,14 @@ X_INIT$(${object_name}__init) {
 }
 
 OBJECT$(${object_name}) {
+    ${body}
 }
 
 RUNNABLE$(${object_name}__runnable) {
     akat_x_button_handle_pin_state(
         &${object_name}__state,
         ${object_name}__input.is_set(),
-        &(${object_name}.on_press),
-        &(${object_name}.on_release)
+        ${object_name}.on_press,
+        ${object_name}.on_release
     );
 }
