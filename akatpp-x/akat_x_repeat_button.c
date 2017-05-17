@@ -8,7 +8,7 @@ GLOBAL$() {
 
 X_FULL_BUTTON$(${object_name}__full_button, ${pin_name}) {
     METHOD$(void on_press()) {
-        ${object_name}__delay = 10;
+        ${object_name}__delay = 6;
         ${object_name}.on_press();
     }
 
