@@ -246,7 +246,10 @@ class Akat:
         return None
 
     def transform(self, s):
-        return new_expr().transformString(s)
+        if "$(" in s:
+            return new_expr().transformString(s)
+        else:
+            return s
 
     def run_with_namespace(self, code, namespace, comment):
         def context_describer():
