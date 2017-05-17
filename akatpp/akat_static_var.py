@@ -75,7 +75,7 @@ class Macro:
             if v not in used_reg:
                 if not shown_unused_header:
                     akat.print_sep()
-                    akat.print_error("Following static variables are configured to use registers. But we can't find such static variables!")
+                    akat.print_error("Following static variables are configured to use registers. But we can't find such static variables! Are you sure your USE_REG$ goes BEFORE parts that declare the variable?..")
                     shown_unused_header = True
 
                 akat.print_error("    ", STRESS_COLOR, v)

@@ -167,10 +167,15 @@ class Akat:
                 body = False,
                 required_enclosing_macros = [],
                 allow_nesting = False):
-        if body:
-            self.require_body(inv)
+
+        if body != True and body != False:
+            if inv.body == None:
+                inv.body = body
         else:
-            self.require_no_body(inv)
+            if body:
+                self.require_body(inv)
+            else:
+                self.require_no_body(inv)
 
         result = optional_kvs.copy()
         required_kvs = required_kvs + [] # copy

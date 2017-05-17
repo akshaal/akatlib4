@@ -6,18 +6,20 @@
 
 WRITE_CFLAGS$(build/clock_f1);
 
-USE_REG$(akat_clock_current_decisecond);
-USE_REG$(akat_clock_current_second_h);
-USE_REG$(akat_clock_current_minute_h);
-USE_REG$(akat_clock_current_hour_h);
-USE_REG$(akat_clock_current_second_l);
-USE_REG$(akat_clock_current_minute_l);
-USE_REG$(akat_clock_current_hour_l);
+USE_REG$(akat_timestamp_decisecond__t);
+USE_REG$(akat_timestamp_second_h__t);
+USE_REG$(akat_timestamp_second_l__t);
+USE_REG$(akat_timestamp_minute_h__t);
+USE_REG$(akat_timestamp_minute_l__t);
 
-X_CLOCK$(c1) {
+X_TIMESTAMP$(t);
+
+X_CLOCK$(c1, t);
+
+X_TIMESTAMP_CALLBACKS$(t) {
     METHOD$(void on_new_decisecond(), inline) {
         BENCH;
-        if (c1.get_current_second_l() == 3 && c1.get_current_decisecond() == 5) {
+        if (t.get_seconds_l() == 3 && t.get_deciseconds() == 5) {
             BENCH_EXIT;
         }
     }

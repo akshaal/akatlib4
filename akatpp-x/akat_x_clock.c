@@ -1,7 +1,7 @@
-% if first_time:
-
-X_EVERY_DECISECOND$(clock_dechandler) {
+OBJECT$(${oname}) {
+    ${body}
 }
 
-% endif
-
+X_EVERY_DECISECOND$(clock_dechandler__${oname}) {
+    ${tname}.inc_deciseconds();
+}
