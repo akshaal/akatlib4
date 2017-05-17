@@ -15,6 +15,8 @@ print("About to run ", name)
 
 if name.endswith("_f1"):
     freq = 1000000
+elif name.endswith("_f06"):
+    freq = 600000
 else:
     freq = 8000000
 

@@ -5,11 +5,15 @@ GLOBAL$() {
 OBJECT$(${oname}) {
     ${body}
 
-    METHOD$(void start()) {
+    METHOD$(u8 is_started(), inline) {
+        return akat_clock_started__${oname};
+    }
+
+    METHOD$(void start(), inline) {
         akat_clock_started__${oname} = 1;
     }
 
-    METHOD$(void stop()) {
+    METHOD$(void stop(), inline) {
         akat_clock_started__${oname} = 0;
     }
 

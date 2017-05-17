@@ -165,6 +165,20 @@ THREAD$(${object_name}__thread) {
 // Interface
 
 OBJECT$(${object_name}) {
+    METHOD$(void set(akat_x_tm1637_pos_t pos, u8 const v)) {
+        ${object_name}__dirty = 1;
+
+        if (pos == AKAT_X_TM1637_POS_1) {
+            ${object_name}__byte1 = v;
+        } else if (pos == AKAT_X_TM1637_POS_2) {
+            ${object_name}__byte2 = v;
+        } else if (pos == AKAT_X_TM1637_POS_3) {
+            ${object_name}__byte3 = v;
+        } else {
+            ${object_name}__byte4 = v;
+        }
+    }
+
     METHOD$(void set_digit_pos_1(u8 const digit, u8 const colon)) {
         ${object_name}__dirty = 1;
         ${object_name}__byte1 = akat_x_tm1637_encode_digit(digit, colon);
@@ -183,5 +197,9 @@ OBJECT$(${object_name}) {
     METHOD$(void set_digit_pos_4(u8 const digit, u8 const colon)) {
         ${object_name}__dirty = 1;
         ${object_name}__byte4 = akat_x_tm1637_encode_digit(digit, colon);
+    }
+
+    METHOD$(void set_digit(akat_x_tm1637_pos_t pos, u8 const digit, u8 const colon)) {
+        ${object_name}.set(pos, akat_x_tm1637_encode_digit(digit, colon));
     }
 };
