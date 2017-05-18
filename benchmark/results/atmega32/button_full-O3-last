@@ -1,0 +1,6 @@
+offset cycles = [1, 11549, 159485]
+offset usecs  = [0, 1443, 19935]
+    at cycles = [43, 11594, 171081]
+    at usecs  = [5, 1449, 21385]
+   text	   data	    bss	    dec	    hex	filename
+    232	      0	      2	    234	     ea	build/button_full-O3.avr
