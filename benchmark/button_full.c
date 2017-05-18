@@ -4,9 +4,9 @@
 
 #include "benchmark.h"
 
-WRITE_CFLAGS$(build/full_button);
+WRITE_CFLAGS$(build/button_full);
 
-X_FULL_BUTTON$(button, D2) {
+X_BUTTON_FULL$(button, D2) {
     METHOD$(void on_press()) {
         BENCH;
     }

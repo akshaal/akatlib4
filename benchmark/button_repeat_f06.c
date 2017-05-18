@@ -4,9 +4,9 @@
 
 #include "benchmark.h"
 
-WRITE_CFLAGS$(build/repeat_button_f06);
+WRITE_CFLAGS$(build/button_repeat_f06);
 
-X_REPEAT_BUTTON$(button, D2) {
+X_BUTTON_REPEAT$(button, D2) {
     METHOD$(void on_press()) {
         BENCH;
     }

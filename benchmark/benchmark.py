@@ -139,7 +139,7 @@ pbs_pressed = False
 pbs_press_at_cycle = avr.usec_to_cycles(1000)
 
 button_release_us = 20000
-if name.startswith("repeat_button"):
+if name.startswith("button_repeat"):
     button_release_us = 2000000
 
 while True:
