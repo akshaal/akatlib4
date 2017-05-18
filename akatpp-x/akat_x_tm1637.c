@@ -179,6 +179,34 @@ OBJECT$(${object_name}) {
         }
     }
 
+    METHOD$(u8 get(akat_x_tm1637_pos_t pos)) {
+        if (pos == AKAT_X_TM1637_POS_1) {
+            return ${object_name}__byte1;
+        } else if (pos == AKAT_X_TM1637_POS_2) {
+            return ${object_name}__byte2;
+        } else if (pos == AKAT_X_TM1637_POS_3) {
+            return ${object_name}__byte3;
+        } else {
+            return ${object_name}__byte4;
+        }
+    }
+
+    METHOD$(u8 get_pos_1(), inline) {
+        return ${object_name}__byte1;
+    }
+
+    METHOD$(u8 get_pos_2(), inline) {
+        return ${object_name}__byte2;
+    }
+
+    METHOD$(u8 get_pos_3(), inline) {
+        return ${object_name}__byte3;
+    }
+
+    METHOD$(u8 get_pos_4(), inline) {
+        return ${object_name}__byte4;
+    }
+
     METHOD$(void set_digit_pos_1(u8 const digit, u8 const colon)) {
         ${object_name}__dirty = 1;
         ${object_name}__byte1 = akat_x_tm1637_encode_digit(digit, colon);
