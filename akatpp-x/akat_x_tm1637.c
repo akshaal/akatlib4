@@ -207,24 +207,40 @@ OBJECT$(${object_name}) {
         return ${object_name}__byte4;
     }
 
-    METHOD$(void set_digit_pos_1(u8 const digit, u8 const colon)) {
+    METHOD$(void set_pos_1(u8 const v)) {
         ${object_name}__dirty = 1;
-        ${object_name}__byte1 = akat_x_tm1637_encode_digit(digit, colon);
+        ${object_name}__byte1 = v;
+    }
+
+    METHOD$(void set_pos_2(u8 const v)) {
+        ${object_name}__dirty = 1;
+        ${object_name}__byte2 = v;
+    }
+
+    METHOD$(void set_pos_3(u8 const v)) {
+        ${object_name}__dirty = 1;
+        ${object_name}__byte3 = v;
+    }
+
+    METHOD$(void set_pos_4(u8 const v)) {
+        ${object_name}__dirty = 1;
+        ${object_name}__byte4 = v;
+    }
+
+    METHOD$(void set_digit_pos_1(u8 const digit, u8 const colon)) {
+        ${object_name}.set_pos_1(akat_x_tm1637_encode_digit(digit, colon));
     }
 
     METHOD$(void set_digit_pos_2(u8 const digit, u8 const colon)) {
-        ${object_name}__dirty = 1;
-        ${object_name}__byte2 = akat_x_tm1637_encode_digit(digit, colon);
+        ${object_name}.set_pos_2(akat_x_tm1637_encode_digit(digit, colon));
     }
 
     METHOD$(void set_digit_pos_3(u8 const digit, u8 const colon)) {
-        ${object_name}__dirty = 1;
-        ${object_name}__byte3 = akat_x_tm1637_encode_digit(digit, colon);
+        ${object_name}.set_pos_3(akat_x_tm1637_encode_digit(digit, colon));
     }
 
     METHOD$(void set_digit_pos_4(u8 const digit, u8 const colon)) {
-        ${object_name}__dirty = 1;
-        ${object_name}__byte4 = akat_x_tm1637_encode_digit(digit, colon);
+        ${object_name}.set_pos_4(akat_x_tm1637_encode_digit(digit, colon));
     }
 
     METHOD$(void set_digit(akat_x_tm1637_pos_t pos, u8 const digit, u8 const colon)) {
