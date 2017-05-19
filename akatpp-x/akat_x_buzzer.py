@@ -12,4 +12,4 @@ class Macro:
     def __main_prerender_hook(self):
         freq = akat_x_main.cpu_freq
 
-        return timer_init
+        return ""
