@@ -23,13 +23,13 @@ build/%.cflags build/%.c.tmp.c: %.c ${AKAT_SRCS}
 	${AKATPP} ${AKATPP_OPTS} ${AKAT_SRCS} "$<" > build/"$<.tmp.c"
 
 build/%-Os.avr: build/%.c.tmp.c build/%.cflags
-	XX=`cat build/"$*.cflags"` && ${CC} -Os ${CFLAGS} ${CFLAGS_$*} -I. $$XX "$<" -DAKAT_DEBUG_OFF -save-temps=obj -o $@
+	XX=`cat build/"$*.cflags"` && ${CC} -Os ${CFLAGS} ${CFLAGS_$*} -I. $$XX -DAKAT_DEBUG_OFF -save-temps=obj "$<" -o $@
 	${OBJDUMP} -d $@ > $@.s
 	${SIZE} $@
 	${READELF} -S $@ > $@.info
 
 build/%-O3.avr: build/%.c.tmp.c build/%.cflags
-	XX=`cat build/"$*.cflags"` && ${CC} -O3 ${CFLAGS} ${CFLAGS_$*} -I. $$XX "$<" -DAKAT_DEBUG_OFF -save-temps=obj -o $@
+	XX=`cat build/"$*.cflags"` && ${CC} -O3 ${CFLAGS} ${CFLAGS_$*} -I. $$XX -DAKAT_DEBUG_OFF -save-temps=obj "$<" -o $@
 	${OBJDUMP} -d $@ > $@.s
 	${SIZE} $@
 	${READELF} -S $@ > $@.info
