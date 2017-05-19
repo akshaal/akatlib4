@@ -9,7 +9,7 @@ distclean: clean
 PARTS  = main scope global autoglobal static_var function object object2 runnable thread thread_object sub subsub subp wait_until
 PARTS += gpio_output gpio_input button button4 button4passiv tm1637 delay every_decisecond timestamp clock_f1 clock_w_kbd_tm1637_f1 countdown_f1
 PARTS += tm1637_countdown_f06 button_full button_repeat_f06 button_long_f06 button_almost_long_f06 tm1637_flash_f06 define_macro
-PARTS  = define_macro
+PARTS  = buzzer
 
 OsO3: ${patsubst %, build/%-O3.avr, ${PARTS}} ${patsubst %, build/%-Os.avr, ${PARTS}}
 	mkdir -p results/${MCU}

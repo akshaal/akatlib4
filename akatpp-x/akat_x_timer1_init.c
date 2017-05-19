@@ -14,8 +14,8 @@ X_INIT$(timer1) {
     //   0    1    1     Freq / 64
     //   1    0    0     Freq / 256
     //   1    0    1     Freq / 1024
-    //   1    1    0     External clock on T0 pin. Falling edge.
-    //   1    1    1     External clock on T0 pin. Rising edge
+    //   1    1    0     External clock on T1 pin. Falling edge.
+    //   1    1    1     External clock on T1 pin. Rising edge
     // ===========================================
 
     % if int(ocr_a) > 0:
