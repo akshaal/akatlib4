@@ -14,7 +14,6 @@ class Macro:
 
         class NewMacro:
             def render(self, inv):
-                print(prep_args)
                 ctx = akat.prepare(inv, **prep_args)
 
                 render_ctx = {}
