@@ -1,0 +1,6 @@
+offset cycles = [1, 2, 2, 2]
+offset usecs  = [0, 0, 0, 0]
+    at cycles = [12, 16, 20, 24]
+    at usecs  = [1, 2, 2, 3]
+   text	   data	    bss	    dec	    hex	filename
+     82	      0	      0	     82	     52	build/define_macro-O3.avr
