@@ -10,7 +10,7 @@ class Macro:
         render_ctx = {}
         self.__ctx.add_into(render_ctx)
 
-        return akat.render(self, **render_ctx)
+        return akat.transform(akat.render(self, **render_ctx))
 
     def __main_prerender_hook(self):
         cpu_freq = akat_x_main.cpu_freq
