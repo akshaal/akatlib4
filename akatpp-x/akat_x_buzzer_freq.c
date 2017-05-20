@@ -11,5 +11,5 @@ static AKAT_UNUSED AKAT_PURE u8 ${oname}__get_prescaler(u16 const freq) {
         % endfor
     % endif
 
-    return 0;
+    // TODO: Call global ERROR handler
 }
