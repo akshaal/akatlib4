@@ -5,20 +5,20 @@ X_GPIO_OUTPUT$(${oname}__Pin, ${pin});
 OBJECT$(${oname}) {
     METHOD$(void __set_prescaler_and_ocr(u16 const prescaler, u8 const ocr)) {
         TCNT0 = 0; // Reset timer
-        TCCR0A = 1 << COM0A0; // It means TOGGLE on Compare Match
+        TCCR0A = 1 << COM0A0 | (1 << WGM01); // It means TOGGLE on Compare Match and CTC
         OCR0A = ocr; // Compare Match value
 
         // WGM02 means CTC mode
         if (prescaler == 1) {
-            TCCR0B = (0 << CS02) | (0 << CS01) | (1 << CS00) | (1 << WGM02); // Prescaler 1 and CTC
+            TCCR0B = (0 << CS02) | (0 << CS01) | (1 << CS00); // Prescaler 1
         } else if (prescaler == 8) {
-            TCCR0B = (0 << CS02) | (1 << CS01) | (0 << CS00) | (1 << WGM02); // Prescaler 8 and CTC
+            TCCR0B = (0 << CS02) | (1 << CS01) | (0 << CS00); // Prescaler 8
         } else if (prescaler == 64) {
-            TCCR0B = (0 << CS02) | (1 << CS01) | (1 << CS00) | (1 << WGM02); // Prescaler 64 and CTC
+            TCCR0B = (0 << CS02) | (1 << CS01) | (1 << CS00); // Prescaler 64
         } else if (prescaler == 256) {
-            TCCR0B = (1 << CS02) | (0 << CS01) | (0 << CS00) | (1 << WGM02); // Prescaler 256 and CTC
+            TCCR0B = (1 << CS02) | (0 << CS01) | (0 << CS00); // Prescaler 256
         } else if (prescaler == 1024) {
-            TCCR0B = (1 << CS02) | (0 << CS01) | (1 << CS00) | (1 << WGM02); // Prescaler 1024 and CTC
+            TCCR0B = (1 << CS02) | (0 << CS01) | (1 << CS00); // Prescaler 1024
         } else {
             X_FATAL_ERROR$("Buzzer '${oname}': Unknown prescaler value in buzzer");
         }

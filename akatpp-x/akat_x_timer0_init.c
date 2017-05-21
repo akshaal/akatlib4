@@ -31,5 +31,6 @@ X_INIT$(timer0) {
     % endif
 
     // Configuring Timer0 for prescaler ${prescaler}
-    TCCR0B |= (${cs02} << CS02) | (${cs01} << CS01) | (${cs00} << CS00) | (${wgm02} << WGM02);
+    TCCR0B |= (${cs02} << CS02) | (${cs01} << CS01) | (${cs00} << CS00);
+    TCCR0A |= (${wgm01} << WGM01);
 }

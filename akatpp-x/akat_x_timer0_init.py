@@ -37,16 +37,16 @@ class Macro:
             )
 
         if ctx.ctc:
-            wgm02 = 1
+            wgm01 = 1
         else:
-            wgm02 = 0
+            wgm01 = 0
 
         render_context = {
             "cs00": cs00,
             "cs01": cs01,
             "cs02": cs02,
             "prescaler": prescaler,
-            "wgm02": wgm02,
+            "wgm01": wgm01,
             "ocr_a": ctx.compare_a,
             "ocr_b": ctx.compare_b,
             "ocie0a": (ctx.interrupt_a and 1 or 0),
