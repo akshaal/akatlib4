@@ -24,6 +24,10 @@ OBJECT$(${oname}) {
         }
     }
 
+    METHOD$(void off()) {
+        TCCR0B = 0;
+    }
+
     METHOD$(void set_freq(u16 const freq)) {
         u8 const prescaler = ${oname}__get_prescaler(freq);
         ${oname}.__set_prescaler_and_ocr(prescaler, akat_cpu_freq_hz() / 2 / prescaler / freq - 1);
