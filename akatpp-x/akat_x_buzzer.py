@@ -16,6 +16,8 @@ class Macro:
             pin = "B3"
         elif mcu == "atmega32":
             pin = "B3"
+        elif mcu == "atmega48":
+            pin = "D6"
         else:
             akat.fatal_error("Please fix ", STRESS("akat_x_buzzer"), " to add support for this platform: ", STRESS(mcu))
 

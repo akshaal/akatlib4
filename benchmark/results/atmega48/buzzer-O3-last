@@ -1,0 +1,6 @@
+offset cycles = []
+offset usecs  = []
+    at cycles = []
+    at usecs  = []
+   text	   data	    bss	    dec	    hex	filename
+    116	      0	      0	    116	     74	build/buzzer-O3.avr
