@@ -34,4 +34,4 @@ class Macro:
         render_ctx = {}
         self.__ctx.add_into(render_ctx)
 
-        return akat.render("akat_x_buzzer_freq.c", splits = splits, **render_ctx)
+        return akat.transform(akat.render("akat_x_buzzer_freq.c", splits = splits, **render_ctx))

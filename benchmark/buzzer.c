@@ -6,6 +6,9 @@
 
 WRITE_CFLAGS$(build/buzzer);
 
+X_FATAL_ERROR_HANDLER$() {
+}
+
 X_BUZZER$(b, min_freq = 1000, max_freq = 15000);
 
 // Main

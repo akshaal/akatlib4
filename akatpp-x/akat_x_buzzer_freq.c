@@ -11,5 +11,5 @@ static AKAT_UNUSED AKAT_PURE u8 ${oname}__get_prescaler(u16 const freq) {
         % endfor
     % endif
 
-    // TODO: Call global ERROR handler
+    X_FATAL_ERROR$("Buzzer '${oname}': Unexpected frequency that is not between ${min_freq} and ${max_freq}");
 }

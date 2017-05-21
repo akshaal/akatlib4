@@ -60,8 +60,10 @@ class Macro:
         return "";
 
     def postvalidate():
-        akat.print_sep()
-        akat.print_info("Defined static vars:")
+        if len(defined_static_vars) > 0 or len(configured_as_reg) > 0:
+            akat.print_sep()
+            akat.print_info("Defined static vars:")
+
         for v in defined_static_vars:
             extra = ""
             if v in used_reg:

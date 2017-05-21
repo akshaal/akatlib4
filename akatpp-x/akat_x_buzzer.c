@@ -11,7 +11,7 @@ OBJECT$(${oname}) {
                             elif prescaler == "T1_falling ":   cs02, cs01, cs00 = 1, 1, 0
                             elif prescaler == "T1_rising":     cs02, cs01, cs00 = 1, 1, 1
             else:
-                // TODO call global error handler
+                X_FATAL_ERROR$("Buzzer '${oname}': Unknown prescaler value in buzzer");
     }
 
     METHOD$(void set_freq(u16 const freq)) {
