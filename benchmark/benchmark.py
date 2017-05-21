@@ -120,17 +120,17 @@ tm1637 = TM1637()
 
 def b2_handler(value, arg):
     if "buzzer" in name:
-        on_signal(value, arg)
+        on_signal(1, None); on_signal(0, None)
 
 def b3_handler(value, arg):
     if "buzzer" in name:
-        on_signal(value, arg)
+        on_signal(1, None); on_signal(0, None)
     else:
         tm1637.on_clk(value, arg)
 
 def b4_handler(value, arg):
     if "buzzer" in name:
-        on_signal(value, arg)
+        on_signal(1, None); on_signal(0, None)
     else:
         tm1637.on_dio(value, arg)
 

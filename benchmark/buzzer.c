@@ -27,7 +27,7 @@ X_MAIN$(cpu_freq = 8000000) {
 
     sei();
 
-    for (u8 i = 0; i < 255; i++) {
+    for (u8 i = 0; i < 100; i++) {
         akat_delay_us(30);
     }
 
