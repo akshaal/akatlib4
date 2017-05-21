@@ -1,50 +1,38 @@
 OBJECT$(${oname}) {
-    METHOD$(void __update_hh(akat_x_timestamp_level_t level)) {
-        if (level == AKAT_X_TIMESTAMP_LEVEL_HOUR_H) {
-            tm1637.set_digit_pos_1(${tname}.get_hours_h(), 0);
-        }
-
-        if (level == AKAT_X_TIMESTAMP_LEVEL_HOUR_L) {
-            tm1637.set_digit_pos_2(${tname}.get_hours_l(), 0);
-        }
+    METHOD$(void __update_hh(u8 const colon)) {
+        tm1637.set_digit_pos_1(${tname}.get_hours_h(), 0);
+        tm1637.set_digit_pos_2(${tname}.get_hours_l(), colon);
     }
 
-    METHOD$(void __update_mm(akat_x_timestamp_level_t level, akat_x_tm1637_pos_t pos)) {
-        if (level == AKAT_X_TIMESTAMP_LEVEL_MINUTE_H) {
-            tm1637.set_digit(pos, ${tname}.get_minutes_h(), 0);
-        }
-
-        if (level == AKAT_X_TIMESTAMP_LEVEL_MINUTE_L) {
-            tm1637.set_digit(pos + 1, ${tname}.get_minutes_l(), 0);
-        }
+    METHOD$(void __update_mm(akat_x_tm1637_pos_t const pos, u8 const colon)) {
+        tm1637.set_digit(pos, ${tname}.get_minutes_h(), 0);
+        tm1637.set_digit(pos + 1, ${tname}.get_minutes_l(), colon);
     }
 
-    METHOD$(void __update_ss(akat_x_timestamp_level_t level, akat_x_tm1637_pos_t pos)) {
-        if (level == AKAT_X_TIMESTAMP_LEVEL_SECOND_H) {
-            tm1637.set_digit(pos, ${tname}.get_seconds_h(), 0);
-        }
-
-        if (level == AKAT_X_TIMESTAMP_LEVEL_SECOND_L) {
-            tm1637.set_digit(pos + 1, ${tname}.get_seconds_l(), 0);
-        }
+    METHOD$(void __update_ss(akat_x_tm1637_pos_t const pos, u8 const colon)) {
+        tm1637.set_digit(pos, ${tname}.get_seconds_h(), 0);
+        tm1637.set_digit(pos + 1, ${tname}.get_seconds_l(), colon);
     }
 
-    METHOD$(void update(akat_x_timestamp_level_t level)) {
+    METHOD$(void update(akat_x_timestamp_level_t const level)) {
         if (${condition}) {
             if (${tname}.get_hours_h() != 0 || ${tname}.get_hours_l() != 0) {
                 // Here we know that HH != 0, so we only update HH:MM
-                ${oname}.__update_hh(level);
-                ${oname}.__update_mm(level, AKAT_X_TM1637_POS_3);
+                if (level != AKAT_X_TIMESTAMP_LEVEL_DECISECOND) {
+                    ${oname}.__update_hh(1);
+                    ${oname}.__update_mm(AKAT_X_TM1637_POS_3, 0);
+                }
             } else if (${tname}.get_minutes_h() != 0 || ${tname}.get_minutes_l() != 0) {
                 // Here we know that HH == 0, but MM != 0, so we only update MM:SS
-                ${oname}.__update_mm(level, AKAT_X_TM1637_POS_1);
-                ${oname}.__update_ss(level, AKAT_X_TM1637_POS_3);
+                if (level != AKAT_X_TIMESTAMP_LEVEL_DECISECOND) {
+                    ${oname}.__update_mm(AKAT_X_TM1637_POS_1, 1);
+                    ${oname}.__update_ss(AKAT_X_TM1637_POS_3, 0);
+                }
             } else {
                 // Here we know that HH == 0, but MM == 0, so we only update SS  d
-                ${oname}.__update_ss(level, AKAT_X_TM1637_POS_1);
+                ${oname}.__update_ss(AKAT_X_TM1637_POS_1, 1);
 
                 if (level == AKAT_X_TIMESTAMP_LEVEL_DECISECOND) {
-                    tm1637.set_digit_pos_3(${tname}.get_deciseconds(), 0);
                     tm1637.set_digit_pos_4(${tname}.get_deciseconds(), 0);
                 }
             }
