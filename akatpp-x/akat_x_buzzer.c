@@ -1,4 +1,4 @@
-static AKAT_UNUSED AKAT_PURE u16 ${oname}__get_prescaler(u16 const freq);
+static AKAT_CONST u16 ${oname}__get_prescaler(u16 const freq);
 
 X_GPIO_OUTPUT$(${oname}__Pin, ${pin});
 
@@ -34,7 +34,7 @@ OBJECT$(${oname}) {
     }
 
     METHOD$(void set_freq(u16 const freq)) {
-        u8 const prescaler = ${oname}__get_prescaler(freq);
+        u16 const prescaler = ${oname}__get_prescaler(freq);
         ${oname}.__set_prescaler_and_ocr(prescaler, akat_cpu_freq_hz() / 2 / prescaler / freq - 1);
     }
 

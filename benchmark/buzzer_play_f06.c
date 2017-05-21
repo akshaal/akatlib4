@@ -19,7 +19,7 @@ X_FATAL_ERROR_HANDLER$() {
 
 X_BUZZER$(b, min_freq = 1000, max_freq = 15000);
 
-static PROGMEM akat_x_buzzer_sound_t const melody[] = {{.deciseconds = 0, .prescaler = 0, .ocr = 0}};
+X_BUZZER_SOUNDS$(b, melody, sounds = (3@1000, 2@1500))
 
 // Main
 X_MAIN$(cpu_freq = 600000) {
