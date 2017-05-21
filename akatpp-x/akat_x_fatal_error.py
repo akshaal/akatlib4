@@ -1,6 +1,7 @@
 next_code = 0
 handler_is_defined = False
 codes = []
+first = True
 
 class Macro:
     def render(self, inv):
@@ -11,7 +12,13 @@ class Macro:
 
         codes.append(STRESS(next_code) + " - " + ctx.name)
 
-        return akat.transform(akat.render(self, code = next_code))
+        global first
+
+        rc = akat.transform(akat.render(self, code = next_code, first = first))
+
+        first = False
+
+        return rc
 
     def postvalidate():
         if not handler_is_defined and next_code != 0:
