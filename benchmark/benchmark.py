@@ -117,37 +117,56 @@ class TM1637:
 
 tm1637 = TM1637()
 
+
+def b2_handler(value, arg):
+    if "buzzer" in name:
+        on_signal(value, arg)
+
+def b3_handler(value, arg):
+    if "buzzer" in name:
+        on_signal(value, arg)
+    else:
+        tm1637.on_clk(value, arg)
+
+def b4_handler(value, arg):
+    if "buzzer" in name:
+        on_signal(value, arg)
+    else:
+        tm1637.on_dio(value, arg)
+
 avr.get_ioport_irq('B', 0).register_notify (on_signal)
 avr.get_ioport_irq('B', 1).register_notify (on_exit)
 
-avr.get_ioport_irq('B', 3).register_notify (tm1637.on_clk)
-avr.get_ioport_irq('B', 4).register_notify (tm1637.on_dio)
+avr.get_ioport_irq('B', 2).register_notify (b2_handler)
 
-pb1 = PinButton(avr)
-pb1.connect_ioport("D", 0)
+avr.get_ioport_irq('B', 3).register_notify (b3_handler)
+avr.get_ioport_irq('B', 4).register_notify (b4_handler)
 
-pb2 = PinButton(avr)
-pb2.connect_ioport("D", 1)
+button1 = PinButton(avr)
+button1.connect_ioport("D", 0)
 
-pb3 = PinButton(avr)
-pb3.connect_ioport("D", 2)
+button2 = PinButton(avr)
+button2.connect_ioport("D", 1)
 
-pb4 = PinButton(avr)
-pb4.connect_ioport("D", 3)
+button3 = PinButton(avr)
+button3.connect_ioport("D", 2)
 
-pbs_pressed = False
-pbs_press_at_cycle = avr.usec_to_cycles(1000)
+button4 = PinButton(avr)
+button4.connect_ioport("D", 3)
+
+buttons_pressed = False
+buttons_press_at_cycle = avr.usec_to_cycles(1000)
 
 button_release_us = 20000
 if name.startswith("button_repeat") or name.startswith("button_long"):
     button_release_us = 2000000
 
 while True:
-    if not pbs_pressed and avr.cycle > pbs_press_at_cycle:
-        pbs_pressed = True
-        pb1.set_on(timeout_us = button_release_us)
-        pb2.set_on(timeout_us = button_release_us)
-        pb3.set_on(timeout_us = button_release_us)
-        pb4.set_on(timeout_us = button_release_us)
+    if not buttons_pressed and avr.cycle > buttons_press_at_cycle:
+        buttons_pressed = True
+        button1.set_on(timeout_us = button_release_us)
+        button2.set_on(timeout_us = button_release_us)
+        button3.set_on(timeout_us = button_release_us)
+        button4.set_on(timeout_us = button_release_us)
 
     avr.run_cycles(32)

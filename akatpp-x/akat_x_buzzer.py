@@ -7,7 +7,19 @@ class Macro:
 
         akat_x_main.add_prerender_hook(self.__main_prerender_hook)
 
-        render_ctx = {}
+        mcu = akat.get_param("MCU")
+        if mcu == "attiny2313":
+            pin = "B2"
+        elif mcu == "attiny85":
+            pin = "B0"
+        elif mcu == "atmega16":
+            pin = "B3"
+        elif mcu == "atmega32":
+            pin = "B3"
+        else:
+            akat.fatal_error("Please fix ", STRESS("akat_x_buzzer"), " to add support for this platform: ", STRESS(mcu))
+
+        render_ctx = {"pin": pin}
         self.__ctx.add_into(render_ctx)
 
         return akat.transform(akat.render(self, **render_ctx))

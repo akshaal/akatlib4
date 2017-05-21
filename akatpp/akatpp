@@ -155,11 +155,21 @@ __builtins__.Struct = Struct
 
 class Akat:
     def __init__(self):
+        self.__params = {}
         self.__macros = {}
         self.__macro_instance_stack = []
         self.__context_describer_stack = []
         self.__namespaces = []
         self.__current_directory = "/tmp"
+
+    def set_param(self, k, v):
+        self.__params[k] = v
+
+    def get_param(self, k):
+        if k not in self.__params:
+            akat.fatal_error("No parameter with name ", STRESS(k), ". Use ", STRESS("-param " + k + "="), " for ", STRESS("akatpp"), " to specify it!")
+
+        return self.__params[k]
 
     def set_current_directory(self, d):
         if d == "": d = "."
@@ -386,6 +396,12 @@ def prepare_directory(d):
             akat.add_macro(m.name, m)
 
 def doit(cmd_args):
+    for param in cmd_args.params:
+        k, v = param.split("=", 1)
+        akat.set_param(k, v)
+
+    # Setup params
+
     all_dirs = [os.path.dirname(__file__)] + cmd_args.dirs
 
     global tlookup
@@ -413,6 +429,7 @@ if __name__ == '__main__':
 
     parser.add_argument('files', metavar = 'FILES', type = str, nargs = '+', help = 'files to preprocess')
     parser.add_argument('-dir', dest = 'dirs', action = 'append', type = str, default = [], help = 'extra directory')
+    parser.add_argument('-param', dest = 'params', action = 'append', type = str, default = [], help = 'extra params in form of KEY=VALUE, like MCU=attiny2313')
 
     cmd_args = parser.parse_args()
 

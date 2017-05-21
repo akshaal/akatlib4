@@ -3,4 +3,4 @@ offset usecs  = []
     at cycles = []
     at usecs  = []
    text	   data	    bss	    dec	    hex	filename
-     98	      0	      0	     98	     62	build/buzzer-O3.avr
+     94	      0	      0	     94	     5e	build/buzzer-O3.avr

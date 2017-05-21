@@ -6,7 +6,7 @@ OBJCOPY = ${HOST}-objcopy
 SIZE = ${HOST}-size
 READELF = readelf
 AKATPP = ${AKAT_DIR}/akatpp/akatpp
-AKATPP_OPTS = -dir ${AKAT_DIR}/akatpp-x
+AKATPP_OPTS = -param MCU=${MCU} -dir ${AKAT_DIR}/akatpp-x
 
 CFLAGS=\
 		-fverbose-asm \
