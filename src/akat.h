@@ -43,7 +43,7 @@
 
 static AKAT_FORCE_INLINE AKAT_CONST AKAT_PURE uint32_t akat_cpu_freq_hz();
 
-static void AKAT_NO_RETURN akat_x__fatal_error__(u8 const code);
+static AKAT_NO_RETURN AKAT_UNUSED void akat_x__fatal_error__(u8 const code);
 
 // ============================================================================================================================
 // Compatibility
