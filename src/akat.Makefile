@@ -52,5 +52,6 @@ AKAT_SRCS=${AKAT_DIR}/src/akat.h \
 		  ${AKAT_DIR}/src/akat_x_button.h \
 		  ${AKAT_DIR}/src/akat_x_tm1637.h \
 		  ${AKAT_DIR}/src/akat_x_timestamp.h \
+		  ${AKAT_DIR}/src/akat_x_buzzer.h \
 		  ${AKAT_DIR}/src/akat_x_button.c \
 		  ${AKAT_DIR}/src/akat_x_tm1637.c \

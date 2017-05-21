@@ -2,6 +2,11 @@ static AKAT_UNUSED AKAT_PURE u16 ${oname}__get_prescaler(u16 const freq);
 
 X_GPIO_OUTPUT$(${oname}__Pin, ${pin});
 
+static akat_x_buzzer_sound_t const * ${oname}__sound_p;
+static u8 ${oname}__play_deciseconds;
+
+#include <avr/pgmspace.h>
+
 OBJECT$(${oname}) {
     METHOD$(void __set_prescaler_and_ocr(u16 const prescaler, u8 const ocr)) {
         TCNT0 = 0; // Reset timer
@@ -31,5 +36,31 @@ OBJECT$(${oname}) {
     METHOD$(void set_freq(u16 const freq)) {
         u8 const prescaler = ${oname}__get_prescaler(freq);
         ${oname}.__set_prescaler_and_ocr(prescaler, akat_cpu_freq_hz() / 2 / prescaler / freq - 1);
+    }
+
+    METHOD$(void __play_current_sound()) {
+        ${oname}__play_deciseconds = pgm_read_byte(&(${oname}__sound_p->deciseconds));
+        if (${oname}__play_deciseconds == 0) {
+            ${oname}.off();
+        } else {
+            u8 prescaler = pgm_read_byte(&(${oname}__sound_p->prescaler));
+            u8 ocr = pgm_read_byte(&(${oname}__sound_p->ocr));
+            ${oname}.__set_prescaler_and_ocr(prescaler, ocr);
+        }
+    }
+
+    METHOD$(void play(akat_x_buzzer_sound_t const * const melody)) {
+        ${oname}__sound_p = melody;
+        ${oname}.__play_current_sound();
+    }
+}
+
+X_EVERY_DECISECOND$(${oname}__every_deci) {
+    if (${oname}__play_deciseconds) {
+        ${oname}__play_deciseconds--;
+
+        if (${oname}__play_deciseconds == 0) {
+            ${oname}.play(${oname}__sound_p + 1);
+        }
     }
 }
