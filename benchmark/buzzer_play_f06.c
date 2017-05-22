@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/buzzer_play_f06);
+X_CPU$(cpu_freq = 600000);
 
 X_FATAL_ERROR_HANDLER$() {
     BENCH;
@@ -22,7 +23,7 @@ X_BUZZER$(b, min_freq = 1000, max_freq = 15000);
 X_BUZZER_SOUNDS$(b, melody, sounds = (3@1000, 2@1500))
 
 // Main
-X_MAIN$(cpu_freq = 600000) {
+X_MAIN$() {
     BENCH_INIT;
     sei();
     b.play(melody);

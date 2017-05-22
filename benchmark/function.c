@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/function);
+X_CPU$(cpu_freq = 8000000);
 
 FUNCTION$(void hello(u8 x)) {
     STATIC_VAR$(u8 y);
@@ -25,7 +26,7 @@ FUNCTION$(void hello2()) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     hello(3);
     hello2();

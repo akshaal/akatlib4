@@ -6,6 +6,8 @@
 
 WRITE_CFLAGS$(build/autoglobal);
 
+X_CPU$(cpu_freq = 8000000);
+
 AUTOGLOBAL$() {
     AUTOGLOBAL$() {
         static void hello() {
@@ -21,7 +23,7 @@ AUTOGLOBAL$() {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     hello();
     hello2();

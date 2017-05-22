@@ -5,9 +5,10 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/delay);
+X_CPU$(cpu_freq = 8000000);
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     BENCH;
     akat_delay_us(1);

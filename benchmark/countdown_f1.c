@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/countdown_f1);
+X_CPU$(cpu_freq = 1000000);
 
 USE_REG$(akat_countdown_started__c1);
 USE_REG$(akat_timestamp_decisecond__t);
@@ -28,7 +29,7 @@ X_TIMESTAMP_CALLBACKS$(t) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 1000000) {
+X_MAIN$() {
     BENCH_INIT;
     t.reset();
     t.set_seconds(0, 5);

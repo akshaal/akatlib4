@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/tm1637_countdown_f06);
+X_CPU$(cpu_freq = 600000);
 
 X_TM1637$(tm1637, clk = B3, dio = B4);
 
@@ -28,7 +29,7 @@ X_TIMESTAMP_CALLBACKS$(t) {
 
 
 // Main
-X_MAIN$(cpu_freq = 600000) {
+X_MAIN$() {
     BENCH_INIT;
     t.reset();
     t.set_seconds(1, 1);

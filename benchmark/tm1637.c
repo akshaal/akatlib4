@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/tm1637);
+X_CPU$(cpu_freq = 8000000);
 
 X_TM1637$(tm1637, clk = B3, dio = B4);
 
@@ -33,6 +34,6 @@ THREAD$(thread) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
 }

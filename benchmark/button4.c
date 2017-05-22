@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/button4);
+X_CPU$(cpu_freq = 8000000);
 
 USE_REG$(check__sum)
 
@@ -25,7 +26,7 @@ X_BUTTON$(button3, D2) { check(4); }
 X_BUTTON$(button4, D3) { check(8); }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     BENCH;
 }

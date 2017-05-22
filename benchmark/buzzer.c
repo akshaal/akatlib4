@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/buzzer);
+X_CPU$(cpu_freq = 8000000);
 
 X_FATAL_ERROR_HANDLER$() {
     BENCH;
@@ -20,7 +21,7 @@ X_FATAL_ERROR_HANDLER$() {
 X_BUZZER$(b, min_freq = 1000, max_freq = 15000);
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
 
     b.set_freq(16000);

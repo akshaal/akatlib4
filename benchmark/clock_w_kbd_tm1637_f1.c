@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/clock_w_kbd_tm1637_f1);
+X_CPU$(cpu_freq = 1000000);
 
 USE_REG$(tm1637__dirty);
 
@@ -55,7 +56,7 @@ X_TIMESTAMP_CALLBACKS$(t) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 1000000) {
+X_MAIN$() {
     BENCH_INIT;
     c1.start();
     sei();

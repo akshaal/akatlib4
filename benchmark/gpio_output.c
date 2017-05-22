@@ -5,11 +5,12 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/gpio_output);
+X_CPU$(cpu_freq = 8000000);
 
 X_GPIO_OUTPUT$(error_led, B0);
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     BENCH;
 

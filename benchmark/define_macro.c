@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/define_macro);
+X_CPU$(cpu_freq = 8000000);
 
 DEFINE_MACRO$(XXX, required_args = ["count"]) {
     % for i in range(int(count)):
@@ -13,7 +14,7 @@ DEFINE_MACRO$(XXX, required_args = ["count"]) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     XXX$(4);
     BENCH_EXIT;

@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/subp);
+X_CPU$(cpu_freq = 8000000);
 
 THREAD$(thread1) {
     SUB$(sub2) {
@@ -29,6 +30,6 @@ THREAD$(thread1) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
 }

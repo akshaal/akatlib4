@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/runnable);
+X_CPU$(cpu_freq = 8000000);
 
 USE_REG$(r2__i);
 
@@ -20,6 +21,6 @@ RUNNABLE$(r2) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
 }

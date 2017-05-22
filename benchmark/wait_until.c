@@ -5,6 +5,8 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/wait_until);
+X_CPU$(cpu_freq = 8000000);
+
 USE_REG$(i);
 USE_REG$(thread1__akat_coroutine_state);
 USE_REG$(thread2__akat_coroutine_state);
@@ -30,6 +32,6 @@ THREAD$(thread2) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
 }

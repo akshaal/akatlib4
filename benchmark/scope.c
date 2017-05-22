@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/scope);
+X_CPU$(cpu_freq = 8000000);
 
 static void hello() {
     int x = 3;
@@ -35,7 +36,7 @@ static void hello() {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     hello();
 }

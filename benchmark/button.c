@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/button);
+X_CPU$(cpu_freq = 8000000);
 
 X_BUTTON$(button, D2) {
     BENCH;
@@ -12,7 +13,7 @@ X_BUTTON$(button, D2) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     BENCH;
 }

@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/thread_object);
+X_CPU$(cpu_freq = 8000000);
 
 THREAD$(t) {
     OBJECT$(obj1) {
@@ -50,6 +51,6 @@ THREAD$(t) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
 }

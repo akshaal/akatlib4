@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/static_var);
+X_CPU$(cpu_freq = 8000000);
 
 GLOBAL$() {
     STATIC_VAR$(u8 zzzzz);
@@ -30,7 +31,7 @@ GLOBAL$() {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
 
     zzzzz = 100;

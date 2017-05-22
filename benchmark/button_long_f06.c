@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/button_long_f06);
+X_CPU$(cpu_freq = 600000);
 
 X_BUTTON_LONG$(button, D2) {
     METHOD$(void on_long_press()) {
@@ -22,7 +23,7 @@ X_BUTTON_LONG$(button, D2) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 600000) {
+X_MAIN$() {
     BENCH_INIT;
     BENCH;
     sei();

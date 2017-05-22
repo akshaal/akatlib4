@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/button4passiv);
+X_CPU$(cpu_freq = 8000000);
 
 GLOBAL$() {
     STATIC_VAR$(u32 sum);
@@ -24,7 +25,7 @@ RUNNABLE$(checker) {
 }
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
     BENCH;
 }

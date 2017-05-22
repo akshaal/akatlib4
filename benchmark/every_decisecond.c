@@ -5,6 +5,7 @@
 #include "benchmark.h"
 
 WRITE_CFLAGS$(build/every_decisecond);
+X_CPU$(cpu_freq = 8000000);
 
 USE_REG$(counter__i);
 
@@ -23,7 +24,7 @@ X_EVERY_DECISECOND$(bench) {
 
 
 // Main
-X_MAIN$(cpu_freq = 8000000) {
+X_MAIN$() {
     BENCH_INIT;
 
     sei();
