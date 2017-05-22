@@ -12,5 +12,5 @@ X_INIT$(timer1) {
     % endif
 
     // Configuring Timer1 for prescaler ${prescaler}
-    TCCR1B |= ${cs_expr} << WGM12;
+    TCCR1B |= ${cs_expr} | (1 << WGM12);
 }

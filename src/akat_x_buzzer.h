@@ -8,3 +8,5 @@ typedef struct {
     uint8_t const ocr;
     uint8_t const deciseconds;
 } akat_x_buzzer_sound_t;
+
+typedef void (*akat_x_buzzer_finish_cbk_t)(u8 interrupted);

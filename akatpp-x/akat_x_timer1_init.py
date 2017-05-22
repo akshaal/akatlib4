@@ -1,4 +1,4 @@
-import akax_x_cpu
+import akat_x_cpu
 
 ctx = None
 
@@ -16,7 +16,7 @@ class Macro:
 
         prescaler = ctx.prescaler
 
-        cs_expr = akax_x_cpu.get_cs_expr_for_prescaler(prescaler, cs = "CS1")
+        cs_expr = akat_x_cpu.get_cs_expr_for_prescaler(prescaler, cs = "CS1")
 
         if ctx.ctc:
             wgm12 = 1

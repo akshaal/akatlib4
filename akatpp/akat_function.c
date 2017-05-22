@@ -1,6 +1,6 @@
 AUTOGLOBAL$() {
     IN_GLOBAL$() {
-        ${extra_attrs} static ${decl} {
+        ${extra_attrs} ${decl} {
             SCOPE$(${function_name}) {
                 ${body}
             }

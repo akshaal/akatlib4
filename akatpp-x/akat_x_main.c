@@ -1,4 +1,4 @@
-AKAT_NO_RETURN void main() {
+FUNCTION$(AKAT_NO_RETURN void main(), not_static) {
     % for init in inits:
         ${init}();
     % endfor

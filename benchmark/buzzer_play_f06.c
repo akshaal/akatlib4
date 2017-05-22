@@ -18,13 +18,24 @@ X_FATAL_ERROR_HANDLER$() {
     while(1) {};
 }
 
-X_BUZZER$(b, min_freq = 1000, max_freq = 15000);
+X_BUZZER$(b);
 
-X_BUZZER_SOUNDS$(b, melody, sounds = (3@1000, 2@1500))
+X_BUZZER_SOUNDS$(
+    melody,
+    sounds = (
+        1 @ 433,
+        2 @ 1000,
+        1 @ 1500))
 
 // Main
 X_MAIN$() {
+    FUNCTION$(void on_finish(u8 AKAT_UNUSED interrupted)) {
+        BENCH;
+        BENCH_EXIT;
+    }
+
     BENCH_INIT;
+    BENCH;
     sei();
-    b.play(melody);
+    b.play(melody, on_finish);
 }

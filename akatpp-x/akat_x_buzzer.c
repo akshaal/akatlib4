@@ -2,6 +2,7 @@ X_GPIO_OUTPUT$(${oname}__Pin, ${pin});
 
 static akat_x_buzzer_sound_t const * ${oname}__sound_p;
 static u8 ${oname}__play_deciseconds;
+static akat_x_buzzer_finish_cbk_t ${oname}__play_finish_cbk;
 
 #include <avr/pgmspace.h>
 
@@ -13,14 +14,27 @@ OBJECT$(${oname}) {
         TCCR0B = cs; // Clock Select
     }
 
-    METHOD$(void off()) {
+    METHOD$(void interrupt()) {
         TCCR0B = 0;
+
+        if (${oname}__play_deciseconds == 0) {
+            return; // Already interrupted
+        }
+
+        ${oname}.__call_finish_cbk(1);
+    }
+
+    METHOD$(void __call_finish_cbk(u8 const interrupted)) {
+        if (${oname}__play_finish_cbk) {
+            ${oname}__play_finish_cbk(interrupted);
+        }
     }
 
     METHOD$(void __play_current_sound()) {
         ${oname}__play_deciseconds = pgm_read_byte(&(${oname}__sound_p->deciseconds));
         if (${oname}__play_deciseconds == 0) {
-            ${oname}.off();
+            TCCR0B = 0;
+            ${oname}.__call_finish_cbk(0);
         } else {
             u8 cs = pgm_read_byte(&(${oname}__sound_p->cs));
             u8 ocr = pgm_read_byte(&(${oname}__sound_p->ocr));
@@ -28,9 +42,14 @@ OBJECT$(${oname}) {
         }
     }
 
-    METHOD$(void play(akat_x_buzzer_sound_t const * const melody)) {
+    METHOD$(void __play(akat_x_buzzer_sound_t const * const melody)) {
         ${oname}__sound_p = melody;
         ${oname}.__play_current_sound();
+    }
+
+    METHOD$(void play(akat_x_buzzer_sound_t const * const melody, akat_x_buzzer_finish_cbk_t const finish_cbk)) {
+        ${oname}__play_finish_cbk = finish_cbk;
+        ${oname}.__play(melody);
     }
 }
 
@@ -39,7 +58,7 @@ X_EVERY_DECISECOND$(${oname}__every_deci) {
         ${oname}__play_deciseconds--;
 
         if (${oname}__play_deciseconds == 0) {
-            ${oname}.play(${oname}__sound_p + 1);
+            ${oname}.__play(${oname}__sound_p + 1);
         }
     }
 }
