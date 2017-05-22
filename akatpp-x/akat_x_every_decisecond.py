@@ -19,7 +19,7 @@ class Macro:
         lines = "".join(["    " + func + "();\n" for func in funcs])
         every_dec_f = "\nstatic AKAT_FORCE_INLINE void akat_on_every_decisecond() {\n" + lines + "\n}\n"
 
-        prescaler, compare_val = akat_x_cpu.get_prescaler_and_ocr_for_freq(freq = 10, max_ocr = 65535, error = "Setup for Timer1 for decisecond run")
+        prescaler, compare_val = akat_x_cpu.get_prescaler_and_ocr_for_freq(freq = 10, max_ocr = 65535, info = "Setup for Timer1 for decisecond run")
 
         timer1_init = akat.transform("\nX_TIMER1_INIT$(prescaler = " + str(prescaler) + ", compare_a = " + str(compare_val) + ", ctc, interrupt_a);\n")
 
