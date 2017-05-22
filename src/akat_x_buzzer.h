@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////
 
 typedef struct {
-    uint8_t const prescaler;
+    uint8_t const cs;
     uint8_t const ocr;
     uint8_t const deciseconds;
 } akat_x_buzzer_sound_t;
