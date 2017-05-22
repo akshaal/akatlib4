@@ -83,22 +83,22 @@ static AKAT_FORCE_INLINE void akat_delay_us(uint32_t us) {
     } else if (cycles / 3 < 256) {
         uint8_t __count = cycles / 3;
 
-    __asm__ volatile (
-        "1: dec %0" "\n\t"
-        "brne 1b"
-        : "=r" (__count)
-        : "0" (__count)
-    );
+        __asm__ volatile (
+            "1: dec %0" "\n\t"
+            "brne 1b"
+            : "=r" (__count)
+            : "0" (__count)
+            );
     } else if (cycles / 4 > 65535) {
         akat_delay_us_error_bdelay__ ();
     } else {
         uint16_t __count = cycles / 4;
 
-    __asm__ volatile (
-        "1: sbiw %0,1" "\n\t"
-        "brne 1b"
-        : "=w" (__count)
-        : "0" (__count)
-    );
+        __asm__ volatile (
+            "1: sbiw %0,1" "\n\t"
+            "brne 1b"
+            : "=w" (__count)
+            : "0" (__count)
+            );
     }
 }
