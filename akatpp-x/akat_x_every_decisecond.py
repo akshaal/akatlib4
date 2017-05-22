@@ -1,4 +1,5 @@
 import akat_x_main
+import akat_x_cpu
 
 funcs = []
 
@@ -18,11 +19,7 @@ class Macro:
         lines = "".join(["    " + func + "();\n" for func in funcs])
         every_dec_f = "\nstatic AKAT_FORCE_INLINE void akat_on_every_decisecond() {\n" + lines + "\n}\n"
 
-        freq = akat_x_main.cpu_freq
-        vars = [(int(prescaler), int(freq/prescaler/10 - 1)) for prescaler in [1., 8., 64., 256., 1024.] if freq/prescaler/10 < 65537 and (freq/prescaler) % 10 == 0]
-        if len(vars) == 0:
-            akat.fatal_error("Unable to find prescaler for frequency ", STRESS(freq), " such that it is possible to make decisecond timer")
-        prescaler, compare_val = vars[0]
+        prescaler, compare_val = akat_x_cpu.get_prescaler_and_ocr_for_freq(freq = 10, max_ocr = 65535, error = "Setup for Timer1 for decisecond run")
 
         timer1_init = akat.transform("\nX_TIMER1_INIT$(prescaler = " + str(prescaler) + ", compare_a = " + str(compare_val) + ", ctc, interrupt_a);\n")
 

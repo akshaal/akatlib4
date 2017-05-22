@@ -14,27 +14,7 @@ class Macro:
 
         prescaler = ctx.prescaler
 
-        if prescaler == "0":               cs02, cs01, cs00 = 0, 0, 0
-        elif prescaler == "1":             cs02, cs01, cs00 = 0, 0, 1
-        elif prescaler == "8":             cs02, cs01, cs00 = 0, 1, 0
-        elif prescaler == "64":            cs02, cs01, cs00 = 0, 1, 1
-        elif prescaler == "256":           cs02, cs01, cs00 = 1, 0, 0
-        elif prescaler == "1024":          cs02, cs01, cs00 = 1, 0, 1
-        elif prescaler == "T1_falling ":   cs02, cs01, cs00 = 1, 1, 0
-        elif prescaler == "T1_rising":     cs02, cs01, cs00 = 1, 1, 1
-        else:
-            akat.fatal_error(
-                "Unknown value for prescaler: ",
-                STRESS(prescaler),
-                ". While this one can be one of these: ",
-                STRESS("1"), ", ",
-                STRESS("8"), ", ",
-                STRESS("64"), ", ",
-                STRESS("256"), ", ",
-                STRESS("1024"), ", ",
-                STRESS("T0_falling"), ", ",
-                STRESS("T0_rising")
-            )
+        cs_expr = akax_x_cpu.get_cs_expr_for_prescaler(prescaler, cs = "CS0")
 
         if ctx.ctc:
             wgm01 = 1
@@ -42,9 +22,7 @@ class Macro:
             wgm01 = 0
 
         render_context = {
-            "cs00": cs00,
-            "cs01": cs01,
-            "cs02": cs02,
+            "cs_expr": cs_expr,
             "prescaler": prescaler,
             "wgm01": wgm01,
             "ocr_a": ctx.compare_a,
