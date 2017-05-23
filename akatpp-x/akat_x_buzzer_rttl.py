@@ -24,7 +24,7 @@ class Macro:
             else:
                 akat.fatal_error("No idea how to parse settings part, strange kv pair: ", STRESS(kv))
 
-        tempo_deciseconds = int(60 * 60 * 10 / b)
+        tempo_deciseconds = int(60 * 10 / b)
 
         sounds = []
 
@@ -70,6 +70,9 @@ class Macro:
                 akat.fatal_error("Note can't has zero deciseconds length: ", STRESS(t))
 
             n = n + str(no)
+
+            if n.startswith("P"):
+                note_deciseconds = 0
 
             pause = tempo_deciseconds - note_deciseconds
 
