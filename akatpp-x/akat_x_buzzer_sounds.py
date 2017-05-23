@@ -40,7 +40,7 @@ class Macro:
             else:
                 freq = int(freq)
 
-            prescaler, ocr = akat_x_cpu.get_prescaler_and_ocr_for_freq(freq = freq * 2, max_ocr = 255, info = ctx.oname + ": " + ts.strip())
+            prescaler, ocr = akat_x_cpu.get_prescaler_and_ocr_for_freq(freq = freq * 2, max_ocr = 255)
             cs = akat_x_cpu.get_cs_expr_for_prescaler(prescaler, "CS0")
 
             sounds.append(Struct(deciseconds = dur, cs = cs, ocr = ocr))

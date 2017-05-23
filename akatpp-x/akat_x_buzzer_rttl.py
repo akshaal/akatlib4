@@ -1,6 +1,6 @@
 import re
 
-npatt = re.compile('^(\d*)([A-Z]#?)(\d*)(\.?)$')
+npatt = re.compile('^(\d*)([A-Z][#_]?)(\d*)(\.?)$')
 
 class Macro:
     def render(self, inv):
@@ -42,7 +42,7 @@ class Macro:
             m = npatt.match(t)
             if m:
                 gdur = m.group(1)
-                n = m.group(2).replace("#", "S")
+                n = m.group(2).replace("#", "S").replace("_", "S")
                 go = m.group(3)
                 gdot = m.group(4)
 
@@ -67,7 +67,7 @@ class Macro:
             note_deciseconds = int(note_deciseconds)
 
             if note_deciseconds == 0:
-                akat.fatal_error("Note can't has zero deciseconds length: ", STRESS(t))
+                note_deciseconds = 1
 
             n = n + str(no)
 
