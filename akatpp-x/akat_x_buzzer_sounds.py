@@ -1,5 +1,8 @@
 import akat_x_cpu
 
+# Format: XY, where X is a note (A, B, C...) and Y is an octave number (like 0, 1, 2, 3, 4).
+# It is also that same note in neighbour octaves has the following properties: B1/B2 = 2, B3/B2 = 2, B4/3 = B2 etc
+# Sharp (#) is replaced with letter S
 NOTES = {
     "B0": 31, "C1": 33, "CS1": 35, "D1": 37, "DS1": 39,
     "E1": 41, "F1": 44, "FS1": 46, "G1": 49, "GS1": 52,

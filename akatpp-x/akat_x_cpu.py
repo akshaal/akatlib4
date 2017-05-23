@@ -32,6 +32,9 @@ def get_cpu_freq():
 
 # ---------------------------------------------
 def get_prescaler_and_ocr_for_freq(freq, max_ocr, info = None, error = None):
+    if freq == 0:
+        return (0, 0)
+
     cpu_freq = get_cpu_freq()
 
     # Try to get the best stuff
@@ -90,7 +93,10 @@ def get_cs_expr_for_prescaler(prescaler, cs):
             STRESS("T_rising")
         )
 
-    comment = "/* Prescaler " + prescaler  + " */"
+    if prescaler == "0":
+        comment = "/* TIMER IS OFF */"
+    else:
+        comment = "/* Prescaler " + prescaler  + " */"
 
     return "((" + cs2 + " << " + cs + "2) |" + "(" + cs1 + " << " + cs + "1) |" + "(" + cs0 + " << " + cs + "0) " + comment + ")"
 
