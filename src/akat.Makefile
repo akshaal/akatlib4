@@ -6,6 +6,7 @@ OBJCOPY = ${HOST}-objcopy
 SIZE = ${HOST}-size
 READELF = readelf
 AKATPP = ${AKAT_DIR}/akatpp/akatpp
+AKATV = ${AKAT_DIR}/akatv/akatv
 AKATPP_OPTS = -param MCU=${MCU} -dir ${AKAT_DIR}/akatpp-x
 
 CFLAGS=\
