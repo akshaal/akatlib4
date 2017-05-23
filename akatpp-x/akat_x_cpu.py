@@ -37,7 +37,7 @@ def get_prescaler_and_ocr_for_freq(freq, max_ocr, info = None, error = None):
     # Try to get the best stuff
     def mk_variant(prescaler):
         ocr = int(round(cpu_freq/prescaler/freq - 1))
-        if ocr == -1: ocr = -0.999999999999999999
+        if ocr == -1: ocr = -0.999999999999
         real_freq = cpu_freq / (ocr + 1.0) / prescaler
         diff = abs(real_freq - freq)
         return (int(prescaler), ocr, diff, real_freq)
