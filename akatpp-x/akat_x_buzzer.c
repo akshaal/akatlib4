@@ -48,6 +48,7 @@ OBJECT$(${oname}) {
     }
 
     METHOD$(void play(akat_x_buzzer_sound_t const * const melody, akat_x_buzzer_finish_cbk_t const finish_cbk)) {
+        ${oname}.interrupt();
         ${oname}__play_finish_cbk = finish_cbk;
         ${oname}.__play(melody);
     }
