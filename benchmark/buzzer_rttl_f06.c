@@ -22,7 +22,7 @@ X_BUZZER$(b);
 
 X_BUZZER_RTTL$(
     melody,
-    "d=4,o=5,b=4000: 2a4, 2e, 2d#, e, 8f4."
+    "d=4,o=5,b=100: 2a4, 2e, 2d#, e, 8f4."
 )
 
 // Main
