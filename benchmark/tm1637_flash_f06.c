@@ -8,6 +8,7 @@ WRITE_CFLAGS$(build/tm1637_flash_f06);
 X_CPU$(cpu_freq = 600000);
 
 USE_REG$(tm1637__dirty);
+USE_REG$(tm1637__thread__akat_coroutine_state);
 
 X_TM1637$(tm1637, clk = B3, dio = B4);
 
