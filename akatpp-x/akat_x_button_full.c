@@ -3,7 +3,7 @@ X_GPIO_INPUT$(${object_name}__input, ${pin_name})
 static akat_x_button_state_t ${object_name}__state;
 
 X_INIT$(${object_name}__init) {
-    ${object_name}__state.awaiting_key_press = AKAT_TRUE;
+    ${object_name}__state.awaiting_key_press = 1;
     ${object_name}__state.checks_left = AKAT_X_BUTTON_CHECKS;
 }
 

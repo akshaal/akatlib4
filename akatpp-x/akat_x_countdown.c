@@ -10,11 +10,11 @@ OBJECT$(${oname}) {
     }
 
     METHOD$(void start(), inline) {
-        akat_countdown_started__${oname} = AKAT_TRUE;
+        akat_countdown_started__${oname} = 1;
     }
 
     METHOD$(void stop(), inline) {
-        akat_countdown_started__${oname} = AKAT_FALSE;
+        akat_countdown_started__${oname} = 0;
     }
 
     METHOD$(void on_finish(), inline, ignore_dup) {

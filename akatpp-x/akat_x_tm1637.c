@@ -12,7 +12,7 @@ GLOBAL$() {
 
 
 X_INIT$(${object_name}__init) {
-    ${object_name}__dirty = AKAT_TRUE;
+    ${object_name}__dirty = 1;
 };
 
 
@@ -166,7 +166,7 @@ THREAD$(${object_name}__thread) {
 
 OBJECT$(${object_name}) {
     METHOD$(void set(akat_x_tm1637_pos_t pos, u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
+        ${object_name}__dirty = 1;
 
         if (pos == AKAT_X_TM1637_POS_1) {
             ${object_name}__byte1 = v;
@@ -208,22 +208,22 @@ OBJECT$(${object_name}) {
     }
 
     METHOD$(void set_pos_1(u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
+        ${object_name}__dirty = 1;
         ${object_name}__byte1 = v;
     }
 
     METHOD$(void set_pos_2(u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
+        ${object_name}__dirty = 1;
         ${object_name}__byte2 = v;
     }
 
     METHOD$(void set_pos_3(u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
+        ${object_name}__dirty = 1;
         ${object_name}__byte3 = v;
     }
 
     METHOD$(void set_pos_4(u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
+        ${object_name}__dirty = 1;
         ${object_name}__byte4 = v;
     }
 

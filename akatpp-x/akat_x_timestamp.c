@@ -70,7 +70,7 @@ OBJECT$(${oname}) {
     }
 
     METHOD$(u8 inc_hours()) {
-        u8 rc = AKAT_FALSE; // Return true if there is an overflow
+        u8 rc = 0; // Return true if there is an overflow
 
         if (akat_timestamp_hour_l__${oname} == 9) {
             akat_timestamp_hour_l__${oname} = 0;
@@ -83,7 +83,7 @@ OBJECT$(${oname}) {
 
             akat_timestamp_on_new_hour_h__${oname}();
 
-            rc = AKAT_TRUE;
+            rc = 1;
         } else {
             akat_timestamp_hour_l__${oname}++;
         }
@@ -222,13 +222,13 @@ OBJECT$(${oname}) {
     }
 
     METHOD$(u8 dec_hours()) {
-        u8 rc = AKAT_FALSE; // Returns 0 if no underflow
+        u8 rc = 0; // Returns 0 if no underflow
 
         if (akat_timestamp_hour_l__${oname} == 0) {
             if (akat_timestamp_hour_h__${oname} == 0) {
                 akat_timestamp_hour_h__${oname} = 2;
                 akat_timestamp_hour_l__${oname} = 3;
-                rc = AKAT_TRUE;
+                rc = 1;
             } else {
                 akat_timestamp_hour_h__${oname}--;
                 akat_timestamp_hour_l__${oname} = 9;

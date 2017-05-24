@@ -4,9 +4,7 @@ defined_static_vars = []
 configured_as_reg = {}
 used_reg = {}
 next_reg_n = 16
-next_low_reg_n = 4 # 3 is used for akat_one, see below
-
-akat_write_cflags.add("-ffixed-r3") # used for akat_one
+next_low_reg_n = 3
 
 def configure_as_reg(v, low = False):
     """Call me and I will configure your variable 'v' to be a hardware register."""
