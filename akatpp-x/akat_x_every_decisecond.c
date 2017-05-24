@@ -2,6 +2,7 @@
 
 static AKAT_FORCE_INLINE void akat_on_every_decisecond();
 
+// Can't use LOW register here!
 USE_REG$(akat_every_decisecond_run_required);
 
 GLOBAL$() {
@@ -19,7 +20,9 @@ RUNNABLE$(akat_on_every_decisecond_runner) {
 }
 
 ISR(TIMER1_COMPA_vect, ISR_NAKED) {
-    akat_every_decisecond_run_required = 1;
+    // NOTE: Make sure that 'akat_every_decisecond_run_required' is not a register under R16!
+    // NOTE: Otherwise we have to save SREG. That's why we use assembler directly here.
+    asm volatile("ldi %0, 0x01" : "=r" (akat_every_decisecond_run_required));
     asm volatile("reti");
 }
 

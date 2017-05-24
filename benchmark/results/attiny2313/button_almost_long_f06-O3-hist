@@ -1,0 +1,8 @@
+
+on. 24. mai 23:15:25 +0200 2017
+offset cycles = [1, 17693, 2]
+offset usecs  = [1, 29488, 3]
+    at cycles = [58, 17753, 17757]
+    at usecs  = [96, 29588, 29595]
+   text	   data	    bss	    dec	    hex	filename
+    256	      0	      3	    259	    103	build/button_almost_long_f06-O3.avr
