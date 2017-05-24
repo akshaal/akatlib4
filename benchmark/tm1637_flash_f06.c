@@ -7,6 +7,8 @@
 WRITE_CFLAGS$(build/tm1637_flash_f06);
 X_CPU$(cpu_freq = 600000);
 
+USE_REG$(tm1637__dirty);
+
 X_TM1637$(tm1637, clk = B3, dio = B4);
 
 X_TM1637_FLASH$(tm1637_flash, tm1637);

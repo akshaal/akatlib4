@@ -27,6 +27,7 @@ build/%-Os.avr: build/%.c.tmp.c build/%.cflags
 	XX=`cat build/"$*.cflags"` && ${CC} -Os ${CFLAGS} ${CFLAGS_$*} -I. $$XX -DAKAT_DEBUG_OFF -save-temps "$<" -o $@
 	mv *.out *.s *.o *.i *.res build/
 	${OBJDUMP} -d $@ > $@.s
+	${AKATV} $@.s
 	${SIZE} $@
 	${READELF} -S $@ > $@.info
 

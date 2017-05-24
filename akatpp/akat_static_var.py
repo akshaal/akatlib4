@@ -4,15 +4,20 @@ defined_static_vars = []
 configured_as_reg = {}
 used_reg = {}
 next_reg_n = 16
+next_low_reg_n = 3
 
-def configure_as_reg(v):
+def configure_as_reg(v, low = False):
     """Call me and I will configure your variable 'v' to be a hardware register."""
 
     global next_reg_n
     global next_low_reg_n
 
-    reg = "r" + str(next_reg_n)
-    next_reg_n += 1
+    if low:
+        reg = "r" + str(next_low_reg_n)
+        next_low_reg_n += 1
+    else:
+        reg = "r" + str(next_reg_n)
+        next_reg_n += 1
 
     configured_as_reg[v] = reg
 
