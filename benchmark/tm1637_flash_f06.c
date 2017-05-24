@@ -9,7 +9,9 @@ X_CPU$(cpu_freq = 600000);
 
 USE_REG$(tm1637__dirty);
 USE_REG$(tm1637__thread__akat_coroutine_state);
-USE_REG$(tm1637__byte2);
+USE_REG$(tm1637_flash__started);
+
+USE_REG$(tm1637__byte2, low);
 USE_REG$(tm1637__byte4, low);
 USE_REG$(tm1637__byte3, low);
 USE_REG$(tm1637__byte1, low);
