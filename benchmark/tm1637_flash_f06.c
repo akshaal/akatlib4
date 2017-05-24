@@ -13,6 +13,11 @@ USE_REG$(tm1637__byte2);
 USE_REG$(tm1637__byte4, low);
 USE_REG$(tm1637__byte3, low);
 USE_REG$(tm1637__byte1, low);
+USE_REG$(tm1637_flash__saved_byte3, low);
+USE_REG$(tm1637_flash__saved_byte2, low);
+USE_REG$(tm1637_flash__saved_byte4, low);
+USE_REG$(tm1637_flash__restore_now, low);
+USE_REG$(x, low);
 
 X_TM1637$(tm1637, clk = B3, dio = B4);
 
