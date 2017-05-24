@@ -14,7 +14,7 @@ RUNNABLE$(akat_on_every_decisecond_runner) {
     AKAT_FLUSH_REG_VAR(akat_every_decisecond_run_required);
 
     if (akat_every_decisecond_run_required) {
-        akat_every_decisecond_run_required = 0;
+        akat_every_decisecond_run_required = AKAT_FALSE;
         akat_on_every_decisecond();
     }
 }

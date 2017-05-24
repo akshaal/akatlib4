@@ -10,11 +10,11 @@ OBJECT$(${oname}) {
     }
 
     METHOD$(void start(), inline) {
-        akat_clock_started__${oname} = 1;
+        akat_clock_started__${oname} = AKAT_TRUE;
     }
 
     METHOD$(void stop(), inline) {
-        akat_clock_started__${oname} = 0;
+        akat_clock_started__${oname} = AKAT_FALSE;
     }
 
     METHOD$(void on_overflow(), inline, ignore_dup) {
