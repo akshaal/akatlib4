@@ -1,6 +1,6 @@
-offset cycles = [1, 12567, 160261]
-offset usecs  = [0, 1570, 20032]
-    at cycles = [44, 12613, 172876]
-    at usecs  = [5, 1576, 21609]
+offset cycles = [1, 12591, 160007]
+offset usecs  = [0, 1573, 20000]
+    at cycles = [44, 12637, 172646]
+    at usecs  = [5, 1579, 21580]
    text	   data	    bss	    dec	    hex	filename
-    186	      0	      2	    188	     bc	build/button_full-Os.avr
+    184	      0	      2	    186	     ba	build/button_full-Os.avr

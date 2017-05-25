@@ -14,3 +14,11 @@ offset usecs  = [1, 1000050, 1009398]
     at usecs  = [101, 1000155, 2009556]
    text	   data	    bss	    dec	    hex	filename
     256	      0	      3	    259	    103	build/button_long_f06-Os.avr
+
+to. 25. mai 16:39:10 +0200 2017
+offset cycles = [1, 600018, 605915]
+offset usecs  = [1, 1000030, 1009858]
+    at cycles = [61, 600081, 1205998]
+    at usecs  = [101, 1000135, 2009996]
+   text	   data	    bss	    dec	    hex	filename
+    254	      0	      3	    257	    101	build/button_long_f06-Os.avr
