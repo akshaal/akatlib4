@@ -24,7 +24,7 @@ OBJECT$(${oname}) {
             return; // Already interrupted
         }
 
-        ${oname}.__call_finish_cbk(1);
+        ${oname}.__call_finish_cbk(AKAT_ONE);
     }
 
     METHOD$(void __call_finish_cbk(u8 const interrupted)) {
