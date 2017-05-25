@@ -4,6 +4,7 @@ CC = ${HOST}-gcc
 OBJDUMP = ${HOST}-objdump
 OBJCOPY = ${HOST}-objcopy
 SIZE = ${HOST}-size
+NM = ${HOST}-nm
 READELF = readelf
 AKATPP = ${AKAT_DIR}/akatpp/akatpp
 AKATV = ${AKAT_DIR}/akatv/akatv
