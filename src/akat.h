@@ -46,7 +46,7 @@ GLOBAL$() {
 }
 
 // To prevent assignment
-#define AKAT_ONE  (__akat_one__ + 0)
+#define AKAT_ONE  __akat_one__
 
 #define AKAT_TRUE   AKAT_ONE
 #define AKAT_FALSE  0
