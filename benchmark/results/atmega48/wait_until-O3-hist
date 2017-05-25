@@ -1,0 +1,8 @@
+
+to. 25. mai 13:07:02 +0200 2017
+offset cycles = [16, 14, 14, 14, 14, 14, 14, 14, 14, 14, 10]
+offset usecs  = [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    at cycles = [34, 50, 66, 82, 98, 114, 130, 146, 162, 178, 190]
+    at usecs  = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 23]
+   text	   data	    bss	    dec	    hex	filename
+    138	      0	      0	    138	     8a	build/wait_until-O3.avr

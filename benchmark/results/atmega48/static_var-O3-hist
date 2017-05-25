@@ -1,0 +1,8 @@
+
+to. 25. mai 13:07:01 +0200 2017
+offset cycles = [1]
+offset usecs  = [0]
+    at cycles = [16]
+    at usecs  = [2]
+   text	   data	    bss	    dec	    hex	filename
+     92	      0	      0	     92	     5c	build/static_var-O3.avr

@@ -1,6 +1,6 @@
 offset cycles = [1]
 offset usecs  = [0]
-    at cycles = [14]
-    at usecs  = [1]
+    at cycles = [16]
+    at usecs  = [2]
    text	   data	    bss	    dec	    hex	filename
-     88	      0	      0	     88	     58	build/function-O3.avr
+     92	      0	      0	     92	     5c	build/function-O3.avr

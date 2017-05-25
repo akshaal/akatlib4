@@ -1,0 +1,8 @@
+
+to. 25. mai 13:07:02 +0200 2017
+offset cycles = [1, 45171, 61, 61, 61]
+offset usecs  = [0, 5646, 7, 7, 7]
+    at cycles = [107, 45280, 45343, 45406, 45469]
+    at usecs  = [13, 5660, 5667, 5675, 5683]
+   text	   data	    bss	    dec	    hex	filename
+    308	      0	      8	    316	    13c	build/button4-Os.avr

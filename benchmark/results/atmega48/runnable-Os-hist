@@ -1,0 +1,8 @@
+
+to. 25. mai 13:07:01 +0200 2017
+offset cycles = [1, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
+offset usecs  = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    at cycles = [17, 28, 39, 50, 61, 72, 83, 94, 105, 116, 127]
+    at usecs  = [2, 3, 4, 6, 7, 9, 10, 11, 13, 14, 15]
+   text	   data	    bss	    dec	    hex	filename
+    106	      0	      0	    106	     6a	build/runnable-Os.avr

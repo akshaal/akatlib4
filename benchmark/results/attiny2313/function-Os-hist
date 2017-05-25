@@ -1,0 +1,8 @@
+
+to. 25. mai 13:05:37 +0200 2017
+offset cycles = [4]
+offset usecs  = [0]
+    at cycles = [31]
+    at usecs  = [3]
+   text	   data	    bss	    dec	    hex	filename
+     96	      0	      1	     97	     61	build/function-Os.avr

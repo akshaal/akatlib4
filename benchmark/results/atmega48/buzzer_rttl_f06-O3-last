@@ -1,0 +1,6 @@
+offset cycles = [1, 1800041]
+offset usecs  = [1, 3000068]
+    at cycles = [73, 1800116]
+    at usecs  = [121, 3000193]
+   text	   data	    bss	    dec	    hex	filename
+    396	      0	      5	    401	    191	build/buzzer_rttl_f06-O3.avr

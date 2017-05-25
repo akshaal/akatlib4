@@ -1,0 +1,8 @@
+
+to. 25. mai 13:07:01 +0200 2017
+offset cycles = [1, 4]
+offset usecs  = [0, 0]
+    at cycles = [17, 23]
+    at usecs  = [2, 2]
+   text	   data	    bss	    dec	    hex	filename
+    108	      0	      0	    108	     6c	build/object-O3.avr

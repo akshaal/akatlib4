@@ -1,0 +1,8 @@
+
+to. 25. mai 13:07:02 +0200 2017
+offset cycles = [5, 2, 4, 2, 4, 2]
+offset usecs  = [0, 0, 0, 0, 0, 0]
+    at cycles = [18, 22, 28, 32, 40, 44]
+    at usecs  = [2, 2, 3, 4, 5, 5]
+   text	   data	    bss	    dec	    hex	filename
+    122	      0	      0	    122	     7a	build/gpio_output-Os.avr

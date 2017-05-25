@@ -1,6 +1,6 @@
 offset cycles = [61, 49, 50, 46, 51, 50]
 offset usecs  = [7, 6, 6, 5, 6, 6]
-    at cycles = [92, 143, 195, 243, 296, 348]
-    at usecs  = [11, 17, 24, 30, 37, 43]
+    at cycles = [94, 145, 197, 245, 298, 350]
+    at usecs  = [11, 18, 24, 30, 37, 43]
    text	   data	    bss	    dec	    hex	filename
-    232	      0	      2	    234	     ea	build/sub-Os.avr
+    236	      0	      2	    238	     ee	build/sub-Os.avr

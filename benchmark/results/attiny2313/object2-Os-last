@@ -1,6 +1,6 @@
-offset cycles = [1, 12]
-offset usecs  = [0, 1]
-    at cycles = [12, 26]
-    at usecs  = [1, 3]
+offset cycles = [1, 4]
+offset usecs  = [0, 0]
+    at cycles = [15, 21]
+    at usecs  = [1, 2]
    text	   data	    bss	    dec	    hex	filename
-    132	      0	      0	    132	     84	build/object2-Os.avr
+     90	      0	      0	     90	     5a	build/object2-Os.avr

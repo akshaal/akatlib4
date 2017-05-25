@@ -1,6 +1,6 @@
 offset cycles = [1, 2, 2, 2]
 offset usecs  = [0, 0, 0, 0]
-    at cycles = [12, 16, 20, 24]
+    at cycles = [14, 18, 22, 26]
     at usecs  = [1, 2, 2, 3]
    text	   data	    bss	    dec	    hex	filename
-     82	      0	      0	     82	     52	build/scope-Os.avr
+     86	      0	      0	     86	     56	build/scope-Os.avr

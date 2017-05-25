@@ -1,0 +1,8 @@
+
+to. 25. mai 13:07:18 +0200 2017
+offset cycles = [1, 2, 2, 2]
+offset usecs  = [0, 0, 0, 0]
+    at cycles = [16, 20, 24, 28]
+    at usecs  = [2, 2, 3, 3]
+   text	   data	    bss	    dec	    hex	filename
+    104	      0	      0	    104	     68	build/define_macro-Os.avr

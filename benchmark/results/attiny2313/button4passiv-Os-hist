@@ -1,0 +1,8 @@
+
+to. 25. mai 13:05:39 +0200 2017
+offset cycles = [1, 1356650]
+offset usecs  = [0, 169581]
+    at cycles = [128, 1356780]
+    at usecs  = [16, 169597]
+   text	   data	    bss	    dec	    hex	filename
+    494	      0	     12	    506	    1fa	build/button4passiv-Os.avr

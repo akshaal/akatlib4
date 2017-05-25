@@ -1,6 +1,6 @@
 offset cycles = [4]
 offset usecs  = [0]
-    at cycles = [31]
-    at usecs  = [3]
+    at cycles = [33]
+    at usecs  = [4]
    text	   data	    bss	    dec	    hex	filename
-    110	      0	      1	    111	     6f	build/static_var-Os.avr
+    114	      0	      1	    115	     73	build/static_var-Os.avr

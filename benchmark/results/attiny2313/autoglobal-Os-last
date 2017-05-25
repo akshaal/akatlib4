@@ -1,6 +1,6 @@
 offset cycles = [1]
 offset usecs  = [0]
-    at cycles = [12]
+    at cycles = [14]
     at usecs  = [1]
    text	   data	    bss	    dec	    hex	filename
-     70	      0	      0	     70	     46	build/autoglobal-Os.avr
+     74	      0	      0	     74	     4a	build/autoglobal-Os.avr

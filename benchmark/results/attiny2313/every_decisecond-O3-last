@@ -1,6 +1,6 @@
 offset cycles = [800013, 800000, 799997, 799997, 800000]
 offset usecs  = [100001, 100000, 99999, 99999, 100000]
-    at cycles = [800034, 1600036, 2400035, 3200034, 4000036]
-    at usecs  = [100004, 200004, 300004, 400004, 500004]
+    at cycles = [800038, 1600040, 2400039, 3200038, 4000040]
+    at usecs  = [100004, 200005, 300004, 400004, 500005]
    text	   data	    bss	    dec	    hex	filename
-    112	      0	      0	    112	     70	build/every_decisecond-O3.avr
+    120	      0	      0	    120	     78	build/every_decisecond-O3.avr

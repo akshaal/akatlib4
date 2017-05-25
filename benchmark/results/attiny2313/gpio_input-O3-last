@@ -1,6 +1,6 @@
 offset cycles = [5, 2, 5, 5, 5, 5]
 offset usecs  = [0, 0, 0, 0, 0, 0]
-    at cycles = [18, 22, 29, 40, 51, 62]
-    at usecs  = [2, 2, 3, 5, 6, 7]
+    at cycles = [20, 24, 31, 42, 53, 64]
+    at usecs  = [2, 3, 3, 5, 6, 8]
    text	   data	    bss	    dec	    hex	filename
-    136	      0	      0	    136	     88	build/gpio_input-O3.avr
+    140	      0	      0	    140	     8c	build/gpio_input-O3.avr

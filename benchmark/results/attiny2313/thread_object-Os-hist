@@ -1,0 +1,8 @@
+
+to. 25. mai 13:05:37 +0200 2017
+offset cycles = [7, 17]
+offset usecs  = [0, 2]
+    at cycles = [40, 59]
+    at usecs  = [5, 7]
+   text	   data	    bss	    dec	    hex	filename
+    196	      0	      2	    198	     c6	build/thread_object-Os.avr

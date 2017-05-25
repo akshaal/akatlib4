@@ -1,0 +1,8 @@
+
+to. 25. mai 13:05:36 +0200 2017
+offset cycles = [1]
+offset usecs  = [0]
+    at cycles = [14]
+    at usecs  = [1]
+   text	   data	    bss	    dec	    hex	filename
+     74	      0	      0	     74	     4a	build/main-O3.avr

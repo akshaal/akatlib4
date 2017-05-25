@@ -1,6 +1,6 @@
 offset cycles = [7, 17]
 offset usecs  = [0, 2]
-    at cycles = [40, 59]
+    at cycles = [42, 61]
     at usecs  = [5, 7]
    text	   data	    bss	    dec	    hex	filename
-    210	      0	      2	    212	     d4	build/thread_object-Os.avr
+    214	      0	      2	    216	     d8	build/thread_object-Os.avr
