@@ -42,15 +42,11 @@ OBJECT$(${oname}) {
         }
     }
 
-    METHOD$(void __play(akat_x_buzzer_sound_t const * const melody)) {
-        ${oname}__sound_p = melody;
-        ${oname}.__play_current_sound();
-    }
-
     METHOD$(void play(akat_x_buzzer_sound_t const * const melody, akat_x_buzzer_finish_cbk_t const finish_cbk)) {
         ${oname}.interrupt();
         ${oname}__play_finish_cbk = finish_cbk;
-        ${oname}.__play(melody);
+        ${oname}__sound_p = melody - 1;
+        ${oname}__play_deciseconds = AKAT_ONE;
     }
 }
 
@@ -59,7 +55,8 @@ X_EVERY_DECISECOND$(${oname}__every_deci) {
         ${oname}__play_deciseconds--;
 
         if (${oname}__play_deciseconds == 0) {
-            ${oname}.__play(${oname}__sound_p + 1);
+            ${oname}__sound_p = ${oname}__sound_p + 1;
+            ${oname}.__play_current_sound();
         }
     }
 }
