@@ -2,7 +2,7 @@ FUNCTION$(AKAT_NO_RETURN void main(), not_static) {
     // TODO: INIT ALL FIXED REGS TO ZERO!!!!!!!
 
     // TODO: Play a bit more here and see if wee benefit from having it like __akat__one__ = 1 or like this...
-    asm volatile("inc r3" : "=r" (__akat_one__));
+    __akat_one__++;
 
     % for init in inits:
         ${init}();
