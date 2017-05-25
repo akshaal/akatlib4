@@ -1,4 +1,4 @@
-next_code = 1
+next_code = 0
 handler_is_defined = False
 codes = []
 first = True
