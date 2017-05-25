@@ -9,6 +9,7 @@ reg_to_var = {}
 used_reg = {}
 next_reg_n = START_REG_N
 next_low_reg_n = START_LOW_REG_N
+initials = {}
 
 def configure_as_reg(v, low = False):
     """Call me and I will configure your variable 'v' to be a hardware register."""
@@ -35,7 +36,11 @@ def configure_as_reg(v, low = False):
 
 class Macro:
     def render(self, inv):
-        ctx = akat.prepare(inv, required_args = ["decl"], required_enclosing_macros = ["GLOBAL"], keywords = ["ignore_dups"])
+        ctx = akat.prepare(inv,
+                           required_args = ["decl"],
+                           required_enclosing_macros = ["GLOBAL"],
+                           optional_kvs = { "initial": "0"},
+                           keywords = ["ignore_dups"])
 
         t, name = ctx.decl.rsplit(" ", 1)
 
@@ -51,6 +56,7 @@ class Macro:
             if not ignore_dups:
                 akat.fatal_error(STRESS(name), " is already defined (", ns, ")")
         else:
+            initials[full_name] = ctx.initial
             defined_static_vars.append(full_name)
 
             if full_name in configured_as_reg:
@@ -60,7 +66,7 @@ class Macro:
                 attr = " asm (\"" + reg + "\")"
             else:
                 mod = "static"
-                attr = ""
+                attr = " = " + ctx.initial
 
             ctx.GLOBAL.add_global_code(mod +" " + t + " "  + full_name + attr + ";")
 

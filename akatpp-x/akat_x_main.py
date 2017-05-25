@@ -14,16 +14,17 @@ class Macro:
         # Run some hooks that might depend on stuff
         prerender = "\n".join([prerender_hook() for prerender_hook in prerender_hooks])
 
+        regs = ["r" + str(i) for i in range(akat_static_var.START_LOW_REG_N, akat_static_var.next_low_reg_n)]
+        regs += ["r" + str(i) for i in range(akat_static_var.START_REG_N, akat_static_var.next_reg_n)]
+
         # Return result
         render_context = {
             "body": inv.body,
             "runnables": runnables,
             "inits": inits,
-            "start_reg_n": akat_static_var.START_REG_N,
-            "last_reg_n": akat_static_var.next_reg_n - 1,
-            "start_low_reg_n": akat_static_var.START_LOW_REG_N,
-            "last_low_reg_n": akat_static_var.next_low_reg_n - 1,
-            "reg_to_var": akat_static_var.reg_to_var
+            "reg_to_var": akat_static_var.reg_to_var,
+            "initials": akat_static_var.initials,
+            "regs": regs
         }
 
         args.add_into(render_context)
