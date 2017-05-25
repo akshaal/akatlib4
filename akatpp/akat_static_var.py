@@ -1,12 +1,14 @@
 import akat_write_cflags
 
+START_REG_N = 16
+START_LOW_REG_N = 3
+
 defined_static_vars = []
 configured_as_reg = {}
+reg_to_var = {}
 used_reg = {}
-next_reg_n = 16
-next_low_reg_n = 4 # 3 is used for akat_one, see below
-
-akat_write_cflags.add("-ffixed-r3") # used for akat_one
+next_reg_n = START_REG_N
+next_low_reg_n = START_LOW_REG_N
 
 def configure_as_reg(v, low = False):
     """Call me and I will configure your variable 'v' to be a hardware register."""
@@ -22,6 +24,7 @@ def configure_as_reg(v, low = False):
         next_reg_n += 1
 
     configured_as_reg[v] = reg
+    reg_to_var[reg] = v
 
     akat_write_cflags.add("-ffixed-" + reg)
 

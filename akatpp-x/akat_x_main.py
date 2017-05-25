@@ -1,3 +1,5 @@
+import akat_static_var
+
 inits = []
 runnables = []
 prerender_hooks = []
@@ -16,7 +18,12 @@ class Macro:
         render_context = {
             "body": inv.body,
             "runnables": runnables,
-            "inits": inits
+            "inits": inits,
+            "start_reg_n": akat_static_var.START_REG_N,
+            "last_reg_n": akat_static_var.next_reg_n - 1,
+            "start_low_reg_n": akat_static_var.START_LOW_REG_N,
+            "last_low_reg_n": akat_static_var.next_low_reg_n - 1,
+            "reg_to_var": akat_static_var.reg_to_var
         }
 
         args.add_into(render_context)
