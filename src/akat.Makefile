@@ -12,6 +12,7 @@ AKATPP_OPTS = -param MCU=${MCU} -dir ${AKAT_DIR}/akatpp-x
 CFLAGS=\
 		-fverbose-asm \
 		-fno-exceptions \
+		-Wmisspelled-isr \
 		-Werror \
 		-Wextra \
 		-Wnonnull \
@@ -48,7 +49,24 @@ CFLAGS=\
 		-mrelax \
 		-nodevicelib \
 		-std=gnu11 \
-		-freorder-blocks-algorithm=stc 
+		-freorder-blocks-algorithm=stc \
+		--param max-crossjump-edges=400000000000 \
+		--param min-crossjump-insns=1 \
+		--param max-gcse-memory=100000000000 \
+		--param large-function-insns=10000000000 \
+		--param dse-max-object-size=50000000 \
+		--param scev-max-expr-size=10000000 \
+		--param max-cse-path-length=100000000000 \
+		--param max-reload-search-insns=100000000000 \
+		--param max-cselib-memory-locations=100000000000 \
+		--param sccvn-max-alias-queries-per-access=10000000000 \
+		--param sccvn-max-scc-size=100000000000 \
+		--param max-vartrack-size=0 \
+		--param max-vartrack-expr-depth=10000000000 \
+		--param ipa-cp-value-list-size=10000000000 \
+		--param ipa-max-aa-steps=100000000000 \
+		--param max-slsr-cand-scan=999999
+
 
 AKAT_SRCS=${AKAT_DIR}/src/akat.h \
 		  ${AKAT_DIR}/src/akat_x_button.h \
