@@ -1,7 +1,10 @@
 X_GPIO_OUTPUT$(${oname}__Pin, ${pin});
 
+GLOBAL$() {
+    STATIC_VAR$(u8 ${oname}__play_deciseconds);
+}
+
 static akat_x_buzzer_sound_t const * ${oname}__sound_p;
-static u8 ${oname}__play_deciseconds;
 static akat_x_buzzer_finish_cbk_t ${oname}__play_finish_cbk;
 
 #include <avr/pgmspace.h>
