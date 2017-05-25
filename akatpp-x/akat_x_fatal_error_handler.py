@@ -5,7 +5,7 @@ class Macro:
         ctx = akat.prepare(inv, body = True)
 
         if akat_x_fatal_error.handler_is_defined:
-            akat.fatal_errlr("Error handler is already defined!")
+            akat.fatal_error("Error handler is already defined!")
 
         akat_x_fatal_error.handler_is_defined = True
 
