@@ -47,7 +47,8 @@ CFLAGS=\
 		-mmcu=${MCU} \
 		-mrelax \
 		-nodevicelib \
-		-std=gnu11
+		-std=gnu11 \
+		-freorder-blocks-algorithm=stc 
 
 AKAT_SRCS=${AKAT_DIR}/src/akat.h \
 		  ${AKAT_DIR}/src/akat_x_button.h \
