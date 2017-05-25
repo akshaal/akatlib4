@@ -9,7 +9,7 @@ def add_prerender_hook(hook):
 
 class Macro:
     def render(self, inv):
-        args = akat.prepare(inv, optional_kvs = {"unroll": 1}, body = True)
+        args = akat.prepare(inv, optional_kvs = {"unroll": "1"}, body = True)
 
         # Run some hooks that might depend on stuff
         prerender = "\n".join([prerender_hook() for prerender_hook in prerender_hooks])
