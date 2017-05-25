@@ -28,6 +28,11 @@
 #define AKAT_X_TM1637_C_8           0b01111111
 #define AKAT_X_TM1637_C_9           0b01101111
 
+#define AKAT_X_TM1637_C_D           0b00111111
+#define AKAT_X_TM1637_C_o           0b01011100
+#define AKAT_X_TM1637_C_n           0b01010100
+#define AKAT_X_TM1637_C_E           0b01111001
+
 #define AKAT_X_TM1637_COLON_MASK    0b10000000
 
 static AKAT_PURE u8 akat_x_tm1637_encode_digit(u8 const  digit, u8 const  colon);
