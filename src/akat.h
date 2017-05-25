@@ -27,9 +27,6 @@
 #define AKAT_PURE            __ATTR_PURE__
 #define AKAT_ERROR(msg)      __attribute__((error(msg))) extern void
 
-#define AKAT_INC_REG(reg) asm ("inc %0" : "+r" (reg));
-#define AKAT_DEC_REG(reg) asm ("dec %0" : "+r" (reg));
-
 #define AKAT_CONCAT(a, b)     a##b
 #define AKAT_FORCE_CONCAT(a, b)     AKAT_CONCAT(a, b)
 
