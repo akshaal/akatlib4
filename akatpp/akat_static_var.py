@@ -1,7 +1,7 @@
 import akat_write_cflags
 
 START_REG_N = 16
-START_LOW_REG_N = 3
+START_LOW_REG_N = 2
 
 defined_static_vars = []
 configured_as_reg = {}
