@@ -21,7 +21,6 @@ def process(filename):
             else:
                 freq[vname] = 1
         elif " sts " in line:
-            print(line)
             vname = line.split(",", 1)[0].strip().rsplit(" ", 1)[1]
             if vname in freq:
                 freq[vname] += 1
