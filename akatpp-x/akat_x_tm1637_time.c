@@ -31,11 +31,8 @@ OBJECT$(${oname}) {
             } else {
                 // Here we know that HH == 0, but MM == 0, so we only update SS  d
                 ${oname}.__update_ss(AKAT_X_TM1637_POS_1, 1);
-
-                if (level == AKAT_X_TIMESTAMP_LEVEL_DECISECOND) {
-                    tm1637.set_pos_3(0);
-                    tm1637.set_digit_pos_4(${tname}.get_deciseconds(), AKAT_FALSE);
-                }
+                tm1637.set_pos_3(0);
+                tm1637.set_digit_pos_4(${tname}.get_deciseconds(), AKAT_FALSE);
             }
         }
     }
