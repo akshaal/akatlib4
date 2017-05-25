@@ -8,13 +8,13 @@ GLOBAL$() {
     STATIC_VAR$(u8 akat_timestamp_hour_l__${oname});
 };
 
-static AKAT_FORCE_INLINE void akat_timestamp_on_new_decisecond__${oname}();
-static AKAT_FORCE_INLINE void akat_timestamp_on_new_second_l__${oname}();
-static AKAT_FORCE_INLINE void akat_timestamp_on_new_minute_l__${oname}();
-static AKAT_FORCE_INLINE void akat_timestamp_on_new_hour_l__${oname}();
-static AKAT_FORCE_INLINE void akat_timestamp_on_new_second_h__${oname}();
-static AKAT_FORCE_INLINE void akat_timestamp_on_new_minute_h__${oname}();
-static AKAT_FORCE_INLINE void akat_timestamp_on_new_hour_h__${oname}();
+static void akat_timestamp_on_new_decisecond__${oname}();
+static void akat_timestamp_on_new_second_l__${oname}();
+static void akat_timestamp_on_new_minute_l__${oname}();
+static void akat_timestamp_on_new_hour_l__${oname}();
+static void akat_timestamp_on_new_second_h__${oname}();
+static void akat_timestamp_on_new_minute_h__${oname}();
+static void akat_timestamp_on_new_hour_h__${oname}();
 
 OBJECT$(${oname}) {
     METHOD$(u8 get_deciseconds(), inline) { return akat_timestamp_decisecond__${oname}; }

@@ -12,7 +12,7 @@ class Macro:
     def postvalidate():
         for name in callbacks:
             def def_cbk_caller(kind):
-                print("\nstatic AKAT_FORCE_INLINE void akat_timestamp_on_new_" + kind + "__" + name + "() {")
+                print("\nstatic void akat_timestamp_on_new_" + kind + "__" + name + "() {")
                 for obj in callbacks[name]:
                     print("    " + obj + ".on_new_" + kind + "();")
                     print("    " + obj + ".on_new(AKAT_X_TIMESTAMP_LEVEL_" + kind.upper() + ");")
