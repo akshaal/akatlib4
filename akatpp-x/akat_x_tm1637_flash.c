@@ -147,5 +147,5 @@ X_EVERY_DECISECOND$(${oname}__every_decisecond) {
         }
     }
 
-    ${oname}__restore_now = !${oname}__restore_now;
+    ${oname}__restore_now = ~${oname}__restore_now;
 }

@@ -66,8 +66,8 @@ CFLAGS=\
 		--param max-vartrack-expr-depth=10000000000 \
 		--param ipa-cp-value-list-size=10000000000 \
 		--param ipa-max-aa-steps=100000000000 \
-		--param max-slsr-cand-scan=999999
-
+		--param max-slsr-cand-scan=999999 \
+		--param max-inline-insns-auto=5
 
 AKAT_SRCS=${AKAT_DIR}/src/akat.h \
 		  ${AKAT_DIR}/src/akat_x_button.h \
