@@ -90,6 +90,20 @@ OBJECT$(${oname}) {
         ${oname}__started &= ~(1 << 3);
         ${oname}__restore4();
     }
+
+    METHOD$(void stop_all()) {
+        ${oname}.stop_pos_1();
+        ${oname}.stop_pos_2();
+        ${oname}.stop_pos_3();
+        ${oname}.stop_pos_4();
+    }
+
+    METHOD$(void start_all()) {
+        ${oname}.start_pos_1();
+        ${oname}.start_pos_2();
+        ${oname}.start_pos_3();
+        ${oname}.start_pos_4();
+    }
 }
 
 X_EVERY_DECISECOND$(${oname}__every_decisecond) {

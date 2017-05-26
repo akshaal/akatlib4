@@ -16,13 +16,13 @@ OBJECT$(${oname}) {
 
     METHOD$(void update(akat_x_timestamp_level_t const level)) {
         if (${condition}) {
-            if (${tname}.get_hours_h() != 0 || ${tname}.get_hours_l() != 0) {
+            if (${tname}.has_hours()) {
                 // Here we know that HH != 0, so we only update HH:MM
                 if (level != AKAT_X_TIMESTAMP_LEVEL_DECISECOND) {
                     ${oname}.__update_hh(1);
                     ${oname}.__update_mm(AKAT_X_TM1637_POS_3, AKAT_FALSE);
                 }
-            } else if (${tname}.get_minutes_h() != 0 || ${tname}.get_minutes_l() != 0) {
+            } else if (${tname}.has_minutes()) {
                 // Here we know that HH == 0, but MM != 0, so we only update MM:SS
                 if (level != AKAT_X_TIMESTAMP_LEVEL_DECISECOND) {
                     ${oname}.__update_mm(AKAT_X_TM1637_POS_1, 1);

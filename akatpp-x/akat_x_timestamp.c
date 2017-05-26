@@ -25,6 +25,9 @@ OBJECT$(${oname}) {
     METHOD$(u8 get_hours_h(), inline) { return akat_timestamp_hour_h__${oname}; }
     METHOD$(u8 get_hours_l(), inline) { return akat_timestamp_hour_l__${oname}; }
 
+    METHOD$(u8 has_hours()) { return ${oname}.get_hours_h() + ${oname}.get_hours_l(); }
+    METHOD$(u8 has_minutes()) { return ${oname}.get_minutes_h() + ${oname}.get_minutes_l(); }
+
     METHOD$(void set_deciseconds(u8 v)) {
         akat_timestamp_decisecond__${oname} = v;
         akat_timestamp_on_new_decisecond__${oname}();
