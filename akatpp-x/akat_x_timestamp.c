@@ -76,10 +76,8 @@ OBJECT$(${oname}) {
         if (akat_timestamp_hour__${oname} == AKAT_BCD(2, 3)) {
             akat_timestamp_hour__${oname} = 0;
             rc = AKAT_TRUE;
-        } else if (AKAT_BCD_GET_L(akat_timestamp_hour__${oname}) == 9) {
-            akat_timestamp_hour__${oname} += 16 - 9; // Increment high and reset low
         } else {
-            akat_timestamp_hour__${oname}++;
+            akat_timestamp_hour__${oname} = akat_bcd_inc(akat_timestamp_hour__${oname});
         }
 
         akat_timestamp_on_new_hour__${oname}();
@@ -93,10 +91,8 @@ OBJECT$(${oname}) {
         if (akat_timestamp_minute__${oname} == AKAT_BCD(5, 9)) {
             akat_timestamp_minute__${oname} = 0;
             rc = ${oname}.inc_hours();
-        } else if (AKAT_BCD_GET_L(akat_timestamp_minute__${oname}) == 9) {
-            akat_timestamp_minute__${oname} += 16 - 9; // Increment high and reset low
         } else {
-            akat_timestamp_minute__${oname}++;
+            akat_timestamp_minute__${oname} = akat_bcd_inc(akat_timestamp_minute__${oname});
         }
 
         akat_timestamp_on_new_minute__${oname}();
@@ -110,10 +106,8 @@ OBJECT$(${oname}) {
         if (akat_timestamp_second__${oname} == AKAT_BCD(5, 9)) {
             akat_timestamp_second__${oname} = 0;
             rc = ${oname}.inc_minutes();
-        } else if (AKAT_BCD_GET_L(akat_timestamp_second__${oname}) == 9) {
-            akat_timestamp_second__${oname} += 16 - 9; // Increment high and reset low
         } else {
-            akat_timestamp_second__${oname}++;
+            akat_timestamp_second__${oname} = akat_bcd_inc(akat_timestamp_second__${oname});
         }
 
         akat_timestamp_on_new_second__${oname}();
