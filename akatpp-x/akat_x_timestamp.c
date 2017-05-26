@@ -35,7 +35,8 @@ OBJECT$(${oname}) {
     METHOD$(u8 get_hours_l()) { return AKAT_BCD_GET_L(akat_timestamp_hour__${oname}); }
 
     METHOD$(u8 has_hours()) { return akat_timestamp_hour__${oname}; }
-    METHOD$(u8 has_minutes()) { return ${oname}.get_minutes_h() + ${oname}.get_minutes_l(); }
+    METHOD$(u8 has_minutes()) { return akat_timestamp_minute__${oname}; }
+    METHOD$(u8 has_seconds()) { return akat_timestamp_second__${oname}; }
 
     METHOD$(void set_deciseconds(u8 v)) {
         akat_timestamp_decisecond__${oname} = v;
