@@ -4,10 +4,7 @@ X_GPIO_INPUT_OUTPUT$(${object_name}__dio, ${dio_pin});
 // Static variable for commands
 GLOBAL$() {
     STATIC_VAR$(u8 ${object_name}__dirty, initial = 1);
-    STATIC_VAR$(u8 ${object_name}__byte1);
-    STATIC_VAR$(u8 ${object_name}__byte2);
-    STATIC_VAR$(u8 ${object_name}__byte3);
-    STATIC_VAR$(u8 ${object_name}__byte4);
+    STATIC_VAR$(u8 ${object_name}__byte[4], initial = {0, 0, 0, 0});
 }
 
 // ==================================================================================================================
@@ -143,10 +140,10 @@ THREAD$(${object_name}__thread) {
         f.write_byte(0xC0);
         YIELD$();
 
-        f.write_byte(${object_name}__byte1); YIELD$();
-        f.write_byte(${object_name}__byte2); YIELD$();
-        f.write_byte(${object_name}__byte3); YIELD$();
-        f.write_byte(${object_name}__byte4); YIELD$();
+        f.write_byte(${object_name}__byte[AKAT_X_TM1637_POS_1]); YIELD$();
+        f.write_byte(${object_name}__byte[AKAT_X_TM1637_POS_2]); YIELD$();
+        f.write_byte(${object_name}__byte[AKAT_X_TM1637_POS_3]); YIELD$();
+        f.write_byte(${object_name}__byte[AKAT_X_TM1637_POS_4]); YIELD$();
 
         f.end();
     }
@@ -161,83 +158,51 @@ THREAD$(${object_name}__thread) {
 OBJECT$(${object_name}) {
     METHOD$(void set(akat_x_tm1637_pos_t pos, u8 const v)) {
         ${object_name}__dirty = AKAT_TRUE;
-
-        if (pos == AKAT_X_TM1637_POS_1) {
-            ${object_name}__byte1 = v;
-        } else if (pos == AKAT_X_TM1637_POS_2) {
-            ${object_name}__byte2 = v;
-        } else if (pos == AKAT_X_TM1637_POS_3) {
-            ${object_name}__byte3 = v;
-        } else {
-            ${object_name}__byte4 = v;
-        }
+        ${object_name}__byte[pos] = v;
     }
 
     METHOD$(u8 get(akat_x_tm1637_pos_t pos)) {
-        if (pos == AKAT_X_TM1637_POS_1) {
-            return ${object_name}__byte1;
-        } else if (pos == AKAT_X_TM1637_POS_2) {
-            return ${object_name}__byte2;
-        } else if (pos == AKAT_X_TM1637_POS_3) {
-            return ${object_name}__byte3;
-        } else {
-            return ${object_name}__byte4;
-        }
+        return ${object_name}__byte[pos];
     }
 
-    METHOD$(u8 get_pos_1(), inline) {
-        return ${object_name}__byte1;
-    }
-
-    METHOD$(u8 get_pos_2(), inline) {
-        return ${object_name}__byte2;
-    }
-
-    METHOD$(u8 get_pos_3(), inline) {
-        return ${object_name}__byte3;
-    }
-
-    METHOD$(u8 get_pos_4(), inline) {
-        return ${object_name}__byte4;
-    }
+    METHOD$(u8 get_pos_1()) { return ${object_name}.get(AKAT_X_TM1637_POS_1); }
+    METHOD$(u8 get_pos_2()) { return ${object_name}.get(AKAT_X_TM1637_POS_2); }
+    METHOD$(u8 get_pos_3()) { return ${object_name}.get(AKAT_X_TM1637_POS_3); }
+    METHOD$(u8 get_pos_4()) { return ${object_name}.get(AKAT_X_TM1637_POS_4); }
 
     METHOD$(void set_pos_1(u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
-        ${object_name}__byte1 = v;
+        ${object_name}.set(AKAT_X_TM1637_POS_1, v);
     }
 
     METHOD$(void set_pos_2(u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
-        ${object_name}__byte2 = v;
+        ${object_name}.set(AKAT_X_TM1637_POS_2, v);
     }
 
     METHOD$(void set_pos_3(u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
-        ${object_name}__byte3 = v;
+        ${object_name}.set(AKAT_X_TM1637_POS_3, v);
     }
 
     METHOD$(void set_pos_4(u8 const v)) {
-        ${object_name}__dirty = AKAT_TRUE;
-        ${object_name}__byte4 = v;
-    }
-
-    METHOD$(void set_digit_pos_1(u8 const digit, u8 const colon)) {
-        ${object_name}.set_pos_1(akat_x_tm1637_encode_digit(digit, colon));
-    }
-
-    METHOD$(void set_digit_pos_2(u8 const digit, u8 const colon)) {
-        ${object_name}.set_pos_2(akat_x_tm1637_encode_digit(digit, colon));
-    }
-
-    METHOD$(void set_digit_pos_3(u8 const digit, u8 const colon)) {
-        ${object_name}.set_pos_3(akat_x_tm1637_encode_digit(digit, colon));
-    }
-
-    METHOD$(void set_digit_pos_4(u8 const digit, u8 const colon)) {
-        ${object_name}.set_pos_4(akat_x_tm1637_encode_digit(digit, colon));
+        ${object_name}.set(AKAT_X_TM1637_POS_4, v);
     }
 
     METHOD$(void set_digit(akat_x_tm1637_pos_t pos, u8 const digit, u8 const colon)) {
         ${object_name}.set(pos, akat_x_tm1637_encode_digit(digit, colon));
+    }
+
+    METHOD$(void set_digit_pos_1(u8 const v, u8 const colon)) {
+        ${object_name}.set_digit(AKAT_X_TM1637_POS_1, v, colon);
+    }
+
+    METHOD$(void set_digit_pos_2(u8 const v, u8 const colon)) {
+        ${object_name}.set_digit(AKAT_X_TM1637_POS_2, v, colon);
+    }
+
+    METHOD$(void set_digit_pos_3(u8 const v, u8 const colon)) {
+        ${object_name}.set_digit(AKAT_X_TM1637_POS_3, v, colon);
+    }
+
+    METHOD$(void set_digit_pos_4(u8 const v, u8 const colon)) {
+        ${object_name}.set_digit(AKAT_X_TM1637_POS_4, v, colon);
     }
 };
