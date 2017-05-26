@@ -37,4 +37,4 @@
 
 static AKAT_PURE u8 akat_x_tm1637_encode_digit(u8 const  digit, u8 const  colon);
 
-typedef enum {AKAT_X_TM1637_POS_1 = 1, AKAT_X_TM1637_POS_2 = 2, AKAT_X_TM1637_POS_3 = 3, AKAT_X_TM1637_POS_4 = 4} akat_x_tm1637_pos_t;
+typedef enum {AKAT_X_TM1637_POS_1 = 0, AKAT_X_TM1637_POS_2 = 1, AKAT_X_TM1637_POS_3 = 2, AKAT_X_TM1637_POS_4 = 3} akat_x_tm1637_pos_t;
