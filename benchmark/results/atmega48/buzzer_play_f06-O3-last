@@ -1,6 +1,6 @@
-offset cycles = [1, 240042]
-offset usecs  = [1, 400070]
-    at cycles = [73, 240117]
-    at usecs  = [121, 400195]
+offset cycles = [1, 300038]
+offset usecs  = [1, 500063]
+    at cycles = [73, 300113]
+    at usecs  = [121, 500188]
    text	   data	    bss	    dec	    hex	filename
-    374	      0	      5	    379	    17b	build/buzzer_play_f06-O3.avr
+    310	      0	      5	    315	    13b	build/buzzer_play_f06-O3.avr

@@ -1,6 +1,6 @@
-offset cycles = [1, 17661, 2]
-offset usecs  = [1, 29435, 3]
-    at cycles = [69, 17732, 17736]
-    at usecs  = [115, 29553, 29560]
+offset cycles = [1, 17936, 2]
+offset usecs  = [1, 29893, 3]
+    at cycles = [69, 18007, 18011]
+    at usecs  = [115, 30011, 30018]
    text	   data	    bss	    dec	    hex	filename
-    286	      0	      3	    289	    121	build/button_almost_long_f06-Os.avr
+    284	      0	      3	    287	    11f	build/button_almost_long_f06-Os.avr

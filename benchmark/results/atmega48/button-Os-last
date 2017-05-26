@@ -3,4 +3,4 @@ offset usecs  = [0, 1573]
     at cycles = [46, 12639]
     at usecs  = [5, 1579]
    text	   data	    bss	    dec	    hex	filename
-    196	      0	      2	    198	     c6	build/button-Os.avr
+    194	      0	      2	    196	     c4	build/button-Os.avr

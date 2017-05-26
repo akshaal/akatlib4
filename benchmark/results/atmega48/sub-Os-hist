@@ -6,3 +6,11 @@ offset usecs  = [7, 6, 6, 5, 6, 6]
     at usecs  = [12, 18, 24, 30, 37, 44]
    text	   data	    bss	    dec	    hex	filename
     254	      0	      2	    256	    100	build/sub-Os.avr
+
+fr. 26. mai 20:58:41 +0200 2017
+offset cycles = [63, 49, 50, 46, 51, 50]
+offset usecs  = [7, 6, 6, 5, 6, 6]
+    at cycles = [98, 149, 201, 249, 302, 354]
+    at usecs  = [12, 18, 25, 31, 37, 44]
+   text	   data	    bss	    dec	    hex	filename
+    256	      0	      2	    258	    102	build/sub-Os.avr

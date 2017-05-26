@@ -6,3 +6,11 @@ offset usecs  = [0, 169581]
     at usecs  = [16, 169597]
    text	   data	    bss	    dec	    hex	filename
     512	      0	     12	    524	    20c	build/button4passiv-Os.avr
+
+fr. 26. mai 20:58:43 +0200 2017
+offset cycles = [1, 1327215]
+offset usecs  = [0, 165901]
+    at cycles = [130, 1327347]
+    at usecs  = [16, 165918]
+   text	   data	    bss	    dec	    hex	filename
+    510	      0	     12	    522	    20a	build/button4passiv-Os.avr

@@ -6,3 +6,11 @@ offset usecs  = [1, 400090]
     at usecs  = [121, 400215]
    text	   data	    bss	    dec	    hex	filename
     314	      0	      5	    319	    13f	build/buzzer_play_f06-Os.avr
+
+fr. 26. mai 20:59:00 +0200 2017
+offset cycles = [1, 300045]
+offset usecs  = [1, 500075]
+    at cycles = [73, 300120]
+    at usecs  = [121, 500200]
+   text	   data	    bss	    dec	    hex	filename
+    322	      0	      5	    327	    147	build/buzzer_play_f06-Os.avr
