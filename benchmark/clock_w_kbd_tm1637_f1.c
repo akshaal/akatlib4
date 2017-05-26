@@ -25,19 +25,13 @@ X_BUTTON$(button3, D2) { sum += 400000L; }
 X_BUTTON$(button4, D3) { sum += 800000L; }
 
 X_TIMESTAMP_CALLBACKS$(t) {
-    METHOD$(void on_new_minute_h(), inline) {
+    METHOD$(void on_new_minute(), inline) {
         tm1637.set_digit_pos_1(t.get_minutes_h(), 0);
-    }
-
-    METHOD$(void on_new_minute_l(), inline) {
         tm1637.set_digit_pos_2(t.get_minutes_l(), sum == 150000);
     }
 
-    METHOD$(void on_new_second_h(), inline) {
+    METHOD$(void on_new_second(), inline) {
         tm1637.set_digit_pos_3(t.get_seconds_h(), 0);
-    }
-
-    METHOD$(void on_new_second_l(), inline) {
         tm1637.set_digit_pos_4(t.get_seconds_l(), 0);
     }
 }
