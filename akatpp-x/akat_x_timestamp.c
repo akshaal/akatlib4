@@ -42,18 +42,18 @@ OBJECT$(${oname}) {
         akat_timestamp_on_new_decisecond__${oname}();
     }
 
-    METHOD$(void set_seconds(u8 v_h, u8 v_l)) {
-        akat_timestamp_second__${oname} = AKAT_BCD(v_h, v_l);
+    METHOD$(void set_bcd_seconds(u8 bcd)) {
+        akat_timestamp_second__${oname} = bcd;
         akat_timestamp_on_new_second__${oname}();
     }
 
-    METHOD$(void set_minutes(u8 v_h, u8 v_l)) {
-        akat_timestamp_minute__${oname} = AKAT_BCD(v_h, v_l);
+    METHOD$(void set_bcd_minutes(u8 bcd)) {
+        akat_timestamp_minute__${oname} = bcd;
         akat_timestamp_on_new_minute__${oname}();
     }
 
-    METHOD$(void set_hours(u8 v_h, u8 v_l)) {
-        akat_timestamp_hour__${oname} = AKAT_BCD(v_h, v_l);
+    METHOD$(void set_bcd_hours(u8 bcd)) {
+        akat_timestamp_hour__${oname} = bcd;
         akat_timestamp_on_new_hour__${oname}();
     }
 

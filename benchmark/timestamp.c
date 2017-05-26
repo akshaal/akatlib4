@@ -36,7 +36,7 @@ X_MAIN$() {
 
     t.reset();
 
-    t.set_hours(1, 8);
+    t.set_bcd_hours(AKAT_BCD(1, 8));
 
     // Current time is 18:0:0.0, if we do 216000 then we will go back to this time with the overflow flag
     u8 rc = 0;
@@ -54,7 +54,7 @@ X_MAIN$() {
     }
 
     // Countdown 15 minutes
-    t.set_minutes(1, 5);
+    t.set_bcd_minutes(AKAT_BCD(1, 5));
     rc = 0;
     for (u16 ticks = 9001; ticks; ticks--) {
         if (rc) {
