@@ -19,7 +19,6 @@ class Macro:
                 print("}")
 
             def_cbk_caller("decisecond")
-            def_cbk_caller("second_l")
-            def_cbk_caller("second_h")
+            def_cbk_caller("second")
             def_cbk_caller("minute")
             def_cbk_caller("hour")

@@ -8,8 +8,7 @@ WRITE_CFLAGS$(build/timestamp);
 X_CPU$(cpu_freq = 8000000);
 
 USE_REG$(akat_timestamp_decisecond__t);
-USE_REG$(akat_timestamp_second_h__t);
-USE_REG$(akat_timestamp_second_l__t);
+USE_REG$(akat_timestamp_second__t);
 USE_REG$(akat_timestamp_minute__t);
 USE_REG$(akat_timestamp_hour__t);
 
@@ -20,7 +19,7 @@ X_TIMESTAMP_CALLBACKS$(t) {
     METHOD$(void on_new_decisecond(), inline) {
     }
 
-    METHOD$(void on_new_second_l(), inline) {
+    METHOD$(void on_new_second(), inline) {
     }
 
     METHOD$(void on_new_minute(), inline) {
