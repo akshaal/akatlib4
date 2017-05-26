@@ -12,7 +12,7 @@ USE_REG$(akat_timestamp_second_h__t);
 USE_REG$(akat_timestamp_second_l__t);
 USE_REG$(akat_timestamp_minute_h__t);
 USE_REG$(akat_timestamp_minute_l__t);
-USE_REG$(akat_timestamp_hour_l__t);
+USE_REG$(akat_timestamp_hour__t);
 
 X_TIMESTAMP$(t_unused);
 X_TIMESTAMP$(t);
@@ -51,7 +51,7 @@ X_MAIN$() {
     }
 
     // Test
-    if (rc == 0 || t.get_deciseconds() != 0 || t.get_hours_h() != 0 || t.get_hours_l() != 0 || t.get_minutes_h() != 0 || t.get_minutes_l() != 0 || t.get_seconds_h() != 0 || t.get_seconds_l() != 0) {
+    if (rc == 0 || t.get_hours_h() != 0 || t.get_hours_l() != 0 || t.get_deciseconds() != 0 || t.get_minutes_h() != 0 || t.get_minutes_l() != 0 || t.get_seconds_h() != 0 || t.get_seconds_l() != 0) {
         y: goto y; // halt, unexpected stuff
     }
 
