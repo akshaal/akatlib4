@@ -84,7 +84,7 @@ OBJECT$(${oname}) {
         akat_timestamp_on_new_hour_h__${oname}();
     }
 
-    METHOD$(u8 inc_hours(), no_inline) {
+    METHOD$(u8 inc_hours()) {
         u8 rc = AKAT_FALSE; // Return true if there is an overflow
 
         if (akat_timestamp_hour__${oname} == AKAT_BCD(2, 3)) {
