@@ -3,7 +3,7 @@ X_GPIO_INPUT_OUTPUT$(${object_name}__dio, ${dio_pin});
 
 // Static variable for commands
 GLOBAL$() {
-    STATIC_VAR$(u8 ${object_name}__dirty, initial = AKAT_ONE);
+    STATIC_VAR$(u8 ${object_name}__dirty, initial = 1);
     STATIC_VAR$(u8 ${object_name}__byte1);
     STATIC_VAR$(u8 ${object_name}__byte2);
     STATIC_VAR$(u8 ${object_name}__byte3);
