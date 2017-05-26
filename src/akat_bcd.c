@@ -14,10 +14,10 @@ static AKAT_UNUSED AKAT_CONST AKAT_PURE u8 akat_bcd_inc(u8 bcd) {
 }
 
 static AKAT_UNUSED AKAT_CONST AKAT_PURE u8 akat_bcd_dec(u8 bcd) {
-    if (bcd & 15) {
-        bcd -= 16 - 9;
-    } else {
+    if (AKAT_BCD_GET_L(bcd)) {
         bcd--;
+    } else {
+        bcd += -16 + 9;
     }
 
     return bcd;
