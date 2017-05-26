@@ -25,10 +25,9 @@ GLOBAL$() {
 static void akat_timestamp_on_new_decisecond__${oname}();
 static void akat_timestamp_on_new_second_l__${oname}();
 static void akat_timestamp_on_new_minute_l__${oname}();
-static void akat_timestamp_on_new_hour_l__${oname}();
+static void akat_timestamp_on_new_hour__${oname}();
 static void akat_timestamp_on_new_second_h__${oname}();
 static void akat_timestamp_on_new_minute_h__${oname}();
-static void akat_timestamp_on_new_hour_h__${oname}();
 
 OBJECT$(${oname}) {
     METHOD$(u8 get_deciseconds(), inline) { return akat_timestamp_decisecond__${oname}; }
@@ -63,8 +62,7 @@ OBJECT$(${oname}) {
 
     METHOD$(void set_hours(u8 v_h, u8 v_l)) {
         akat_timestamp_hour__${oname} = AKAT_BCD(v_h, v_l);
-        akat_timestamp_on_new_hour_l__${oname}();
-        akat_timestamp_on_new_hour_h__${oname}();
+        akat_timestamp_on_new_hour__${oname}();
     }
 
     METHOD$(void reset()) {
@@ -80,8 +78,7 @@ OBJECT$(${oname}) {
         akat_timestamp_on_new_second_h__${oname}();
         akat_timestamp_on_new_minute_l__${oname}();
         akat_timestamp_on_new_minute_h__${oname}();
-        akat_timestamp_on_new_hour_l__${oname}();
-        akat_timestamp_on_new_hour_h__${oname}();
+        akat_timestamp_on_new_hour__${oname}();
     }
 
     METHOD$(u8 inc_hours()) {
@@ -89,16 +86,14 @@ OBJECT$(${oname}) {
 
         if (akat_timestamp_hour__${oname} == AKAT_BCD(2, 3)) {
             akat_timestamp_hour__${oname} = 0;
-            akat_timestamp_on_new_hour_h__${oname}();
             rc = AKAT_TRUE;
         } else if (AKAT_BCD_GET_L(akat_timestamp_hour__${oname}) == 9) {
             akat_timestamp_hour__${oname} += 16 - 9; // Increment high and reset low
-            akat_timestamp_on_new_hour_h__${oname}();
         } else {
             akat_timestamp_hour__${oname}++;
         }
 
-        akat_timestamp_on_new_hour_l__${oname}();
+        akat_timestamp_on_new_hour__${oname}();
 
         return rc;
     }
@@ -237,14 +232,13 @@ OBJECT$(${oname}) {
         if (akat_timestamp_hour__${oname} == 0) {
             akat_timestamp_hour__${oname} = AKAT_BCD(2, 3);
             rc = AKAT_TRUE;
-            akat_timestamp_on_new_hour_h__${oname}();
         } else if (AKAT_BCD_GET_L(akat_timestamp_hour__${oname})) {
             akat_timestamp_hour__${oname}--;
         } else {
             akat_timestamp_hour__${oname} += -16 + 9;
         }
 
-        akat_timestamp_on_new_hour_l__${oname}();
+        akat_timestamp_on_new_hour__${oname}();
 
         return rc;
     }

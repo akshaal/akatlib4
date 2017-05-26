@@ -27,7 +27,7 @@ X_TIMESTAMP_CALLBACKS$(t) {
     METHOD$(void on_new_minute_l(), inline) {
     }
 
-    METHOD$(void on_new_hour_l(), inline) {
+    METHOD$(void on_new_hour(), inline) {
         BENCH;
     }
 }

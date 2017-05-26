@@ -23,5 +23,4 @@ class Macro:
             def_cbk_caller("second_h")
             def_cbk_caller("minute_l")
             def_cbk_caller("minute_h")
-            def_cbk_caller("hour_l")
-            def_cbk_caller("hour_h")
+            def_cbk_caller("hour")
