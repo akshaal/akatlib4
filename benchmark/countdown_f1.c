@@ -9,9 +9,8 @@ X_CPU$(cpu_freq = 1000000);
 
 USE_REG$(akat_countdown_started__c1);
 USE_REG$(akat_timestamp_decisecond__t);
-USE_REG$(akat_timestamp_second_h__t);
-USE_REG$(akat_timestamp_second_l__t);
-USE_REG$(akat_timestamp_minute_h__t);
+USE_REG$(akat_timestamp_second__t);
+USE_REG$(akat_timestamp_minute__t);
 
 X_TIMESTAMP$(t);
 
@@ -23,7 +22,7 @@ X_COUNTDOWN$(c1, t) {
 }
 
 X_TIMESTAMP_CALLBACKS$(t) {
-    METHOD$(void on_new_second_l(), inline) {
+    METHOD$(void on_new_second(), inline) {
         BENCH;
     }
 }
@@ -32,7 +31,7 @@ X_TIMESTAMP_CALLBACKS$(t) {
 X_MAIN$() {
     BENCH_INIT;
     t.reset();
-    t.set_seconds(0, 5);
+    t.set_bcd_seconds(AKAT_BCD(0, 5));
     c1.start();
     sei();
 }
