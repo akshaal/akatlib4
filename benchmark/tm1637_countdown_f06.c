@@ -32,7 +32,7 @@ X_TIMESTAMP_CALLBACKS$(t) {
 X_MAIN$() {
     BENCH_INIT;
     t.reset();
-    t.set_seconds(1, 1);
+    t.set_bcd_seconds(AKAT_BCD(1, 1));
     c.start();
     sei();
 }
