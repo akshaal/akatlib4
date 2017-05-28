@@ -14,3 +14,11 @@ offset usecs  = [0, 1443]
     at usecs  = [5, 1449]
    text	   data	    bss	    dec	    hex	filename
     174	      0	      2	    176	     b0	build/button-O3.avr
+
+sø. 28. mai 21:40:02 +0200 2017
+offset cycles = [1, 11292]
+offset usecs  = [0, 1411]
+    at cycles = [42, 11336]
+    at usecs  = [5, 1417]
+   text	   data	    bss	    dec	    hex	filename
+    170	      0	      2	    172	     ac	build/button-O3.avr

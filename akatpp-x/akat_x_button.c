@@ -12,10 +12,8 @@ FUNCTION$(void ${object_name}__cbk()) {
 }
 
 RUNNABLE$(${object_name}__runnable) {
-    akat_x_button_handle_pin_state(
-        &${object_name}__state,
-        ${object_name}__input.is_set(),
-        &${object_name}__cbk,
-        NULL
-    );
+    akat_x_button_action_t const rc = akat_x_button_handle_pin_state(&${object_name}__state, ${object_name}__input.is_set());
+    if (rc == AKAT_X_BUTTON_ACTION_KEYPRESS) {
+        ${object_name}__cbk();
+    }
 }

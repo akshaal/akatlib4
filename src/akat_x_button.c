@@ -3,10 +3,9 @@
 // 2017 (C) Akshaal, Apache License
 ///////////////////////////////////////////////////////////////////
 
-static AKAT_UNUSED void akat_x_button_handle_pin_state(akat_x_button_state_t * const state,
-                                                       uint8_t const pin_state,
-                                                       akat_x_button_cbk_t const keypress_cbk,
-                                                       akat_x_button_cbk_t const keyrelease_cbk) {
+static AKAT_UNUSED akat_x_button_action_t akat_x_button_handle_pin_state(akat_x_button_state_t * const state, uint8_t const pin_state) {
+    akat_x_button_action_t action = AKAT_X_BUTTON_ACTION_NOTHING;
+
     if (state->awaiting_key_press) {
         AKAT_HOT_CODE; // Usually we are awaiting a key press
 
@@ -25,9 +24,7 @@ static AKAT_UNUSED void akat_x_button_handle_pin_state(akat_x_button_state_t * c
                 AKAT_COLD_CODE; // Sometimes we find out that key is pressed and stable enough
 
                 // Notify about key-press event
-                if (keypress_cbk) {
-                    keypress_cbk();
-                }
+                action = AKAT_X_BUTTON_ACTION_KEYPRESS;
 
                 // Wait for key-release event
                 state->awaiting_key_press = 0;
@@ -48,10 +45,9 @@ static AKAT_UNUSED void akat_x_button_handle_pin_state(akat_x_button_state_t * c
                 AKAT_COLD_CODE; // When we checked enough times, wait for key-press event
 
                 // Notify about key-press event
-                if (keyrelease_cbk) {
-                    keyrelease_cbk();
-                }
+                action = AKAT_X_BUTTON_ACTION_KEYRELEASE;
 
+                // Wait for key press
                 state->awaiting_key_press = 1;
                 state->checks_left = AKAT_X_BUTTON_CHECKS;
             }
@@ -60,4 +56,6 @@ static AKAT_UNUSED void akat_x_button_handle_pin_state(akat_x_button_state_t * c
             state->checks_left = AKAT_X_BUTTON_CHECKS;
         }
     }
+
+    return action;
 }
