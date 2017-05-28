@@ -30,3 +30,11 @@ offset usecs  = [0, 1602, 19968]
     at usecs  = [5, 1608, 21577]
    text	   data	    bss	    dec	    hex	filename
     186	      0	      2	    188	     bc	build/button_full-Os.avr
+
+sø. 28. mai 22:46:34 +0200 2017
+offset cycles = [1, 12821, 159746]
+offset usecs  = [0, 1602, 19968]
+    at cycles = [44, 12867, 172615]
+    at usecs  = [5, 1608, 21576]
+   text	   data	    bss	    dec	    hex	filename
+    184	      0	      2	    186	     ba	build/button_full-Os.avr
