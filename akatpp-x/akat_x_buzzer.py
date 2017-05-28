@@ -1,6 +1,6 @@
 class Macro:
     def render(self, inv):
-        ctx = akat.prepare(inv, required_args = ["oname"])
+        ctx = akat.prepare(inv, required_args = ["oname"], keywords = ["no_callbacks"])
 
         mcu = akat.get_param("MCU")
         if mcu == "attiny2313":
