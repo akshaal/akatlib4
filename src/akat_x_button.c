@@ -48,7 +48,7 @@ static AKAT_UNUSED akat_x_button_action_t akat_x_button_handle_pin_state(akat_x_
                 action = AKAT_X_BUTTON_ACTION_KEYRELEASE;
 
                 // Wait for key press
-                state->awaiting_key_press = 1;
+                state->awaiting_key_press = AKAT_ONE;
                 state->checks_left = AKAT_X_BUTTON_CHECKS;
             }
         } else {
