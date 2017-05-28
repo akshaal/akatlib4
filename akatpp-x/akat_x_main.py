@@ -23,6 +23,7 @@ class Macro:
             "runnables": runnables,
             "inits": inits,
             "reg_to_var": akat_static_var.reg_to_var,
+            "var_to_reg": akat_static_var.configured_as_reg,
             "initials": akat_static_var.initials,
             "regs": regs
         }
