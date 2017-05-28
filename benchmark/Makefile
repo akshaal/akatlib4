@@ -10,7 +10,7 @@ PARTS  = main scope global autoglobal static_var function object object2 runnabl
 PARTS += gpio_output gpio_input button button4 button4passiv tm1637 delay every_decisecond timestamp clock_f1 clock_w_kbd_tm1637_f1 countdown_f1
 PARTS += tm1637_countdown_f06 button_full button_repeat_f06 button_long_f06 button_almost_long_f06 tm1637_flash_f06 define_macro
 PARTS += buzzer_play_f06 buzzer_notes_f06 buzzer_rttl_f06
-#PARTS = button_full
+PARTS = timestamp clock_f1 clock_w_kbd_tm1637_f1 countdown_f1
 
 OsO3: ${patsubst %, build/%-O3.avr, ${PARTS}} ${patsubst %, build/%-Os.avr, ${PARTS}}
 	mkdir -p results/${MCU}

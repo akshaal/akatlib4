@@ -85,12 +85,14 @@ OBJECT$(${oname}) {
         return rc;
     }
 
-    METHOD$(u8 inc_minutes()) {
+    METHOD$(u8 inc_minutes(u8 inc_further)) {
         u8 rc = 0; // Return true if there is an overflow
 
         if (akat_timestamp_minute__${oname} == AKAT_BCD(5, 9)) {
             akat_timestamp_minute__${oname} = 0;
-            rc = ${oname}.inc_hours();
+            if (inc_further) {
+                rc = ${oname}.inc_hours();
+            }
         } else {
             akat_timestamp_minute__${oname} = akat_bcd_inc(akat_timestamp_minute__${oname});
         }
@@ -100,12 +102,14 @@ OBJECT$(${oname}) {
         return rc;
     }
 
-    METHOD$(u8 inc_seconds()) {
+    METHOD$(u8 inc_seconds(u8 inc_further)) {
         u8 rc = 0; // Return true if there is an overflow
 
         if (akat_timestamp_second__${oname} == AKAT_BCD(5, 9)) {
             akat_timestamp_second__${oname} = 0;
-            rc = ${oname}.inc_minutes();
+            if (inc_further) {
+                rc = ${oname}.inc_minutes(inc_further);
+            }
         } else {
             akat_timestamp_second__${oname} = akat_bcd_inc(akat_timestamp_second__${oname});
         }
@@ -115,13 +119,14 @@ OBJECT$(${oname}) {
         return rc;
     }
 
-    METHOD$(u8 inc_deciseconds()) {
+    METHOD$(u8 inc_deciseconds(u8 inc_further)) {
         u8 rc = 0; // Return true if there is an overflow
 
         if (akat_timestamp_decisecond__${oname} == 9) {
             akat_timestamp_decisecond__${oname} = 0;
-
-            rc = ${oname}.inc_seconds();
+            if (inc_further) {
+                rc = ${oname}.inc_seconds(inc_further);
+            }
         } else {
             akat_timestamp_decisecond__${oname}++;
         }
@@ -131,13 +136,15 @@ OBJECT$(${oname}) {
         return rc;
     }
 
-    METHOD$(u8 dec_deciseconds()) {
+    METHOD$(u8 dec_deciseconds(u8 dec_further)) {
         u8 rc = 0; // Returns 0 if no underflow
 
         if (akat_timestamp_decisecond__${oname} == 0) {
             akat_timestamp_decisecond__${oname} = 9;
 
-            rc = ${oname}.dec_seconds();
+            if (dec_further) {
+                rc = ${oname}.dec_seconds(dec_further);
+            }
         } else {
             akat_timestamp_decisecond__${oname}--;
         }
@@ -147,12 +154,14 @@ OBJECT$(${oname}) {
         return rc;
     }
 
-    METHOD$(u8 dec_seconds()) {
+    METHOD$(u8 dec_seconds(u8 dec_further)) {
         u8 rc = AKAT_FALSE; // Returns 0 if no underflow
 
         if (akat_timestamp_second__${oname} == 0) {
             akat_timestamp_second__${oname} = AKAT_BCD(5, 9);
-            rc = ${oname}.dec_minutes();
+            if (dec_further) {
+                rc = ${oname}.dec_minutes(dec_further);
+            }
         } else {
             akat_timestamp_second__${oname} = akat_bcd_dec(akat_timestamp_second__${oname});
         }
@@ -162,12 +171,14 @@ OBJECT$(${oname}) {
         return rc;
     }
 
-    METHOD$(u8 dec_minutes()) {
+    METHOD$(u8 dec_minutes(u8 dec_further)) {
         u8 rc = AKAT_FALSE; // Returns 0 if no underflow
 
         if (akat_timestamp_minute__${oname} == 0) {
             akat_timestamp_minute__${oname} = AKAT_BCD(5, 9);
-            rc = ${oname}.dec_hours();
+            if (dec_further) {
+                rc = ${oname}.dec_hours();
+            }
         } else {
             akat_timestamp_minute__${oname} = akat_bcd_dec(akat_timestamp_minute__${oname});
         }

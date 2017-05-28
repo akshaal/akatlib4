@@ -23,7 +23,7 @@ OBJECT$(${oname}) {
 
 X_EVERY_DECISECOND$(clock_dechandler__${oname}) {
     if (akat_clock_started__${oname}) {
-        if (${tname}.inc_deciseconds()) {
+        if (${tname}.inc_deciseconds(1)) {
             ${oname}.on_overflow();
         }
     }

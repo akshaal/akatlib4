@@ -23,7 +23,7 @@ OBJECT$(${oname}) {
 
 X_EVERY_DECISECOND$(countdown_dechandler__${oname}) {
     if (akat_countdown_started__${oname}) {
-        if (${tname}.dec_deciseconds()) {
+        if (${tname}.dec_deciseconds(1)) {
             ${tname}.reset();
             ${oname}.stop();
             ${oname}.on_finish();

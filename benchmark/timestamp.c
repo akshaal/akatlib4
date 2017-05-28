@@ -45,7 +45,7 @@ X_MAIN$() {
             x: goto x; // halt, unexpected stuff
         }
 
-        rc = t.inc_deciseconds();
+        rc = t.inc_deciseconds(1);
     }
 
     // Test
@@ -61,7 +61,7 @@ X_MAIN$() {
             z: goto z; // halt, unexpected stuff
         }
 
-        rc = t.dec_deciseconds();
+        rc = t.dec_deciseconds(1);
     }
 
     // Test
