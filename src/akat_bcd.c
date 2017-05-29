@@ -3,7 +3,7 @@
 // 2017 (C) Akshaal, Apache License
 ///////////////////////////////////////////////////////////////////
 
-static AKAT_UNUSED AKAT_CONST AKAT_PURE u8 akat_bcd_inc(u8 bcd) {
+FUNCTION$(u8 akat_bcd_inc(u8 bcd), const, pure) {
     if (AKAT_BCD_GET_L(bcd) == 9) {
         bcd += 16 - 9;
     } else {
@@ -13,7 +13,7 @@ static AKAT_UNUSED AKAT_CONST AKAT_PURE u8 akat_bcd_inc(u8 bcd) {
     return bcd;
 }
 
-static AKAT_UNUSED AKAT_CONST AKAT_PURE u8 akat_bcd_dec(u8 bcd) {
+FUNCTION$(u8 akat_bcd_dec(u8 bcd), const, pure) {
     if (AKAT_BCD_GET_L(bcd)) {
         bcd--;
     } else {

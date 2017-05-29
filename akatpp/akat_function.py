@@ -1,6 +1,10 @@
 class Macro:
     def render(self, inv):
-        ctx = akat.prepare(inv, required_args = ["decl"], keywords = ["inline", "not_static", "no_return", "unused", "no_inline"], body = True, allow_nesting = True)
+        ctx = akat.prepare(inv,
+                           required_args = ["decl"],
+                           keywords = ["inline", "not_static", "no_return", "unused", "no_inline", "const", "pure"],
+                           body = True,
+                           allow_nesting = True)
 
         decl = ctx.decl
 
@@ -14,6 +18,12 @@ class Macro:
         extra_attrs = []
         if not ctx.not_static:
             extra_attrs.append("static")
+
+        if ctx.const:
+            extra_attrs.append("AKAT_CONST")
+
+        if ctx.pure:
+            extra_attrs.append("AKAT_PURE")
 
         if ctx.inline:
             extra_attrs.append("AKAT_FORCE_INLINE")
