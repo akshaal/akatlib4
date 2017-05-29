@@ -1,6 +1,6 @@
 #include <avr/wdt.h>
 
-X_INIT$(watchdog) {
+X_INIT$(watchdog_init) {
     wdt_enable(WDTO_${interval});
 }
 
