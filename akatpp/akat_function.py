@@ -1,8 +1,16 @@
+KEYWORDS = ["inline", "not_static", "no_return", "unused", "no_inline", "const", "pure"]
+
+tuning = {}
+defined_functions = []
+
+def tune(ctx):
+    tuning[ctx.name] = ctx
+
 class Macro:
     def render(self, inv):
         ctx = akat.prepare(inv,
                            required_args = ["decl"],
-                           keywords = ["inline", "not_static", "no_return", "unused", "no_inline", "const", "pure"],
+                           keywords = KEYWORDS,
                            body = True,
                            allow_nesting = True)
 
@@ -13,28 +21,38 @@ class Macro:
 
         full_name = akat.add_namespace(function_name)
 
+        if full_name in defined_functions:
+            akat.fatal_error("This function is already defined: ", STRESS(full_name))
+
+        defined_functions.append(full_name)
+
         decl = function_rettype + " " + full_name + function_args
 
+        if full_name in tuning:
+            attr_ctx = tuning[full_name]
+        else:
+            attr_ctx = ctx
+
         extra_attrs = []
-        if not ctx.not_static:
+        if not attr_ctx.not_static:
             extra_attrs.append("static")
 
-        if ctx.const:
+        if attr_ctx.const:
             extra_attrs.append("AKAT_CONST")
 
-        if ctx.pure:
+        if attr_ctx.pure:
             extra_attrs.append("AKAT_PURE")
 
-        if ctx.inline:
+        if attr_ctx.inline:
             extra_attrs.append("AKAT_FORCE_INLINE")
 
-        if ctx.no_return:
+        if attr_ctx.no_return:
             extra_attrs.append("AKAT_NO_RETURN")
 
-        if ctx.no_inline:
+        if attr_ctx.no_inline:
             extra_attrs.append("AKAT_NO_INLINE")
 
-        if ctx.unused:
+        if attr_ctx.unused:
             extra_attrs.append("AKAT_UNUSED")
 
         extra_attrs = " ".join(extra_attrs)
@@ -51,3 +69,18 @@ class Macro:
         }
 
         return akat.transform(akat.render(self, **render_context))
+
+    def postvalidate():
+        # Unused tunings
+        shown_unused_header = False
+        for v in tuning:
+            if v not in defined_functions:
+                if not shown_unused_header:
+                    akat.print_sep()
+                    akat.print_error("Following functions are tuned but we can't find such functions! Are you sure your TUNE_FUNCTION$ goes BEFORE parts that declare the function?..")
+                    shown_unused_header = True
+
+                akat.print_error("    ", STRESS_COLOR, v)
+
+        if shown_unused_header:
+            akat.fatal_error("Please fix it!")
