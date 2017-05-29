@@ -41,7 +41,6 @@
 static AKAT_FORCE_INLINE AKAT_CONST AKAT_PURE uint32_t akat_cpu_freq_hz();
 
 GLOBAL$() {
-    USE_REG$(__akat_one__, low);
     STATIC_VAR$(u8 __akat_one__, initial = 1);
 }
 

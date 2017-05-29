@@ -31,6 +31,8 @@ def configure_as_reg(v, low = False):
 
     return reg
 
+configure_as_reg("__akat_one__", low = True)
+
 # =================================================================================
 # Implementation of macro
 
