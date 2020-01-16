@@ -33,3 +33,18 @@ RUN mkdir /tmp/gcc-$GCC_V/obj-avr \
     && make \
     && make install
 
+# -------------------------------------------
+ARG AVRLIBC_V=2.0.0
+
+ENV PATH=/akat/bin:$PATH
+
+RUN cd /tmp \
+    && wget https://download.savannah.gnu.org/releases/avr-libc/avr-libc-$AVRLIBC_V.tar.bz2 \
+    && tar jxf avr-libc-$AVRLIBC_V.tar.bz2
+
+RUN cd /tmp/avr-libc-$AVRLIBC_V \
+    && CC=avr-gcc ./configure --prefix=$PREFIX --host=avr  \
+    && make \
+    && make install \
+    || cat config.log
+
