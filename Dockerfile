@@ -1,5 +1,7 @@
 FROM debian:buster-slim
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 ARG PREFIX=/akat
 
 RUN apt-get update
@@ -52,10 +54,21 @@ RUN cd /tmp/avr-libc-$AVRLIBC_V \
 
 FROM debian:buster-slim as build
 
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libisl5 libgmp3 libmpfr4 libmpc3 \
+    && rm -rf /var/lib/apt/lists/* /etc/cron.d/* /etc/cron.daily/* /etc/cron.hourly/* /etc/cron.monthly/* /etc/cron.weekly/* \
+    && echo "LANG=C.UTF-8" > /etc/default/locale \
+    && apt-get clean \
+    && apt-get autoremove \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+
 COPY --from=0 /akat /akat
 
 ENV PATH=/akat/bin:$PATH
 
 RUN mkdir /build
+
 
 WORKDIR /build

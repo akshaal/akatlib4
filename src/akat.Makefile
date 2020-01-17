@@ -1,10 +1,10 @@
 HOST=avr
 
-CC = ${HOST}-gcc
-OBJDUMP = ${HOST}-objdump
-OBJCOPY = ${HOST}-objcopy
-SIZE = ${HOST}-size
-NM = ${HOST}-nm
+CC = ${AKAT_DIR}/with-toolchain ${HOST}-gcc
+OBJDUMP = ${AKAT_DIR}/with-toolchain ${HOST}-objdump
+OBJCOPY = ${AKAT_DIR}/with-toolchain ${HOST}-objcopy
+SIZE = ${AKAT_DIR}/with-toolchain ${HOST}-size
+NM = ${AKAT_DIR}/with-toolchain ${HOST}-nm
 READELF = readelf
 AKATPP = ${AKAT_DIR}/akatpp/akatpp
 AKATV = ${AKAT_DIR}/akatv/akatv
