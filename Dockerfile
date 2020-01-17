@@ -57,7 +57,7 @@ FROM debian:buster-slim as build
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libisl5 libgmp3 libmpfr4 libmpc3 \
+    && apt-get install -y --no-install-recommends libisl19 libgmp10 libmpfr6 libmpc3 \
     && rm -rf /var/lib/apt/lists/* /etc/cron.d/* /etc/cron.daily/* /etc/cron.hourly/* /etc/cron.monthly/* /etc/cron.weekly/* \
     && echo "LANG=C.UTF-8" > /etc/default/locale \
     && apt-get clean \
