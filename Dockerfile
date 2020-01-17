@@ -48,3 +48,14 @@ RUN cd /tmp/avr-libc-$AVRLIBC_V \
     && make install \
     || cat config.log
 
+# -------------------------------------------
+
+FROM debian:buster-slim as build
+
+COPY --from=0 /akat /akat
+
+ENV PATH=/akat/bin:$PATH
+
+RUN mkdir /build
+
+WORKDIR /build
