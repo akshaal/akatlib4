@@ -38,7 +38,7 @@
 #define AKAT_COROUTINE_S_START   0
 #define AKAT_COROUTINE_S_END     255
 
-static AKAT_FORCE_INLINE AKAT_CONST AKAT_PURE uint32_t akat_cpu_freq_hz();
+static AKAT_FORCE_INLINE AKAT_CONST uint32_t akat_cpu_freq_hz();
 
 GLOBAL$() {
     STATIC_VAR$(u8 __akat_one__, initial = 1);
