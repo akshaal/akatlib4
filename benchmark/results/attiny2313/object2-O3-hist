@@ -6,3 +6,11 @@ offset usecs  = [0, 0]
     at usecs  = [1, 2]
    text	   data	    bss	    dec	    hex	filename
      90	      0	      0	     90	     5a	build/object2-O3.avr
+
+lø. 18. jan. 11:58:49 +0100 2020
+offset cycles = [1, 2]
+offset usecs  = [0, 0]
+    at cycles = [14, 18]
+    at usecs  = [1, 2]
+   text	   data	    bss	    dec	    hex	filename
+     80	      0	      0	     80	     50	build/object2-O3.avr

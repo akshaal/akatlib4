@@ -6,3 +6,11 @@ offset usecs  = [0, 0, 0, 0, 0, 0]
     at usecs  = [2, 3, 3, 5, 6, 8]
    text	   data	    bss	    dec	    hex	filename
     140	      0	      0	    140	     8c	build/gpio_input-O3.avr
+
+lø. 18. jan. 11:58:50 +0100 2020
+offset cycles = [5, 2, 4, 4, 4, 4]
+offset usecs  = [0, 0, 0, 0, 0, 0]
+    at cycles = [20, 24, 30, 38, 46, 54]
+    at usecs  = [2, 3, 3, 4, 5, 6]
+   text	   data	    bss	    dec	    hex	filename
+    140	      0	      0	    140	     8c	build/gpio_input-O3.avr

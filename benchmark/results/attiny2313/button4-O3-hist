@@ -38,3 +38,11 @@ offset usecs  = [0, 3509, 3, 3, 3]
     at usecs  = [13, 3522, 3526, 3530, 3534]
    text	   data	    bss	    dec	    hex	filename
     570	      0	      8	    578	    242	build/button4-O3.avr
+
+lø. 18. jan. 11:58:50 +0100 2020
+offset cycles = [1, 27811, 27, 28, 27]
+offset usecs  = [0, 3476, 3, 3, 3]
+    at cycles = [105, 27918, 27947, 27977, 28006]
+    at usecs  = [13, 3489, 3493, 3497, 3500]
+   text	   data	    bss	    dec	    hex	filename
+    518	      0	      8	    526	    20e	build/button4-O3.avr
