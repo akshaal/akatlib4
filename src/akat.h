@@ -19,6 +19,9 @@
 #define u16 uint16_t
 #define u32 uint32_t
 
+#define H(v)                 (1 << (v))
+#define L(v)                 (0)
+
 #define AKAT_FORCE_INLINE    __attribute__((always_inline)) inline
 #define AKAT_NO_INLINE       __attribute__((noinline))
 #define AKAT_UNUSED          __attribute__((unused))
