@@ -7,14 +7,26 @@ X_ONEWIRE$(${object_name}__onewire, ${pin});
 
 // Static variable for communication between our thread and other parts of code
 GLOBAL$() {
-    // TODO: Add freshness which is 255 by default (maximum value, spoiled data)
     STATIC_VAR$(u8 ${object_name}__tconv_countdown, initial = 0);
+    STATIC_VAR$(u8 ${object_name}__updated_deciseconds_ago, initial = 255);
+    STATIC_VAR$(u8 ${object_name}__crc_errors, initial = 0);
+    STATIC_VAR$(u8 ${object_name}__disconnects, initial = 0);
+    STATIC_VAR$(u8 ${object_name}__scratchpad[8], initial = {});
+    STATIC_VAR$(u8 ${object_name}__temperature_lsb, initial = 0);
+    STATIC_VAR$(u8 ${object_name}__temperature_msb, initial = 0);
 }
 
 X_EVERY_DECISECOND$(${object_name}__ticker) {
     // We are waiting for temperature conversion and decrement the counter every 0.1 second
     if (${object_name}__tconv_countdown) {
-        ${object_name}__tconv_countdown -= 1;
+        ${object_name}__tconv_countdown -= AKAT_ONE;
+    }
+
+    // Maintain freshness
+    ${object_name}__updated_deciseconds_ago += AKAT_ONE;
+    if (!${object_name}__updated_deciseconds_ago) {
+        // We can't go beyond 255
+        ${object_name}__updated_deciseconds_ago -= AKAT_ONE;
     }
 }
 
@@ -61,6 +73,12 @@ THREAD$(${object_name}__thread) {
             YIELD$();
             ${object_name}__onewire.finish_initialize();
 
+            ${object_name}__disconnects += AKAT_ONE;
+            if (!${object_name}__disconnects) {
+                // We can't go beyond 255
+                ${object_name}__disconnects -= AKAT_ONE;
+            }
+
             // Failure
             command_to_send_and_is_success_result = 0;
         } else {
@@ -95,15 +113,67 @@ THREAD$(${object_name}__thread) {
             // Read scratchpad (temperature)
             command_to_send_and_is_success_result = 0xBE; CALL$(send_command);
             if (command_to_send_and_is_success_result) {
-                // TODO: read scratchpad... 9 bytes
-                // TODO: check crc
-                // TODO: Update freshness
+                // 8 bytes of scratchpad and then CRC (eigth byte)
+                CALL$(receive_byte); ${object_name}__scratchpad[0] = received_byte;
+                CALL$(receive_byte); ${object_name}__scratchpad[1] = received_byte;
+                CALL$(receive_byte); ${object_name}__scratchpad[2] = received_byte;
+                CALL$(receive_byte); ${object_name}__scratchpad[3] = received_byte;
+                CALL$(receive_byte); ${object_name}__scratchpad[4] = received_byte;
+                CALL$(receive_byte); ${object_name}__scratchpad[5] = received_byte;
+                CALL$(receive_byte); ${object_name}__scratchpad[6] = received_byte;
+                CALL$(receive_byte); ${object_name}__scratchpad[7] = received_byte;
                 CALL$(receive_byte);
+
+                // Check CRC
+                u8 crc = 0;
+                for (u8 i = 0; i < 8; i++) {
+                    u8 byte = ${object_name}__scratchpad[i];
+                    for (u8 j = 0; j < 8; j++) {
+                        u8 m = (crc ^ byte) & AKAT_ONE;
+                        crc >>= 1;
+                        if (m) {
+                            crc ^= 0x8C;
+                        }
+                        byte >>= 1;
+                    }
+                }
+
+                if (crc == received_byte) {
+                    // CRC is OK
+                    ${object_name}__updated_deciseconds_ago = 0;
+                    ${object_name}__temperature_lsb = ${object_name}__scratchpad[0];
+                    ${object_name}__temperature_msb = ${object_name}__scratchpad[1];
+                } else {
+                    // CRC is incorrect
+                    ${object_name}__crc_errors += AKAT_ONE;
+                    if (!${object_name}__crc_errors) {
+                        // We can't go beyond 255
+                        ${object_name}__crc_errors -= AKAT_ONE;
+                    }
+                }
             }
         }
     }
 }
 
 OBJECT$(${object_name}) {
+    METHOD$(u8 get_updated_deciseconds_ago(), inline) {
+        return ${object_name}__updated_deciseconds_ago;
+    }
 
+    METHOD$(u8 get_disconnects(), inline) {
+        return ${object_name}__disconnects;
+    }
+
+    METHOD$(u8 get_crc_errors(), inline) {
+        return ${object_name}__crc_errors;
+    }
+
+    METHOD$(u8 get_temperature_lsb(), inline) {
+        return ${object_name}__temperature_lsb;
+    }
+
+    METHOD$(u8 get_temperature_msb(), inline) {
+        return ${object_name}__temperature_msb;
+    }
 }

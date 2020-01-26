@@ -41,7 +41,7 @@ OBJECT$(${object_name}) {
     METHOD$(void finish_initialize()) {
         // We must wait for present pulse for minimum of 480 us
         // We have already waited for 80 us in start_initialize + some time in 'yield'
-        akat_delay_us(400);
+        akat_delay_us(410);
     }
 
     METHOD$(void write_bit(const u8 bit)) {
@@ -52,10 +52,10 @@ OBJECT$(${object_name}) {
 
         if (bit) {
             // Wait for edge to raise and slave to detect it
-            akat_delay_us(3);
+            akat_delay_us(6);
 
             // Set pin to 1 such that slave can sample the value we transmit
-            ${object_name}__pin.set(0);
+            ${object_name}__pin.set_input_mode();
         }
 
         akat_delay_us(60);
@@ -73,16 +73,16 @@ OBJECT$(${object_name}) {
         ${object_name}__pin.set(0);
 
         // Allow slave to detect the falling edge on the pin
-        akat_delay_us(3);
+        akat_delay_us(6);
 
         // Release the line and let slave set it to the value we will read after the delay
         ${object_name}__pin.set_input_mode();
-        akat_delay_us(5);
+        akat_delay_us(9);
 
         const u8 result = ${object_name}__pin.is_set();
 
         // Total length of reading slot must be at least 1
-        akat_delay_us(60);
+        akat_delay_us(55);
 
         return result;
     }
