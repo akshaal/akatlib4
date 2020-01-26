@@ -65,25 +65,18 @@ GLOBAL$() {
 
 // Delay. Delay function is non atomic!
 // Routines are borrowed from avr-lib
-__attribute__((error("akat_delay_us and akat_delay_us must be used with -O compiler flag and constant argument!")))
+__attribute__((error("akat_delay_us must be used with -O compiler flag and constant argument!")))
 extern void akat_delay_us_error_nc__();
 
-__attribute__((error("akat_delay_us and akat_delay_us can't perform such a small delay!")))
+__attribute__((error("akat_delay_us can't perform such a small delay!")))
 extern void akat_delay_us_error_delay__();
 
-__attribute__((error("akat_delay_us and akat_delay_us can't perform such a long delay!")))
+__attribute__((error("akat_delay_us can't perform such a long delay!")))
 extern void akat_delay_us_error_bdelay__();
-
-__attribute__((error("use DELAY macro instead!")))
-extern void akat_delay_us_error_bdelay2__();
 
 static AKAT_FORCE_INLINE void akat_delay_us(uint32_t us) {
     if (!__builtin_constant_p(us)) {
         akat_delay_us_error_nc__ ();
-    }
-
-    if (us > 30) {
-        akat_delay_us_error_bdelay2__();
     }
 
     uint64_t cycles = (uint64_t)us * (uint64_t)akat_cpu_freq_hz () / (uint64_t)1000000L;
