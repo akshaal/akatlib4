@@ -1,5 +1,5 @@
 RUNNABLE$(${thread_name}) {
-    COROUTINE$() {
+    COROUTINE$(state_type = ${state_type}) {
         ${body}
     }
 

@@ -1,13 +1,13 @@
 class Macro:
     def render(self, inv):
-        ctx = akat.prepare(inv, body = True, keywords = ["need_return"], allow_nesting = True)
+        ctx = akat.prepare(inv, body = True, keywords = ["need_return"], optional_kvs = { "state_type": "u8"}, allow_nesting = True)
         self.__goto_cases = []
         self.__next_state = 2
         self.__need_return = ctx.need_return
 
         # We have to do it in 2 steps because goto cases are populated during transformation
 
-        rendered_code = akat.transform(akat.render(self, body = inv.body))
+        rendered_code = akat.transform(akat.render(self, body = inv.body, state_type = ctx.state_type))
         goto_cases = "\n".join(self.__goto_cases)
 
         return rendered_code.replace("__AKAT_GOTO_CASES__", goto_cases)
@@ -25,5 +25,8 @@ class Macro:
         self.__goto_cases.append("case " + state + ": goto " + label + ";")
 
         self.__next_state += 1
+        if self.__next_state == 255:
+            # 255 is reserved for END-state (historically)
+            self.__next_state += 1
 
         return label, state

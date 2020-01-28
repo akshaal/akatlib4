@@ -1,4 +1,4 @@
-STATIC_VAR$(u8 akat_coroutine_state);
+STATIC_VAR$(${state_type} akat_coroutine_state);
 
 AKAT_HOT_CODE;
 

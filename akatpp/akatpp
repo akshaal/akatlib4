@@ -59,8 +59,8 @@ def new_expr():
 
     # Definition of arguments to a macro
     args = pp.Forward()
-    arg_expr_any = pp.CharsNotIn(")(}{\"/,")
-    arg_expr = pp.ZeroOrMore(pp.quotedString | (pp.Optional(arg_expr_any) + "(" + args + ")" + pp.Optional(arg_expr_any)) | "/" | (pp.Optional(arg_expr_any) + "{" + args + "}" + pp.Optional(arg_expr_any)) | arg_expr_any)
+    arg_expr_any = pp.CharsNotIn(")(][}{\"/,")
+    arg_expr = pp.ZeroOrMore(pp.quotedString | (pp.Optional(arg_expr_any) + "(" + args + ")" + pp.Optional(arg_expr_any)) | "/" | (pp.Optional(arg_expr_any) + "[" + args + "]" + pp.Optional(arg_expr_any)) | (pp.Optional(arg_expr_any) + "{" + args + "}" + pp.Optional(arg_expr_any)) | arg_expr_any)
     arg = pp.Combine(pp.Optional(pp.Suppress(pp.cStyleComment)) + arg_expr + pp.Optional(pp.Suppress(pp.cStyleComment)))
     arg_with_comma = arg + ","
     args << pp.ZeroOrMore(arg_with_comma) + pp.Optional(arg)
@@ -80,7 +80,7 @@ def new_expr():
 
     expr = macro | pp.cppStyleComment | pp.quotedString
 
-    # This function is called for each we mention macro in sources (blah$)
+    # This function is called for each occurrence of macro in sources (blah$)
     # Sigunature of the function is strange, but that's what pyparsing wants...
     # ... it seems like pyparsing calls this method several times with all crap possible
     # ... most of the times 't' is text, 'l' is location and 'expr' is found expression (macro)
@@ -190,7 +190,8 @@ class Akat:
                 body = False,
                 required_enclosing_macros = [],
                 allow_nesting = False,
-                allow_any_optional = False):
+                allow_any_optional = False,
+                keep_rest_as_is = False):
 
         if body != True and body != False:
             if inv.body == None:
@@ -226,23 +227,26 @@ class Akat:
                 result[name] = False
 
         # Check for key-value pairs
-        for arg in args_left:
-            if "=" in arg:
-                k, v = arg.split("=", 1)
-                k = k.strip()
-                v = v.strip()
+        if keep_rest_as_is:
+            result["rest"] = args_left
+        else:
+            for arg in args_left:
+                if "=" in arg:
+                    k, v = arg.split("=", 1)
+                    k = k.strip()
+                    v = v.strip()
 
-                if k in optional_kvs:
-                    result[k] = v
-                elif k in required_kvs:
-                    result[k] = v
-                    required_kvs.remove(k)
-                elif allow_any_optional:
-                    result[k] = v
+                    if k in optional_kvs:
+                        result[k] = v
+                    elif k in required_kvs:
+                        result[k] = v
+                        required_kvs.remove(k)
+                    elif allow_any_optional:
+                        result[k] = v
+                    else:
+                        akat.fatal_error("Unknown kv argument: ", STRESS(arg))
                 else:
-                    akat.fatal_error("Unknown kv argument: ", STRESS(arg))
-            else:
-                akat.fatal_error("Unknown argument: ", STRESS(arg))
+                    akat.fatal_error("Unknown argument: ", STRESS(arg))
 
         if len(required_kvs):
             akat.fatal_error("Not specified key-value arguments: ", ", ".join([STRESS(k) for k in required_kvs]))

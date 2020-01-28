@@ -1,5 +1,5 @@
 FUNCTION$(u8 ${sub_name}()) {
-    COROUTINE$(need_return) {
+    COROUTINE$(need_return, state_type = ${state_type}) {
         ${body}
     }
 
