@@ -222,21 +222,8 @@ THREAD$(ds18b20_thread) {
                 if (${object_name}__connected) {
                     YIELD$();
 
-                    // TODO: Extract to function and move to akat_x_dx18b20.c into first_.... definition
-
                     // Check CRC
-                    u8 crc = 0;
-                    for (u8 i = 0; i < 8; i++) {
-                        u8 byte = ${object_name}__scratchpad[i];
-                        for (u8 j = 0; j < 8; j++) {
-                            u8 m = (crc ^ byte) & AKAT_ONE;
-                            crc >>= 1;
-                            if (m) {
-                                crc ^= 0x8C;
-                            }
-                            byte >>= 1;
-                        }
-                    }
+                    u8 crc = akat_crc_add_bytes(0, ${object_name}__scratchpad, 8);
 
                     if (${object_name}__scratchpad[8] == crc) {
                         // CRC is OK
