@@ -26,12 +26,12 @@ class Macro:
 
     def __get_pre_body_defs(self):
         m = self.__get_all_mappings()
-        return ["#define " + local_name + " " + m[local_name] for local_name in m]
+        return ["#define " + local_name + " " + m[local_name] for local_name in sorted(m)]
 
     def __get_post_body_defs(self):
         m = self.__get_all_mappings()
 
-        res = ["#undef " + local_name for local_name in m]
+        res = ["#undef " + local_name for local_name in sorted(m)]
         if self.__restore and self.__parent_scope != None:
             res += self.__parent_scope.__get_pre_body_defs()
 
