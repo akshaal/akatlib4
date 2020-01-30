@@ -30,9 +30,8 @@ GLOBAL$() {
     STATIC_VAR$(u8 ${object_name}__crc_errors, initial = 0);
     STATIC_VAR$(u8 ${object_name}__disconnects, initial = 0);
 
-    // Temperature
-    STATIC_VAR$(u8 ${object_name}__temperature_lsb, initial = 0);
-    STATIC_VAR$(u8 ${object_name}__temperature_msb, initial = 0);
+    // Temperature (must be divided by 16 to convert to degrees)
+    STATIC_VAR$(u16 ${object_name}__temperatureX16, initial = 0);
 }
 
 X_EVERY_DECISECOND$(${object_name}__ticker) {
@@ -57,11 +56,7 @@ OBJECT$(${object_name}) {
         return ${object_name}__crc_errors;
     }
 
-    METHOD$(u8 get_temperature_lsb(), inline) {
-        return ${object_name}__temperature_lsb;
-    }
-
-    METHOD$(u8 get_temperature_msb(), inline) {
-        return ${object_name}__temperature_msb;
+    METHOD$(u16 get_temperatureX16(), inline) {
+        return ${object_name}__temperatureX16;
     }
 }
