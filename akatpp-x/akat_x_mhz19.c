@@ -82,12 +82,14 @@ THREAD$(${object_name}_reader) {
     // - - - - - - - - - - -
     // Main loop in thread (thread will yield on calls to YIELD$ or WAIT_UNTIL$)
     while(1) {
-        crc = 0;
         CALL$(dequeue_byte);
 
     try_interpret_as_command:
         if (dequeued_byte == 0xFF) {
             // 0xFF means start of the command...
+
+            // CRC starts calculation only after 0xFF byte
+            crc = 0;
 
             // Read command identifier
             CALL$(dequeue_byte);
@@ -104,7 +106,7 @@ THREAD$(${object_name}_reader) {
                 // Check CRC
                 CALL$(dequeue_byte);
                 crc -= dequeued_byte;
-                crc = 0xFE - crc;
+                crc = 0xFF - crc + 1;
                 if (dequeued_byte == crc) {
                     ${object_name}_concentration = b2 * 256 + b3;
                     ${object_name}_updated_deciseconds_ago = 0;
