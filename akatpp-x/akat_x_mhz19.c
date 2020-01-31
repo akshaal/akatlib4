@@ -20,7 +20,6 @@ GLOBAL$() {
     STATIC_VAR$(volatile u8 ${object_name}_rx_overflow_count);
     STATIC_VAR$(volatile u8 ${object_name}_rx_next_empty_idx);
     STATIC_VAR$(volatile u8 ${object_name}_rx_next_read_idx);
-    STATIC_VAR$(volatile u8 ${object_name}_crc_errors);
 }
 
 ISR(USART${uart}_RX_vect) {
@@ -42,9 +41,32 @@ ISR(USART${uart}_RX_vect) {
 //  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ${object_name}(CO2): This thread processes input from ${object_name}_rx_bytes_buf that gets populated in ISR
 
+GLOBAL$() {
+    STATIC_VAR$(u8 ${object_name}_crc_errors);
+    STATIC_VAR$(u16 ${object_name}_concentration, initial = 0);
+    STATIC_VAR$(u8 ${object_name}_updated_deciseconds_ago, initial = 255);
+}
+
+X_EVERY_DECISECOND$(${object_name}__ticker) {
+    // Maintain freshness
+    ${object_name}_updated_deciseconds_ago += AKAT_ONE;
+    if (!${object_name}_updated_deciseconds_ago) {
+        // We can't go beyond 255
+        ${object_name}_updated_deciseconds_ago -= AKAT_ONE;
+    }
+}
+
 THREAD$(${object_name}_reader) {
     STATIC_VAR$(u8 dequeued_byte);
     STATIC_VAR$(u8 crc);
+
+    // byte of protocol, we don't put them into named variables until CRC is checked
+    STATIC_VAR$(u8 b2);
+    STATIC_VAR$(u8 b3);
+    STATIC_VAR$(u8 b4);
+    STATIC_VAR$(u8 b5);
+    STATIC_VAR$(u8 b6);
+    STATIC_VAR$(u8 b7);
 
     // Gets byte from ${object_name}_rx_bytes_buf buffer.
     SUB$(dequeue_byte) {
@@ -63,13 +85,36 @@ THREAD$(${object_name}_reader) {
         crc = 0;
         CALL$(dequeue_byte);
 
+    try_interpret_as_command:
         if (dequeued_byte == 0xFF) {
-            // Check CRC
-            crc = 0xFF - crc + 1;
+            // 0xFF means start of the command...
+
+            // Read command identifier
             CALL$(dequeue_byte);
-            if (dequeued_byte == crc) {
+
+            // 0x86 - Read CO2 concentration..
+            if (dequeued_byte == 0x86) {
+                CALL$(dequeue_byte); b2 = dequeued_byte;
+                CALL$(dequeue_byte); b3 = dequeued_byte;
+                CALL$(dequeue_byte); b4 = dequeued_byte;
+                CALL$(dequeue_byte); b5 = dequeued_byte;
+                CALL$(dequeue_byte); b6 = dequeued_byte;
+                CALL$(dequeue_byte); b7 = dequeued_byte;
+
+                // Check CRC
+                CALL$(dequeue_byte);
+                crc -= dequeued_byte;
+                crc = 0xFE - crc;
+                if (dequeued_byte == crc) {
+                    ${object_name}_concentration = b2 * 256 + b3;
+                    ${object_name}_updated_deciseconds_ago = 0;
+                } else {
+                    // CRC doesn't match
+                    ${object_name}_crc_errors += 1;
+                }
             } else {
-                // CRC doesn't match
+                // Wrong command... may be 0xFF? Then we must try to use it as start of command.
+                goto try_interpret_as_command;
             }
         }
     }
@@ -119,12 +164,14 @@ THREAD$(${object_name}_writer) {
 
         // Wait until it's time to send the command sequence
         // This counter will be incremented every 0.1 second in the X_EVERY_DECISECOND above
-        co2_command_countdown = 4;
+        co2_command_countdown = 10; // TODO: Try to use lower value
         WAIT_UNTIL$(${object_name}_command_countdown == 0, unlikely);
 
         CALL$(send_read_gas_command);
     }
 }
+
+// --- - - - - - - - - - - - Interface - - - - - - - - - - - - - - -
 
 OBJECT$(${object_name}) {
     METHOD$(u8 get_rx_overflow_count(), inline) {
@@ -133,5 +180,13 @@ OBJECT$(${object_name}) {
 
     METHOD$(u8 get_crc_errors(), inline) {
         return ${object_name}_crc_errors;
+    }
+
+    METHOD$(u16 get_concentration(), inline) {
+        return ${object_name}_concentration;
+    }
+
+    METHOD$(u8 get_updated_deciseconds_ago(), inline) {
+        return ${object_name}_updated_deciseconds_ago;
     }
 }
