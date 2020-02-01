@@ -42,9 +42,20 @@ ISR(USART${uart}_RX_vect) {
 // ${object_name}(CO2): This thread processes input from ${object_name}_rx_bytes_buf that gets populated in ISR
 
 GLOBAL$() {
+    STATIC_VAR$(u8 ${object_name}_abc_setup_needed, initial = 0);
+    STATIC_VAR$(u16 ${object_name}_abc_setups, initial = 0);
+    STATIC_VAR$(u32 ${object_name}_deciseconds_until_abc, initial = 0);
     STATIC_VAR$(u8 ${object_name}_crc_errors);
     STATIC_VAR$(u16 ${object_name}_concentration, initial = 0);
+    STATIC_VAR$(u8 ${object_name}_temperature, initial = 0);
     STATIC_VAR$(u8 ${object_name}_updated_deciseconds_ago, initial = 255);
+
+    // https://habr.com/ru/post/401363/
+    // and other pages... hard to tell what it is, likely
+    //  s - status
+    //  u - uncorrect minimum value of CO2 measured during previous 24h. Used for ABC (Automatic Baseline Correction).
+    STATIC_VAR$(u8 ${object_name}_s, initial = 0);
+    STATIC_VAR$(u16 ${object_name}_u, initial = 0);
 }
 
 X_EVERY_DECISECOND$(${object_name}__ticker) {
@@ -54,11 +65,20 @@ X_EVERY_DECISECOND$(${object_name}__ticker) {
         // We can't go beyond 255
         ${object_name}_updated_deciseconds_ago -= AKAT_ONE;
     }
+
+    // Maintain deciseconds until next ABC
+    if (${object_name}_deciseconds_until_abc) {
+        ${object_name}_deciseconds_until_abc -= 1;
+    } else {
+        ${object_name}_abc_setup_needed = 1;
+        ${object_name}_deciseconds_until_abc = (u32)12 * 60 * 60 * 10; // 12 hours
+    }
 }
 
 THREAD$(${object_name}_reader) {
     STATIC_VAR$(u8 dequeued_byte);
     STATIC_VAR$(u8 crc);
+    STATIC_VAR$(u8 command);
 
     // byte of protocol, we don't put them into named variables until CRC is checked
     STATIC_VAR$(u8 b2);
@@ -94,8 +114,10 @@ THREAD$(${object_name}_reader) {
             // Read command identifier
             CALL$(dequeue_byte);
 
-            // 0x86 - Read CO2 concentration..
-            if (dequeued_byte == 0x86) {
+            // 0x86 - Read CO2 concentration.. 0x79 is ack for ABC setup
+            if (dequeued_byte == 0x86 || dequeued_byte == 0x79) {
+                command = dequeued_byte;
+
                 CALL$(dequeue_byte); b2 = dequeued_byte;
                 CALL$(dequeue_byte); b3 = dequeued_byte;
                 CALL$(dequeue_byte); b4 = dequeued_byte;
@@ -108,8 +130,20 @@ THREAD$(${object_name}_reader) {
                 crc -= dequeued_byte;
                 crc = 0xFF - crc + 1;
                 if (dequeued_byte == crc) {
-                    ${object_name}_concentration = b2 * 256 + b3;
-                    ${object_name}_updated_deciseconds_ago = 0;
+                    if (command == 0x86) {
+                        // CO2 read
+                        if (b4 < 90 && b4 > 30) {
+                            ${object_name}_concentration = (((u16)b2) << 8) + b3;
+                            ${object_name}_temperature = b4 - 40;
+                            ${object_name}_updated_deciseconds_ago = 0;
+                        }
+                        ${object_name}_s = b5;
+                        ${object_name}_u = (((u16)b6) << 8) + b7;
+                    } else if (command == 0x79) {
+                        // ABC setup result
+                        ${object_name}_abc_setup_needed = 0;
+                        ${object_name}_abc_setups += 1;
+                    }
                 } else {
                     // CRC doesn't match
                     ${object_name}_crc_errors += 1;
@@ -118,6 +152,11 @@ THREAD$(${object_name}_reader) {
                 // Wrong command... may be 0xFF? Then we must try to use it as start of command.
                 goto try_interpret_as_command;
             }
+        } else {
+            // Unknown byte
+            % if debug:
+            ${debug}(dequeued_byte);
+            % endif
         }
     }
 }
@@ -144,7 +183,7 @@ THREAD$(${object_name}_writer) {
         UDR${uart} = byte_to_send;
     }
 
-    SUB$(send_read_gas_command) {
+    SUB$(send_read_concentration_command) {
         // Send command sequence
         byte_to_send = 0xFF; CALL$(send_byte); // Header
         byte_to_send = 0x01; CALL$(send_byte); // Sensor #1
@@ -161,15 +200,46 @@ THREAD$(${object_name}_writer) {
         byte_to_send = 0x79; CALL$(send_byte); // CRC
     }
 
-    while(1) {
-        // TODO: Disable ABC, see all the comments here https://github.com/letscontrolit/ESPEasy/issues/466
+    SUB$(setup_abc) {
+        // Send command sequence
+        byte_to_send = 0xFF; CALL$(send_byte); // Header
+        byte_to_send = 0x01; CALL$(send_byte); // Sensor #1
+        byte_to_send = 0x79; CALL$(send_byte); // Command (ON/OFF Self-calibration for zero point)
 
+        if (${use_abc}) {
+            byte_to_send = 0xA0;
+        } else {
+            byte_to_send = 0x00;
+        }
+        CALL$(send_byte);
+
+        byte_to_send = 0x00;
+        CALL$(send_byte);
+        CALL$(send_byte);
+        CALL$(send_byte);
+        CALL$(send_byte);
+
+        if (${use_abc}) {
+            byte_to_send = 0xE6;
+        } else {
+            byte_to_send = 0x86;
+        }
+        CALL$(send_byte); // CRC
+    }
+
+    while(1) {
         // Wait until it's time to send the command sequence
         // This counter will be incremented every 0.1 second in the X_EVERY_DECISECOND above
-        co2_command_countdown = 10; // TODO: Try to use lower value
+        ${object_name}_command_countdown = 10; // No need to ask more often than that
         WAIT_UNTIL$(${object_name}_command_countdown == 0, unlikely);
 
-        CALL$(send_read_gas_command);
+        if (${object_name}_abc_setup_needed && ${object_name}_updated_deciseconds_ago != 255) {
+            // Seems like sensor is responding to our commands and ABC (Automatic Baseline Correction) setup is needed
+            // We do ${object_name}_abc_setup_needed = 0 when we receive ack-response.
+            CALL$(setup_abc);
+        } else {
+            CALL$(send_read_concentration_command);
+        }
     }
 }
 
@@ -186,6 +256,22 @@ OBJECT$(${object_name}) {
 
     METHOD$(u16 get_concentration(), inline) {
         return ${object_name}_concentration;
+    }
+
+    METHOD$(u16 get_u(), inline) {
+        return ${object_name}_u;
+    }
+
+    METHOD$(u8 get_s(), inline) {
+        return ${object_name}_s;
+    }
+
+    METHOD$(u8 get_temperature(), inline) {
+        return ${object_name}_temperature;
+    }
+
+    METHOD$(u16 get_abc_setups(), inline) {
+        return ${object_name}_abc_setups;
     }
 
     METHOD$(u8 get_updated_deciseconds_ago(), inline) {
