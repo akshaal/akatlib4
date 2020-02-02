@@ -228,6 +228,7 @@ THREAD$(ds18b20_thread) {
                     if (${object_name}__scratchpad[8] == crc) {
                         // CRC is OK
                         ${object_name}__updated_deciseconds_ago = 0;
+                        ${object_name}__update_id += 1;
                         ${object_name}__temperatureX16 = ((u16)${object_name}__scratchpad[1]) * 256 + ${object_name}__scratchpad[0];
                     } else {
                         // CRC is incorrect

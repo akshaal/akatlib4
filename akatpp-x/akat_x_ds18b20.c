@@ -17,21 +17,22 @@ X_INIT$(${object_name}__init) {
 // Static variable for communication between our thread and other parts of code
 GLOBAL$() {
     // Whether reset procedure detect presence pulse or not
-    STATIC_VAR$(u8 ${object_name}__connected, initial = 0);
+    STATIC_VAR$(u8 ${object_name}__connected);
 
     // Last received byte
-    STATIC_VAR$(u8 ${object_name}__received_byte, initial = 0);
+    STATIC_VAR$(u8 ${object_name}__received_byte);
 
     // Last scratchpad
     STATIC_VAR$(u8 ${object_name}__scratchpad[9], initial = {});
 
     // Statistics
+    STATIC_VAR$(u8 ${object_name}__update_id);
     STATIC_VAR$(u8 ${object_name}__updated_deciseconds_ago, initial = 255);
-    STATIC_VAR$(u8 ${object_name}__crc_errors, initial = 0);
-    STATIC_VAR$(u8 ${object_name}__disconnects, initial = 0);
+    STATIC_VAR$(u8 ${object_name}__crc_errors);
+    STATIC_VAR$(u8 ${object_name}__disconnects);
 
     // Temperature (must be divided by 16 to convert to degrees)
-    STATIC_VAR$(u16 ${object_name}__temperatureX16, initial = 0);
+    STATIC_VAR$(u16 ${object_name}__temperatureX16);
 }
 
 X_EVERY_DECISECOND$(${object_name}__ticker) {
@@ -46,6 +47,10 @@ X_EVERY_DECISECOND$(${object_name}__ticker) {
 OBJECT$(${object_name}) {
     METHOD$(u8 get_updated_deciseconds_ago(), inline) {
         return ${object_name}__updated_deciseconds_ago;
+    }
+
+    METHOD$(u8 get_update_id(), inline) {
+        return ${object_name}__update_id;
     }
 
     METHOD$(u8 get_disconnects(), inline) {

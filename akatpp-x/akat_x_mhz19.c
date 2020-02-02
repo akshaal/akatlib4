@@ -46,6 +46,7 @@ GLOBAL$() {
     STATIC_VAR$(u16 ${object_name}_abc_setups, initial = 0);
     STATIC_VAR$(u32 ${object_name}_deciseconds_until_abc, initial = 0);
     STATIC_VAR$(u8 ${object_name}_crc_errors);
+    STATIC_VAR$(u8 ${object_name}_update_id);
     STATIC_VAR$(u16 ${object_name}_concentration, initial = 0);
     STATIC_VAR$(u8 ${object_name}_temperature, initial = 0);
     STATIC_VAR$(u8 ${object_name}_updated_deciseconds_ago, initial = 255);
@@ -136,6 +137,7 @@ THREAD$(${object_name}_reader) {
                             ${object_name}_concentration = (((u16)b2) << 8) + b3;
                             ${object_name}_temperature = b4 - 40;
                             ${object_name}_updated_deciseconds_ago = 0;
+                            ${object_name}_update_id += 1;
                         }
                         ${object_name}_s = b5;
                         ${object_name}_u = (((u16)b6) << 8) + b7;
@@ -264,6 +266,10 @@ OBJECT$(${object_name}) {
 
     METHOD$(u8 get_s(), inline) {
         return ${object_name}_s;
+    }
+
+    METHOD$(u8 get_update_id(), inline) {
+        return ${object_name}_update_id;
     }
 
     METHOD$(u8 get_temperature(), inline) {
