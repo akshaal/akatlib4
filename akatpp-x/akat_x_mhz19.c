@@ -42,21 +42,25 @@ ISR(USART${uart}_RX_vect) {
 // ${object_name}(CO2): This thread processes input from ${object_name}_rx_bytes_buf that gets populated in ISR
 
 GLOBAL$() {
-    STATIC_VAR$(u8 ${object_name}_abc_setup_needed, initial = 0);
-    STATIC_VAR$(u16 ${object_name}_abc_setups, initial = 0);
-    STATIC_VAR$(u32 ${object_name}_deciseconds_until_abc, initial = 0);
+    STATIC_VAR$(u8 ${object_name}_abc_setup_needed);
+    STATIC_VAR$(u16 ${object_name}_abc_setups);
+    STATIC_VAR$(u32 ${object_name}_deciseconds_until_abc);
     STATIC_VAR$(u8 ${object_name}_crc_errors);
     STATIC_VAR$(u8 ${object_name}_update_id);
-    STATIC_VAR$(u16 ${object_name}_concentration, initial = 0);
-    STATIC_VAR$(u8 ${object_name}_temperature, initial = 0);
+    STATIC_VAR$(u16 ${object_name}_concentration);
+    STATIC_VAR$(u16 ${object_name}_clamped_concentration);
+    STATIC_VAR$(u16 ${object_name}_raw_concentration);
+    STATIC_VAR$(u8 ${object_name}_temperature);
     STATIC_VAR$(u8 ${object_name}_updated_deciseconds_ago, initial = 255);
+    STATIC_VAR$(u8 ${object_name}_next_concentration_command_idx);
+    STATIC_VAR$(u8 ${object_name}_different_concentration_type_reads_done);
 
     // https://habr.com/ru/post/401363/
     // and other pages... hard to tell what it is, likely
     //  s - status
     //  u - uncorrect minimum value of CO2 measured during previous 24h. Used for ABC (Automatic Baseline Correction).
-    STATIC_VAR$(u8 ${object_name}_s, initial = 0);
-    STATIC_VAR$(u16 ${object_name}_u, initial = 0);
+    STATIC_VAR$(u8 ${object_name}_s);
+    STATIC_VAR$(u16 ${object_name}_u);
 }
 
 X_EVERY_DECISECOND$(${object_name}__ticker) {
@@ -116,7 +120,7 @@ THREAD$(${object_name}_reader) {
             CALL$(dequeue_byte);
 
             // 0x86 - Read CO2 concentration.. 0x79 is ack for ABC setup
-            if (dequeued_byte == 0x86 || dequeued_byte == 0x79) {
+            if (dequeued_byte == 0x86 || dequeued_byte == 0x79 || dequeued_byte == 0x84 || dequeued_byte == 0x85) {
                 command = dequeued_byte;
 
                 CALL$(dequeue_byte); b2 = dequeued_byte;
@@ -134,17 +138,29 @@ THREAD$(${object_name}_reader) {
                     if (command == 0x86) {
                         // CO2 read
                         if (b4 < 90 && b4 > 30) {
-                            ${object_name}_concentration = (((u16)b2) << 8) + b3;
+                            ${object_name}_clamped_concentration = (((u16)b2) << 8) + b3;
                             ${object_name}_temperature = b4 - 40;
-                            ${object_name}_updated_deciseconds_ago = 0;
-                            ${object_name}_update_id += 1;
+
+                            // Only if have got response for 0x84 and 0x85
+                            if (${object_name}_different_concentration_type_reads_done == 2) {
+                                ${object_name}_updated_deciseconds_ago = 0;
+                                ${object_name}_update_id += 1;
+                            }
                         }
                         ${object_name}_s = b5;
                         ${object_name}_u = (((u16)b6) << 8) + b7;
+                    } else if (command == 0x84) {
+                        ${object_name}_raw_concentration = (((u16)b2) << 8) + b3;
+                        ${object_name}_different_concentration_type_reads_done += 1;
+                    } else if (command == 0x85) {
+                        ${object_name}_concentration = (((u16)b4) << 8) + b5;
+                        ${object_name}_different_concentration_type_reads_done += 1;
                     } else if (command == 0x79) {
-                        // ABC setup result
-                        ${object_name}_abc_setup_needed = 0;
-                        ${object_name}_abc_setups += 1;
+                        // ABC setup result. b2 is 1 in ACK response.
+                        if (b2 == 1) {
+                            ${object_name}_abc_setup_needed = 0;
+                            ${object_name}_abc_setups += 1;
+                        }
                     }
                 } else {
                     // CRC doesn't match
@@ -189,7 +205,17 @@ THREAD$(${object_name}_writer) {
         // Send command sequence
         byte_to_send = 0xFF; CALL$(send_byte); // Header
         byte_to_send = 0x01; CALL$(send_byte); // Sensor #1
-        byte_to_send = 0x86; CALL$(send_byte); // Command (Read gas concentration)
+
+        if (${object_name}_next_concentration_command_idx == 0) {
+            ${object_name}_different_concentration_type_reads_done = 0;
+
+            byte_to_send = 0x84; // Command (Read raw light sensor value)
+        } else if (${object_name}_next_concentration_command_idx == 1) {
+            byte_to_send = 0x85; // Command (Read raw CO2)
+        } else {
+            byte_to_send = 0x86; // Command (Read CO2 concentration)
+        }
+        CALL$(send_byte);
 
         // 5 times zero
         byte_to_send = 0x00;
@@ -199,7 +225,17 @@ THREAD$(${object_name}_writer) {
         CALL$(send_byte);
         CALL$(send_byte);
 
-        byte_to_send = 0x79; CALL$(send_byte); // CRC
+        // CRC
+        if (${object_name}_next_concentration_command_idx == 0) {
+            byte_to_send = 0x7b; // Command (Read raw light sensor value)
+        } else if (${object_name}_next_concentration_command_idx == 1) {
+            byte_to_send = 0x7a; // Command (Read raw co2)
+        } else {
+            byte_to_send = 0x79; // Command (Read CO2 concentration)
+        }
+        CALL$(send_byte);
+
+        ${object_name}_next_concentration_command_idx = (${object_name}_next_concentration_command_idx + 1) % 3;
     }
 
     SUB$(setup_abc) {
@@ -258,6 +294,14 @@ OBJECT$(${object_name}) {
 
     METHOD$(u16 get_concentration(), inline) {
         return ${object_name}_concentration;
+    }
+
+    METHOD$(u16 get_raw_concentration(), inline) {
+        return ${object_name}_raw_concentration;
+    }
+
+    METHOD$(u16 get_clamped_concentration(), inline) {
+        return ${object_name}_clamped_concentration;
     }
 
     METHOD$(u16 get_u(), inline) {
