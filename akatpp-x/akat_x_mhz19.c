@@ -268,7 +268,7 @@ THREAD$(${object_name}_writer) {
     while(1) {
         // Wait until it's time to send the command sequence
         // This counter will be incremented every 0.1 second in the X_EVERY_DECISECOND above
-        ${object_name}_command_countdown = 10; // No need to ask more often than that
+        ${object_name}_command_countdown = 3; // No need to ask more often than that
         WAIT_UNTIL$(${object_name}_command_countdown == 0, unlikely);
 
         if (${object_name}_abc_setup_needed && ${object_name}_updated_deciseconds_ago != 255) {
