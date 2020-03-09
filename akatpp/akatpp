@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env pypy3
 # -*- mode: python; -*-
 # Akshaal 2017, whatever Apache license
 # Args: files to transform
