@@ -4,10 +4,13 @@
         "COMPA",
         "GPIO",
         "SREG",
+        "WDTO",
         "akat",
+        "deci",
         "decisecond",
         "deciseconds",
         "funcs",
+        "oname",
         "reti",
         "vect"
     ]
