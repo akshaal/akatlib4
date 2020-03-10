@@ -16,6 +16,10 @@ OBJECT$(${object_name}) {
         ${object_name}__output.set(state);
         ${object_name}__updated_ago = 0;
     }
+
+    METHOD$(u8 is_set(), inline) {
+        return ${object_name}__output.is_set();
+    }
 }
 
 X_EVERY_DECISECOND$(${object_name}__ticker) {

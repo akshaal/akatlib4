@@ -9,4 +9,8 @@ OBJECT$(${object_name}) {
     METHOD$(void set(u8 state), inline) {
         ${object_name}__port.set(state);
     }
+
+    METHOD$(u8 is_set(), inline) {
+        return ${object_name}__port.is_set();
+    }
 }

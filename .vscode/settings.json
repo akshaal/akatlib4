@@ -1,8 +1,14 @@
 {
     "C_Cpp.errorSquiggles": "Disabled",
     "cSpell.words": [
+        "COMPA",
         "GPIO",
+        "SREG",
         "akat",
-        "deciseconds"
+        "decisecond",
+        "deciseconds",
+        "funcs",
+        "reti",
+        "vect"
     ]
 }
