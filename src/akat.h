@@ -13,12 +13,12 @@
 
 #define i8 int8_t
 #define i16 int16_t
-#define i24 int24_t
+#define i24 __int24
 #define i32 int32_t
 
 #define u8 uint8_t
 #define u16 uint16_t
-#define u24 uint24_t
+#define u24 __uint24
 #define u32 uint32_t
 
 #define H(v)                 (1 << (v))
