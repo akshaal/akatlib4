@@ -8,7 +8,7 @@ GLOBAL$() {
 
 X_BUTTON_FULL$(${object_name}__button_full, ${pin_name}) {
     METHOD$(void on_press()) {
-        ${object_name}__delay = ${timeout_deciseconds};
+        ${object_name}__delay = ${long_press_deciseconds};
     }
 
     METHOD$(void on_release()) {
