@@ -3,4 +3,4 @@
 P_UID=$(id --user)
 P_GID=$(id --group)
 
-docker run -u $P_UID:$P_GID --rm -v $(pwd):/build akshaal/akat "$@"
+docker run -u $P_UID:$P_GID --rm -v "$(pwd):/build" akshaal/akat "$@"
